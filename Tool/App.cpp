@@ -24,23 +24,26 @@ void App::OnCreate()
 	Input::GetInstance()->AddListener(this);
 	Input::GetInstance()->ShowCursor(true);
 
+	// 실행 상태
+	m_play_state = true;
+
+	// 공간 설정
+	m_world.SetTranslation(Vector3(0.0f, 0.0f, -2.0f));
+
+	// 에셋 로드
+	m_earth_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere_hq.obj");
+	m_earth_color_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\earth_color.jpg");
+	m_earth_specular_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\earth_spec.jpg");
+	m_clouds_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\clouds.jpg");
+	m_earth_night_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\earth_night.jpg");
+
+	m_skybox_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
+	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
+
 	// 스왑 체인 생성
 	RECT rect = GetClientWindowRect();
 	m_swap_chain = Engine::GetInstance()->GetGraphics()->CreateSwapChain(m_hwnd, rect.right - rect.left, rect.bottom - rect.top);
 	assert(m_swap_chain);
-
-	// 실행 상태
-	m_play_state = false;
-
-	// 공간 설정
-	m_world.SetTranslation(Vector3(0.0f, 0.0f, -5.0f));
-
-	// 에셋 로드
-	m_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere_hq.obj");
-	m_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\brick.png");
-
-	m_skybox_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
-	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
 
 	// 정점 셰이더 생성
 	void* shader_byte_code = nullptr;
@@ -128,8 +131,11 @@ void App::OnKeyUp(int key)
 
 void App::OnKeyDown(int key)
 {
+	if (!m_play_state)
+		return;
+
 	if (key == 'W')
-	{
+	{	
 		m_forward = 1.0f;
 	}
 	else if (key == 'S')
@@ -181,7 +187,8 @@ void App::Update()
 	// 프레임 설정
 	m_old_delta = m_new_delta;
 	m_new_delta = static_cast<float>(::GetTickCount64());
-	m_delta_time = m_old_delta ? (m_new_delta - m_old_delta) / 1000.0f : 0.0f;
+	m_delta_time = m_old_delta ? ((m_new_delta - m_old_delta) / 1000.0f) : 0.0f;
+	m_time += m_delta_time;
 
 	// 렌더 타겟 지우기
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearRenderTargetColor(m_swap_chain, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -253,6 +260,7 @@ void App::UpdateModel()
 	constant.projection = m_projection;
 	constant.camera_position = m_world.GetTranslation();
 	constant.light_direction = light_rotation_matrix.GetZDirection();
+	constant.time = m_time;
 
 	m_constant_buffer->Update(Engine::GetInstance()->GetGraphics()->GetDeviceContext(), &constant);
 }
@@ -277,9 +285,18 @@ void App::Render()
 {
 	// 렌더링
 	Engine::GetInstance()->GetGraphics()->SetRasterizerState(false);
-	DrawMesh(m_mesh, m_texture, m_vertex_shader, m_pixel_shader, m_constant_buffer);
+
+	TexturePtr texture_list[4];
+	texture_list[0] = m_earth_color_texture;
+	texture_list[1] = m_earth_specular_texture;
+	texture_list[2] = m_clouds_texture;
+	texture_list[3] = m_earth_night_texture;
+	DrawMesh(m_earth_mesh, m_vertex_shader, m_pixel_shader, m_constant_buffer, texture_list, 4);
+
 	Engine::GetInstance()->GetGraphics()->SetRasterizerState(true);
-	DrawMesh(m_skybox_mesh, m_skybox_texture, m_vertex_shader, m_skybox_pixel_shader, m_skybox_constant_buffer);
+
+	texture_list[0] = m_skybox_texture;
+	DrawMesh(m_skybox_mesh, m_vertex_shader, m_skybox_pixel_shader, m_skybox_constant_buffer, texture_list, 1);
 
 	if (m_plane)
 	{
@@ -300,7 +317,7 @@ void App::Render()
 		ImGui::EndMainMenuBar();
 	}
 
-	if (ImGui::Button("Button"))
+	if (ImGui::Button("Plane"))
 	{
 		m_plane = new Plane;
 	}
@@ -351,7 +368,7 @@ void App::Render()
 	m_swap_chain->Present(true);
 }
 
-void App::DrawMesh(const MeshPtr& mesh, const TexturePtr& texture, const VertexShaderPtr& vertex_shader, const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer)
+void App::DrawMesh(const MeshPtr& mesh, const VertexShaderPtr& vertex_shader, const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer, const TexturePtr* texture_list, unsigned int texture_count)
 {
 	// 상수 버퍼 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetConstantBuffer(vertex_shader, constant_buffer);
@@ -360,7 +377,7 @@ void App::DrawMesh(const MeshPtr& mesh, const TexturePtr& texture, const VertexS
 	// 셰이더 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexShader(vertex_shader);
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetPixelShader(pixel_shader);
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetTexture(pixel_shader, texture);
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetTexture(pixel_shader, texture_list, texture_count);
 
 	// 정점 버퍼 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexBuffer(mesh->GetVertexBuffer());

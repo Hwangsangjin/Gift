@@ -19,11 +19,7 @@ ConstantBuffer::ConstantBuffer(void* buffer, UINT buffer_size, Graphics* graphic
     init_data.pSysMem = buffer;
 
     // 버퍼 생성
-    if (FAILED(m_graphics->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
-    {
-        assert(m_buffer);
-        throw std::exception("ConstantBuffer not created successfully");
-    }
+    m_graphics->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
 }
 
 ConstantBuffer::~ConstantBuffer()

@@ -73,7 +73,7 @@ void Matrix4x4::SetPerspectiveProjection(float fov, float aspect, float z_near, 
 float Matrix4x4::GetDeterminant()
 {
 	Vector4 minor, v1, v2, v3;
-	float det;
+	float det = 0.0f;
 
 	v1 = Vector4(m_mat[0][0], m_mat[1][0], m_mat[2][0], m_mat[3][0]);
 	v2 = Vector4(m_mat[0][1], m_mat[1][1], m_mat[2][1], m_mat[3][1]);
@@ -102,9 +102,7 @@ void Matrix4x4::Inverse()
 			{
 				unsigned int a = j;
 				if (j > i)
-				{
 					a -= 1;
-				}
 
 				vec[a].SetX(m_mat[j][0]);
 				vec[a].SetY(m_mat[j][1]);

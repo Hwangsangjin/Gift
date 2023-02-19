@@ -23,12 +23,8 @@ SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Graphics* graphics)
 
     // 스왑 체인 생성
     ID3D11Device* device = m_graphics->GetD3DDevice();
-    HRESULT hr = m_graphics->GetDXGIFactory()->CreateSwapChain(device, &desc, &m_dxgi_swap_chain);
-    if (FAILED(hr))
-    {
-        assert(&m_dxgi_swap_chain);
-        throw std::exception("SwapChain not created successfully");
-    }
+    m_graphics->GetDXGIFactory()->CreateSwapChain(device, &desc, &m_dxgi_swap_chain);
+    assert(&m_dxgi_swap_chain);
 
     LoadBuffers(width, height);
 }
@@ -99,20 +95,12 @@ void SwapChain::LoadBuffers(unsigned int width, unsigned int height)
     ID3D11Device* device = m_graphics->GetD3DDevice();
     ID3D11Texture2D* buffer = nullptr;
 
-    HRESULT hr = m_dxgi_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
-    if (FAILED(hr))
-    {
-        assert(buffer);
-        throw std::exception("SwapChain get buffer not successfully");
-    }
+    m_dxgi_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
+    assert(buffer);
 
-    hr = device->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
+    device->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
     buffer->Release();
-    if (FAILED(hr))
-    {
-        assert(m_render_target_view);
-        throw std::exception("RenderTargetView not created successfully");
-    }
+    assert(m_render_target_view);
 
     D3D11_TEXTURE2D_DESC texture_desc = {};
     texture_desc.Width = width > 0 ? width : 1;
@@ -127,19 +115,10 @@ void SwapChain::LoadBuffers(unsigned int width, unsigned int height)
     texture_desc.ArraySize = 1;
     texture_desc.CPUAccessFlags = 0;
 
-    hr = device->CreateTexture2D(&texture_desc, nullptr, &buffer);
-    if (FAILED(hr))
-    {
-        assert(buffer);
-        throw std::exception("Texture2D not created successfully");
-    }
+    device->CreateTexture2D(&texture_desc, nullptr, &buffer);
+    assert(buffer);
 
-    hr = device->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
+    device->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
     buffer->Release();
-
-    if (FAILED(hr))
-    {
-        assert(m_depth_stencil_view);
-        throw std::exception("DepthStencilView not created successfully");
-    }
+    assert(m_depth_stencil_view);
 }

@@ -90,4 +90,5 @@ struct Constant
 	Matrix4x4 projection;
 	Vector4 light_direction;
 	Vector4 camera_position;
+	float time = 0.0f;
 };

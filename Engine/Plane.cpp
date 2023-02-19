@@ -94,7 +94,10 @@ void Plane::Render()
 	// 셰이더 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexShader(m_vertex_shader);
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetPixelShader(m_pixel_shader);
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetTexture(m_pixel_shader, m_texture);
+
+	TexturePtr texture_list[1];
+	texture_list[0] = m_texture;
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetTexture(m_pixel_shader, texture_list, 1);
 
 	// 정점 버퍼 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexBuffer(m_vertex_buffer);

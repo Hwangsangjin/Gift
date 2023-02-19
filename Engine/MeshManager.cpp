@@ -18,16 +18,7 @@ MeshPtr MeshManager::CreateMeshFromFile(const wchar_t* file_path)
 
 Resource* MeshManager::CreateResourceFromFileConcrete(const wchar_t* file_path)
 {
-    Mesh* mesh = nullptr;
-    try
-    {
-        mesh = new Mesh(file_path);
-    }
-    catch (...)
-    {
-        assert(mesh);
-        throw std::exception("Mesh not created successfully");
-    }
-
+    Mesh* mesh = new Mesh(file_path);
+    assert(mesh);
     return mesh;
 }

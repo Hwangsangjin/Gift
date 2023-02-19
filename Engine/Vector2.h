@@ -11,7 +11,7 @@ public:
 	float GetY() const;
 
 	Vector2 operator*(float scalar);
-	Vector2 operator+(Vector2 vector);
+	Vector2 operator+(const Vector2& vector);
 
 private:
 	float m_x = 0.0f;

@@ -34,7 +34,7 @@ public:
 
 	void Render();
 
-	void DrawMesh(const MeshPtr& mesh, const TexturePtr& texture, const VertexShaderPtr& vertex_shader, const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer);
+	void DrawMesh(const MeshPtr& mesh, const VertexShaderPtr& vertex_shader, const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer, const TexturePtr* texture_list, unsigned int texture_count);
 
 private:
 	SwapChainPtr m_swap_chain = nullptr;
@@ -45,13 +45,19 @@ private:
 	ConstantBufferPtr m_constant_buffer = nullptr;
 	ConstantBufferPtr m_skybox_constant_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;
-	TexturePtr m_texture = nullptr;
-	TexturePtr m_skybox_texture = nullptr;
-	MeshPtr m_mesh = nullptr;
+
+	MeshPtr m_earth_mesh = nullptr;
+	TexturePtr m_earth_color_texture = nullptr;
+	TexturePtr m_earth_specular_texture = nullptr;
+	TexturePtr m_clouds_texture = nullptr;
+	TexturePtr m_earth_night_texture = nullptr;
+
 	MeshPtr m_skybox_mesh = nullptr;
+	TexturePtr m_skybox_texture = nullptr;
 
 	float m_old_delta = 0.0f;
 	float m_new_delta = 0.0f;
+	float m_time = 0.0f;
 	float m_delta_time = 0.0f;
 	float m_delta_position = 0.0f;
 	float m_delta_scale = 0.0f;

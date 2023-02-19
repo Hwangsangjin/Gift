@@ -9,7 +9,7 @@ void Engine::Create()
     if (m_engine)
         throw std::exception("Engine already created");
 
-    Engine::m_engine = new Engine();
+    m_engine = new Engine();
 }
 
 void Engine::Release()
@@ -49,35 +49,14 @@ void Engine::GetMeshVertexLayoutShaderByteCodeAndSize(void** byte_code, size_t* 
 
 Engine::Engine()
 {
-    try
-    {
-        m_graphics = new Graphics();
-    }
-    catch (...)
-    {
-        assert(m_graphics);
-        throw std::exception("Graphics not created successfully");
-    }
+    m_graphics = new Graphics();
+    assert(m_graphics);
 
-    try
-    {
-        m_texture_manager = new TextureManager();
-    }
-    catch (...)
-    {
-        assert(m_texture_manager);
-        throw std::exception("TextureManager not created successfully");
-    }
+    m_texture_manager = new TextureManager();
+    assert(m_texture_manager);
 
-    try
-    {
-        m_mesh_manager = new MeshManager();
-    }
-    catch (...)
-    {
-        assert(m_mesh_manager);
-        throw std::exception("MeshManager not created successfully");
-    }
+    m_mesh_manager = new MeshManager();
+    assert(m_mesh_manager);
 
     void* shader_byte_code = nullptr;
     size_t shader_byte_size = 0;

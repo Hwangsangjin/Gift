@@ -28,7 +28,7 @@ Vector2 Vector2::operator*(float scalar)
 	return Vector2(m_x * scalar, m_y * scalar);
 }
 
-Vector2 Vector2::operator+(Vector2 vector)
+Vector2 Vector2::operator+(const Vector2& vector)
 {
 	return Vector2(m_x + vector.m_x, m_y + vector.m_y);
 }

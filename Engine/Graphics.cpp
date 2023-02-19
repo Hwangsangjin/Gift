@@ -37,13 +37,9 @@ Graphics::Graphics()
         ++driver_type_index;
     }
 
-    if (FAILED(hr))
-    {
-        assert(m_d3d_device);
-        assert(m_feature_level);
-        assert(m_immediate_context);
-        throw std::exception("Device not created successfully");
-    }
+    assert(m_d3d_device);
+    assert(m_feature_level);
+    assert(m_immediate_context);
 
     m_device_context = std::make_shared<DeviceContext>(m_immediate_context, this);
 
@@ -56,6 +52,18 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
+    if (m_cull_front)
+    {
+        m_cull_front->Release();
+        m_cull_front = nullptr;
+    }
+
+    if (m_cull_back)
+    {
+        m_cull_back->Release();
+        m_cull_back = nullptr;
+    }
+
     if (m_dxgi_factory)
     {
         m_dxgi_factory->Release();
@@ -102,7 +110,7 @@ IndexBufferPtr Graphics::CreateIndexBuffer(void* indices, UINT index_count)
     return std::make_shared<IndexBuffer>(indices, index_count, this);
 }
 
-VertexBufferPtr Graphics::CreateVertexBuffer(void* vertices, UINT vertex_size, UINT vertex_count, void* shader_byte_code, size_t shader_byte_size)
+VertexBufferPtr Graphics::CreateVertexBuffer(void* vertices, UINT vertex_size, UINT vertex_count, void* shader_byte_code, UINT shader_byte_size)
 {
     return std::make_shared<VertexBuffer>(vertices, vertex_size, vertex_count, shader_byte_code, shader_byte_size, this);
 }
@@ -182,25 +190,25 @@ DeviceContextPtr Graphics::GetDeviceContext() const
 
 void Graphics::SetRasterizerState(bool cull_front)
 {
-    if (true)
+    if (cull_front)
     {
-        m_immediate_context->RSSetState(m_cull_front_state);
+        m_immediate_context->RSSetState(m_cull_front);
     }
     else
     {
-        m_immediate_context->RSSetState(m_cull_back_state);
+        m_immediate_context->RSSetState(m_cull_back);
     }
 }
 
 void Graphics::InitializeRasterizerState()
 {
     D3D11_RASTERIZER_DESC desc = {};
-    desc.CullMode = D3D11_CULL_FRONT;
     desc.DepthClipEnable = true;
     desc.FillMode = D3D11_FILL_SOLID;
-    m_d3d_device->CreateRasterizerState(&desc, &m_cull_front_state);
 
     desc.CullMode = D3D11_CULL_FRONT;
-    m_d3d_device->CreateRasterizerState(&desc, &m_cull_back_state);
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_front);
 
+    desc.CullMode = D3D11_CULL_BACK;
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_back);
 }

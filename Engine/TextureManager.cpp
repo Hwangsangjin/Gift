@@ -18,16 +18,7 @@ TexturePtr TextureManager::CreateTextureFromFile(const wchar_t* file_path)
 
 Resource* TextureManager::CreateResourceFromFileConcrete(const wchar_t* file_path)
 {
-    Texture* texture = nullptr;
-    try
-    {
-        texture = new Texture(file_path);
-    }
-    catch (...)
-    {
-        assert(texture);
-        throw std::exception("Texture not created successfully");
-    }
-
+    Texture* texture = new Texture(file_path);
+    assert(texture);
     return texture;
 }

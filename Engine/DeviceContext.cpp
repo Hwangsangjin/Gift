@@ -62,18 +62,36 @@ void DeviceContext::SetPixelShader(const PixelShaderPtr& pixel_shader)
 	m_device_context->PSSetShader(pixel_shader->GetPixelShader(), nullptr, 0);
 }
 
-void DeviceContext::SetTexture(const VertexShaderPtr& vertex_shader, const TexturePtr& texture)
+void DeviceContext::SetTexture(const VertexShaderPtr& vertex_shader, const TexturePtr* texture_list, unsigned int texture_count)
 {
-	auto shader_resource_view = texture->GetShaderResourceView();
-	assert(shader_resource_view);
-	m_device_context->VSSetShaderResources(0, 1, &shader_resource_view);
+	ID3D11ShaderResourceView* shader_resource_views[32];
+	ID3D11SamplerState* sampler_states[32];
+	for (unsigned int i = 0; i < texture_count; i++)
+	{
+		shader_resource_views[i] = texture_list[i]->GetShaderResourceView();
+		sampler_states[i] = texture_list[i]->GetSamplerState();
+	}
+
+	assert(shader_resource_views);
+	m_device_context->VSSetShaderResources(0, texture_count, shader_resource_views);
+	assert(sampler_states);
+	m_device_context->VSSetSamplers(0, texture_count, sampler_states);
 }
 
-void DeviceContext::SetTexture(const PixelShaderPtr& pixel_shader, const TexturePtr& texture)
+void DeviceContext::SetTexture(const PixelShaderPtr& pixel_shader, const TexturePtr* texture_list, unsigned int texture_count)
 {
-	auto shader_resource_view = texture->GetShaderResourceView();
-	assert(shader_resource_view);
-	m_device_context->PSSetShaderResources(0, 1, &shader_resource_view);
+	ID3D11ShaderResourceView* shader_resource_views[32];
+	ID3D11SamplerState* sampler_states[32];
+	for (unsigned int i = 0; i < texture_count; i++)
+	{
+		shader_resource_views[i] = texture_list[i]->GetShaderResourceView();
+		sampler_states[i] = texture_list[i]->GetSamplerState();
+	}
+
+	assert(shader_resource_views);
+	m_device_context->PSSetShaderResources(0, texture_count, shader_resource_views);
+	assert(sampler_states);
+	m_device_context->PSSetSamplers(0, texture_count, sampler_states);
 }
 
 void DeviceContext::SetConstantBuffer(const VertexShaderPtr& vertex_shader, const ConstantBufferPtr& constant_buffer)

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ResourceManager.h"
+#include "Resource.h"
 
 #if __cplusplus <= 201402L 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
