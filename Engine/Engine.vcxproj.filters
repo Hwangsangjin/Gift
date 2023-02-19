@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{d06741c3-947e-4976-aea0-186b26b5a32e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics">
+      <UniqueIdentifier>{612db928-bbc8-4631-ba35-d3a080aa028f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\ConstantBuffer">
+      <UniqueIdentifier>{0ab9c443-3972-4cf0-ab40-596d3b3c9572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\IndexBuffer">
+      <UniqueIdentifier>{0efd487e-0a0f-4997-9426-7d29c0033078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\DeviceContext">
+      <UniqueIdentifier>{6df67621-14ca-41e8-8099-588885bf27ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\PixelShader">
+      <UniqueIdentifier>{52f42d94-11a0-45e4-8016-5f1042310647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\SwapChain">
+      <UniqueIdentifier>{3175d48d-8551-4fe5-9e4a-20ba153f707c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\VertexBuffer">
+      <UniqueIdentifier>{53c8d5b3-12ce-426f-8327-294ef9c4f5cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\VertexShader">
+      <UniqueIdentifier>{7e1f029c-f349-4318-8be1-8fc7482ad22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Math">
+      <UniqueIdentifier>{333bdae1-ac82-4635-9138-32826166afd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Math\Matrix">
+      <UniqueIdentifier>{aa7c79e9-1952-4b5b-aa05-5f0b6ae17a20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Math\Vector">
+      <UniqueIdentifier>{f43bb409-2646-4ffd-a024-7f707cdf6df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Math\Point">
+      <UniqueIdentifier>{5d1e499a-addd-4ad1-8ab8-07843e42bab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Resource">
+      <UniqueIdentifier>{edcf136c-f2b2-4315-b25c-ef55ed045887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Resource\Texture">
+      <UniqueIdentifier>{9a34065f-f7db-46b9-8356-8d655212146c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Resource\Mesh">
+      <UniqueIdentifier>{5c94d905-bf92-4010-a1f6-f9b7ff852366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Window">
+      <UniqueIdentifier>{ee8e0171-5419-4241-9edb-6f3c6913e6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Input">
+      <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\GameObject">
+      <UniqueIdentifier>{3a4aa9d0-e920-4d1a-8c41-e2e23fd6c510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\GameObject\Plane">
+      <UniqueIdentifier>{052a84e2-dbd2-4cb7-afda-ad73ad3d1e82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precompile">
+      <UniqueIdentifier>{6bdfdff7-a3e6-4d60-9ac4-583325e62915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{76bac2bd-fa80-405a-a9b2-93deff63688e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\DirectXTK">
+      <UniqueIdentifier>{3d691509-18c6-48de-9736-9474bbd30f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ImGui">
+      <UniqueIdentifier>{4a8f180f-c660-431d-9323-5e84dd629daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\DirectTex">
+      <UniqueIdentifier>{f7db4a73-88d8-4c62-8e86-8a99ff8533ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\TinyObjLoader">
+      <UniqueIdentifier>{c4d81887-85ee-409a-9399-b4f64998c382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\RapidJSON">
+      <UniqueIdentifier>{6ca405e8-34b6-432b-983d-d7c8504c4ce2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Core\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Core\Graphics\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Core\Graphics\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Core\Graphics\PixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChain.h">
+      <Filter>Core\Graphics\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceContext.h">
+      <Filter>Core\Graphics\DeviceContext</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Core\Graphics\VertexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Core\Graphics\VertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Core\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Core\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Core\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Core\Math\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4x4.h">
+      <Filter>Core\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Core\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Core\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Core\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Core\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Precompile</Filter>
+    </ClInclude>
+    <ClInclude Include="Precompile.h">
+      <Filter>Precompile</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Core\Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshManager.h">
+      <Filter>Core\Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshVertex.h">
+      <Filter>Core\Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Core\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTex\DirectXTex.h">
+      <Filter>Include\DirectTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\Audio.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\BufferHelpers.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\CommonStates.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\DDSTextureLoader.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\DirectXHelpers.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\Effects.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\GamePad.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\GeometricPrimitive.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\GraphicsMemory.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\Keyboard.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\Model.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\Mouse.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\PostProcess.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\PrimitiveBatch.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\ScreenGrab.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\SimpleMath.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\SpriteBatch.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\SpriteFont.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\VertexTypes.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\WICTextureLoader.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\DirectXTK\XboxDDSTextureLoader.h">
+      <Filter>Include\DirectXTK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\TinyObjLoader\tiny_obj_loader.h">
+      <Filter>Include\TinyObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Core\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Core\GameObject\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imstb_truetype.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imconfig.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui_impl_dx11.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui_impl_win32.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui_internal.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imstb_rectpack.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imstb_textedit.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\rapidjson.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\reader.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\schema.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\stream.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\stringbuffer.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\uri.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\writer.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\error\en.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\error\error.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\biginteger.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\clzll.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\diyfp.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\dtoa.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\ieee754.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\itoa.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\meta.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\pow10.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\regex.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\stack.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\strfunc.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\strtod.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\internal\swap.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\msinttypes\inttypes.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\msinttypes\stdint.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\allocators.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\cursorstreamwrapper.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\document.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\encodedstream.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\encodings.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\filereadstream.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\filewritestream.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\fwd.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\istreamwrapper.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\memorybuffer.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\memorystream.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\ostreamwrapper.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\pointer.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RapidJSON\prettywriter.h">
+      <Filter>Include\RapidJSON</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Core\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Core\Graphics\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Core\Graphics\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Core\Graphics\PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="SwapChain.cpp">
+      <Filter>Core\Graphics\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceContext.cpp">
+      <Filter>Core\Graphics\DeviceContext</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Core\Graphics\VertexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Core\Graphics\VertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Core\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Core\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4.cpp">
+      <Filter>Core\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Core\Math\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4x4.cpp">
+      <Filter>Core\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Core\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Core\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Core\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Core\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Precompile.cpp">
+      <Filter>Precompile</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Precompile</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Core\Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
+      <Filter>Core\Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshVertex.cpp">
+      <Filter>Core\Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Core\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Core\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Core\GameObject\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_demo.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_draw.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_impl_dx11.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_impl_win32.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_tables.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_widgets.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Core\Graphics\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Core\Graphics\VertexShader</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshVertexLayoutShader.hlsl">
+      <Filter>Core\Resource\Mesh</Filter>
+    </FxCompile>
+    <FxCompile Include="SkyBoxShader.hlsl">
+      <Filter>Core\Graphics\PixelShader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
