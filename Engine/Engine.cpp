@@ -6,7 +6,7 @@ Engine* Engine::m_engine = nullptr;
 void Engine::Create()
 {
     assert(!m_engine);
-    if (Engine::m_engine)
+    if (m_engine)
         throw std::exception("Engine already created");
 
     Engine::m_engine = new Engine();
@@ -14,11 +14,11 @@ void Engine::Create()
 
 void Engine::Release()
 {
-    if (!Engine::m_engine)
+    if (!m_engine)
         return;
 
-    delete Engine::m_engine;
-    Engine::m_engine = nullptr;
+    delete m_engine;
+    m_engine = nullptr;
 }
 
 Engine* Engine::GetInstance()

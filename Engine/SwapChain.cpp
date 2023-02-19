@@ -9,8 +9,8 @@ SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Graphics* graphics)
     DXGI_SWAP_CHAIN_DESC desc;
     ZeroMemory(&desc, sizeof(desc));
     desc.BufferCount = 1;
-    desc.BufferDesc.Width = width;
-    desc.BufferDesc.Height = height;
+    desc.BufferDesc.Width = width > 0 ? width : 1;
+    desc.BufferDesc.Height = height > 0 ? height : 1;
     desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.BufferDesc.RefreshRate.Numerator = 60;
     desc.BufferDesc.RefreshRate.Denominator = 1;
@@ -115,8 +115,8 @@ void SwapChain::LoadBuffers(unsigned int width, unsigned int height)
     }
 
     D3D11_TEXTURE2D_DESC texture_desc = {};
-    texture_desc.Width = width;
-    texture_desc.Height = height;
+    texture_desc.Width = width > 0 ? width : 1;
+    texture_desc.Height = height > 0 ? height : 1;
     texture_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     texture_desc.Usage = D3D11_USAGE_DEFAULT;
     texture_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;

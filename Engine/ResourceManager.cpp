@@ -20,7 +20,13 @@ ResourceManager::~ResourceManager()
 
 ResourcePtr ResourceManager::CreateResourceFromFile(const wchar_t* file_path)
 {
+#if (_MSC_VER >= 1900 && _MSC_VER <= 1916)  || ( _MSC_VER >= 1920 && __cplusplus <= 201402L) 
     std::wstring full_path = std::experimental::filesystem::absolute(file_path);
+#endif
+
+#if _MSC_VER >= 1920 && __cplusplus > 201402L 
+    std::wstring full_path = std::filesystem::absolute(file_path);
+#endif
 
     auto iter = m_map_resources.find(full_path);
     if (iter != m_map_resources.end())
