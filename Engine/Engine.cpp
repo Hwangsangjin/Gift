@@ -41,10 +41,10 @@ MeshManager* Engine::GetMeshManager()
     return m_mesh_manager;
 }
 
-void Engine::GetMeshVertexLayoutShaderByteCodeAndSize(void** byte_code, size_t* size)
+void Engine::GetVertexMeshLayoutShaderByteCodeAndSize(void** byte_code, size_t* size)
 {
-    *byte_code = m_mesh_vertex_layout_byte_code;
-    *size = m_mesh_vertex_layout_size;
+    *byte_code = m_vertex_mesh_layout_byte_code;
+    *size = m_vertex_mesh_layout_size;
 }
 
 Engine::Engine()
@@ -60,11 +60,11 @@ Engine::Engine()
 
     void* shader_byte_code = nullptr;
     size_t shader_byte_size = 0;
-    m_graphics->CompileVertexShader(L"..\\..\\Assets\\Shaders\\MeshVertexLayoutShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
+    m_graphics->CompileVertexShader(L"..\\..\\Assets\\Shaders\\VertexMeshLayoutShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
     assert(shader_byte_code);
     assert(shader_byte_size);
-    ::memcpy(m_mesh_vertex_layout_byte_code, shader_byte_code, shader_byte_size);
-    m_mesh_vertex_layout_size = shader_byte_size;
+    ::memcpy(m_vertex_mesh_layout_byte_code, shader_byte_code, shader_byte_size);
+    m_vertex_mesh_layout_size = shader_byte_size;
     m_graphics->ReleaseCompiledShader();
 }
 

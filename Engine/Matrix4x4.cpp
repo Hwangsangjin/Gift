@@ -122,14 +122,19 @@ void Matrix4x4::Inverse()
 	SetMatrix(out);
 }
 
-Vector3 Matrix4x4::GetZDirection()
-{
-	return Vector3(m_mat[2][0], m_mat[2][1], m_mat[2][2]);
-}
-
 Vector3 Matrix4x4::GetXDirection()
 {
 	return Vector3(m_mat[0][0], m_mat[0][1], m_mat[0][2]);
+}
+
+Vector3 Matrix4x4::GetYDirection()
+{
+	return Vector3(m_mat[1][0], m_mat[1][1], m_mat[1][2]);
+}
+
+Vector3 Matrix4x4::GetZDirection()
+{
+	return Vector3(m_mat[2][0], m_mat[2][1], m_mat[2][2]);
 }
 
 Vector3 Matrix4x4::GetTranslation()

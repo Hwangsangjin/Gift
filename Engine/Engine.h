@@ -15,7 +15,7 @@ public:
 	TextureManager* GetTextureManager();
 	MeshManager* GetMeshManager();
 
-	void GetMeshVertexLayoutShaderByteCodeAndSize(void** byte_code, size_t* size);
+	void GetVertexMeshLayoutShaderByteCodeAndSize(void** byte_code, size_t* size);
 
 private:
 	Engine();
@@ -26,7 +26,7 @@ private:
 	TextureManager* m_texture_manager = nullptr;
 	MeshManager* m_mesh_manager = nullptr;
 
-	unsigned char m_mesh_vertex_layout_byte_code[1024] = {};
-	size_t m_mesh_vertex_layout_size = 0;
+	unsigned char m_vertex_mesh_layout_byte_code[1024] = {};
+	size_t m_vertex_mesh_layout_size = 0;
 };
 

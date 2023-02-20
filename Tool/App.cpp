@@ -32,14 +32,11 @@ void App::OnCreate()
 	m_play_state = true;
 
 	// 공간 설정
-	m_world.SetTranslation(Vector3(0.0f, 0.0f, -2.0f));
+	m_world.SetTranslation(Vector3(0.0f, 2.0f, -5.0f));
 
 	// 에셋 로드
-	m_earth_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere_hq.obj");
-	m_earth_color_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\earth_color.jpg");
-	m_earth_specular_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\earth_spec.jpg");
-	m_clouds_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\clouds.jpg");
-	m_earth_night_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\earth_night.jpg");
+	m_wall_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\scene.obj");
+	m_wall_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\wall.jpg");
 
 	m_skybox_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
 	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
@@ -52,7 +49,7 @@ void App::OnCreate()
 	// 정점 셰이더 생성
 	void* shader_byte_code = nullptr;
 	size_t shader_byte_size = 0;
-	Engine::GetInstance()->GetGraphics()->CompileVertexShader(L"..\\..\\Assets\\Shaders\\VertexShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
+	Engine::GetInstance()->GetGraphics()->CompileVertexShader(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
 	assert(shader_byte_code);
 	assert(shader_byte_size);
 	m_vertex_shader = Engine::GetInstance()->GetGraphics()->CreateVertexShader(shader_byte_code, shader_byte_size);
@@ -60,7 +57,7 @@ void App::OnCreate()
 	Engine::GetInstance()->GetGraphics()->ReleaseCompiledShader();
 
 	// 픽셀 셰이더 생성
-	Engine::GetInstance()->GetGraphics()->CompilePixelShader(L"..\\..\\Assets\\Shaders\\PixelShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
+	Engine::GetInstance()->GetGraphics()->CompilePixelShader(L"..\\..\\Assets\\Shaders\\PointLightPixelShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
 	assert(shader_byte_code);
 	assert(shader_byte_size);
 	m_pixel_shader = Engine::GetInstance()->GetGraphics()->CreatePixelShader(shader_byte_code, shader_byte_size);
@@ -117,6 +114,7 @@ void App::OnDestroy()
 
 void App::OnKeyUp(int key)
 {
+	m_upward = 0.0f;
 	m_forward = 0.0f;
 	m_rightward = 0.0f;
 
@@ -139,7 +137,15 @@ void App::OnKeyDown(int key)
 	if (!m_play_state)
 		return;
 
-	if (key == 'W')
+	if (key == 'Q')
+	{
+		m_upward = -1.0f;
+	}
+	else if (key == 'E')
+	{
+		m_upward = 1.0f;
+	}
+	else if (key == 'W')
 	{	
 		m_forward = 1.0f;
 	}
@@ -155,20 +161,29 @@ void App::OnKeyDown(int key)
 	{
 		m_rightward = 1.0f;
 	}
+	else if (key == 'O')
+	{
+		m_light_radius -= 1.0f * Timer::GetInstance()->GetDeltaTime();
+	}
+	else if (key == 'P')
+	{
+		m_light_radius += 1.0f * Timer::GetInstance()->GetDeltaTime();
+
+	}
 }
 
 void App::OnMouseMove(const Point& point)
 {
-	/*if (!m_play_state)
-		return;
+	//if (!m_play_state)
+	//	return;
 
-	int width = GetClientWindowRect().right - GetClientWindowRect().left;
-	int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
+	//int width = GetClientWindowRect().right - GetClientWindowRect().left;
+	//int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
 
-	m_rotation_x += (point.GetY() - (height / 2.0f)) * m_delta_time * 0.1f;
-	m_rotation_y += (point.GetX() - (width / 2.0f)) * m_delta_time * 0.1f;
+	//m_rotation_x += (point.GetY() - (height / 2.0f)) * Timer::GetInstance()->GetDeltaTime() * 0.1f;
+	//m_rotation_y += (point.GetX() - (width / 2.0f)) * Timer::GetInstance()->GetDeltaTime() * 0.1f;
 
-	Input::GetInstance()->SetCursorPosition(Point(width / 2, height / 2));*/
+	//Input::GetInstance()->SetCursorPosition(Point(width / 2, height / 2));
 }
 
 void App::OnLeftButtonUp(const Point& point)
@@ -223,6 +238,7 @@ void App::UpdateCamera()
 	Vector3 new_position = m_world.GetTranslation() + camera.GetZDirection() * (m_forward * 0.05f);
 
 	new_position = new_position + camera.GetXDirection() * (m_rightward * 0.05f);
+	new_position = new_position + camera.GetYDirection() * (m_upward * 0.05f);
 
 	camera.SetTranslation(new_position);
 
@@ -251,13 +267,18 @@ void App::UpdateModel()
 	Matrix4x4 light_rotation_matrix;
 	light_rotation_matrix.SetIdentity();
 	light_rotation_matrix.SetRotationY(m_light_rotation_y);
-	m_light_rotation_y += 0.785f * Timer::GetInstance()->GetDeltaTime();
+	m_light_rotation_y += 1.57f * Timer::GetInstance()->GetDeltaTime();
 
 	Constant constant;
 	constant.world.SetIdentity();
 	constant.view = m_view;
 	constant.projection = m_projection;
 	constant.camera_position = m_world.GetTranslation();
+
+	float dist_from_origin = 1.0f;
+
+	constant.light_position = Vector4(std::cos(m_light_rotation_y) * dist_from_origin, 1.0f, std::sin(m_light_rotation_y) * dist_from_origin, 1.0f);
+	constant.light_radius = m_light_radius;
 	constant.light_direction = light_rotation_matrix.GetZDirection();
 	constant.time = Timer::GetInstance()->GetGameTime();
 
@@ -285,12 +306,10 @@ void App::Render()
 	// 렌더링
 	Engine::GetInstance()->GetGraphics()->SetRasterizerState(false);
 
-	TexturePtr texture_list[4];
-	texture_list[0] = m_earth_color_texture;
-	texture_list[1] = m_earth_specular_texture;
-	texture_list[2] = m_clouds_texture;
-	texture_list[3] = m_earth_night_texture;
-	DrawMesh(m_earth_mesh, m_vertex_shader, m_pixel_shader, m_constant_buffer, texture_list, 4);
+	TexturePtr texture_list[1];
+	texture_list[0] = m_wall_texture;
+
+	DrawMesh(m_wall_mesh, m_vertex_shader, m_pixel_shader, m_constant_buffer, texture_list, 1);
 
 	Engine::GetInstance()->GetGraphics()->SetRasterizerState(true);
 

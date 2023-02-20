@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Mesh.h"
 #include "Engine.h"
-#include "MeshVertex.h"
+#include "VertexMesh.h"
 #include "Vector2.h"
 #include "Vector3.h"
 
@@ -32,7 +32,7 @@ Mesh::Mesh(const wchar_t* full_path)
 	if (shapes.size() > 1)
 		throw std::exception("Mesh not created successfully");
 
-	std::vector<MeshVertex> vector_mesh_vertices;
+	std::vector<VertexMesh> vector_mesh_vertices;
 	std::vector<UINT> vector_mesh_indices;
 
 	for (size_t s = 0; s < shapes.size(); s++)
@@ -59,7 +59,7 @@ Mesh::Mesh(const wchar_t* full_path)
 				tinyobj::real_t ny = attribs.normals[index.normal_index * 3 + 1];
 				tinyobj::real_t nz = attribs.normals[index.normal_index * 3 + 2];
 
-				MeshVertex mesh_vertex(Vector3(vx, vy, vz), Vector2(tx, ty), Vector3(nx, ny, nz));
+				VertexMesh mesh_vertex(Vector3(vx, vy, vz), Vector2(tx, ty), Vector3(nx, ny, nz));
 				vector_mesh_vertices.push_back(mesh_vertex);
 				vector_mesh_indices.push_back((unsigned int)index_offset + v);
 			}
@@ -70,11 +70,11 @@ Mesh::Mesh(const wchar_t* full_path)
 
 	void* shader_byte_code = nullptr;
 	size_t shader_byte_size = 0;
-	Engine::GetInstance()->GetMeshVertexLayoutShaderByteCodeAndSize(&shader_byte_code, &shader_byte_size);
+	Engine::GetInstance()->GetVertexMeshLayoutShaderByteCodeAndSize(&shader_byte_code, &shader_byte_size);
 	assert(shader_byte_code);
 	assert(shader_byte_size);
 
-	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(&vector_mesh_vertices[0], sizeof(MeshVertex), (UINT)vector_mesh_vertices.size(), shader_byte_code, (UINT)shader_byte_size);
+	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(&vector_mesh_vertices[0], sizeof(VertexMesh), (UINT)vector_mesh_vertices.size(), shader_byte_code, (UINT)shader_byte_size);
 	assert(m_vertex_buffer);
 
 	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(&vector_mesh_indices[0], (UINT)vector_mesh_indices.size());

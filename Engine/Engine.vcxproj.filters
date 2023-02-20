@@ -85,6 +85,24 @@
     <Filter Include="Core\Timer">
       <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Math\VertexMesh">
+      <UniqueIdentifier>{2e1c0397-d4a8-4235-b1ab-0d0bdaa89a0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shader">
+      <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shader\EarthShader">
+      <UniqueIdentifier>{53860061-397c-495d-8763-cdcc8eb79f50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shader\PointLightShader">
+      <UniqueIdentifier>{c55715cf-12e1-4c7f-ad54-92020c94876d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shader\SkyBoxShader">
+      <UniqueIdentifier>{d1887272-d035-4920-9af7-5a21c5581f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shader\VertexMeshLayoutShader">
+      <UniqueIdentifier>{297ef8bd-8a7f-4b8c-a771-7640fec2165b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -151,9 +169,6 @@
       <Filter>Core\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="MeshManager.h">
-      <Filter>Core\Resource\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshVertex.h">
       <Filter>Core\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
@@ -378,6 +393,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Core\Timer</Filter>
     </ClInclude>
+    <ClInclude Include="VertexMesh.h">
+      <Filter>Core\Math\VertexMesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -446,9 +464,6 @@
     <ClCompile Include="MeshManager.cpp">
       <Filter>Core\Resource\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="MeshVertex.cpp">
-      <Filter>Core\Resource\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Core\Input</Filter>
     </ClCompile>
@@ -485,19 +500,28 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Core\Timer</Filter>
     </ClCompile>
+    <ClCompile Include="VertexMesh.cpp">
+      <Filter>Core\Math\VertexMesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>Core\Graphics\PixelShader</Filter>
-    </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>Core\Graphics\VertexShader</Filter>
+      <Filter>Core\Shader\EarthShader</Filter>
     </FxCompile>
-    <FxCompile Include="MeshVertexLayoutShader.hlsl">
-      <Filter>Core\Resource\Mesh</Filter>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Core\Shader\EarthShader</Filter>
     </FxCompile>
     <FxCompile Include="SkyBoxShader.hlsl">
-      <Filter>Core\Graphics\PixelShader</Filter>
+      <Filter>Core\Shader\SkyBoxShader</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexMeshLayoutShader.hlsl">
+      <Filter>Core\Shader\VertexMeshLayoutShader</Filter>
+    </FxCompile>
+    <FxCompile Include="PointLightVertexShader.hlsl">
+      <Filter>Core\Shader\PointLightShader</Filter>
+    </FxCompile>
+    <FxCompile Include="PointLightPixelShader.hlsl">
+      <Filter>Core\Shader\PointLightShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

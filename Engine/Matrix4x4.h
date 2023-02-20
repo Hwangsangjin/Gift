@@ -19,8 +19,9 @@ public:
 	float GetDeterminant();
 	void Inverse();
 
-	Vector3 GetZDirection();
 	Vector3 GetXDirection();
+	Vector3 GetYDirection();
+	Vector3 GetZDirection();
 	Vector3 GetTranslation();
 
 	void operator*=(const Matrix4x4& matrix);

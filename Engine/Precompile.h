@@ -100,5 +100,7 @@ struct Constant
 	Matrix4x4 projection;
 	Vector4 light_direction;
 	Vector4 camera_position;
+	Vector4 light_position = Vector4(0.0f, 1.0f, 0.0f, 0.0f);
+	float light_radius = 4.0f;
 	float time = 0.0f;
 };

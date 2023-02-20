@@ -46,11 +46,8 @@ private:
 	ConstantBufferPtr m_skybox_constant_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;
 
-	MeshPtr m_earth_mesh = nullptr;
-	TexturePtr m_earth_color_texture = nullptr;
-	TexturePtr m_earth_specular_texture = nullptr;
-	TexturePtr m_clouds_texture = nullptr;
-	TexturePtr m_earth_night_texture = nullptr;
+	MeshPtr m_wall_mesh = nullptr;
+	TexturePtr m_wall_texture = nullptr;
 
 	MeshPtr m_skybox_mesh = nullptr;
 	TexturePtr m_skybox_texture = nullptr;
@@ -58,6 +55,8 @@ private:
 	float m_rotation_x = 0.0f;
 	float m_rotation_y = 0.0f;
 	float m_light_rotation_y = 0.0f;
+	float m_light_radius = 4.0f;
+	float m_upward = 0.0f;
 	float m_forward = 0.0f;
 	float m_rightward = 0.0f;
 
