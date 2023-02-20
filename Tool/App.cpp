@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "App.h"
 #include "Input.h"
+#include "Timer.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -23,6 +24,9 @@ void App::OnCreate()
 	// 입력
 	Input::GetInstance()->AddListener(this);
 	Input::GetInstance()->ShowCursor(true);
+
+	// 타이머
+	Timer::GetInstance()->Initialize();
 
 	// 실행 상태
 	m_play_state = true;
@@ -82,6 +86,7 @@ void App::OnUpdate()
 {
 	Window::OnUpdate();
 	Input::GetInstance()->Update();
+	Timer::GetInstance()->Update();
 	Update();
 	Render();
 }
@@ -184,12 +189,6 @@ void App::OnRightButtonDown(const Point& point)
 
 void App::Update()
 {
-	// 프레임 설정
-	m_old_delta = m_new_delta;
-	m_new_delta = static_cast<float>(::GetTickCount64());
-	m_delta_time = m_old_delta ? ((m_new_delta - m_old_delta) / 1000.0f) : 0.0f;
-	m_time += m_delta_time;
-
 	// 렌더 타겟 지우기
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearRenderTargetColor(m_swap_chain, 0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -252,7 +251,7 @@ void App::UpdateModel()
 	Matrix4x4 light_rotation_matrix;
 	light_rotation_matrix.SetIdentity();
 	light_rotation_matrix.SetRotationY(m_light_rotation_y);
-	m_light_rotation_y += 0.785f * m_delta_time;
+	m_light_rotation_y += 0.785f * Timer::GetInstance()->GetDeltaTime();
 
 	Constant constant;
 	constant.world.SetIdentity();
@@ -260,7 +259,7 @@ void App::UpdateModel()
 	constant.projection = m_projection;
 	constant.camera_position = m_world.GetTranslation();
 	constant.light_direction = light_rotation_matrix.GetZDirection();
-	constant.time = m_time;
+	constant.time = Timer::GetInstance()->GetGameTime();
 
 	m_constant_buffer->Update(Engine::GetInstance()->GetGraphics()->GetDeviceContext(), &constant);
 }

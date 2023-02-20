@@ -82,6 +82,9 @@
     <Filter Include="Include\RapidJSON">
       <UniqueIdentifier>{6ca405e8-34b6-432b-983d-d7c8504c4ce2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Timer">
+      <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -372,6 +375,9 @@
     <ClInclude Include="..\..\Include\RapidJSON\prettywriter.h">
       <Filter>Include\RapidJSON</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Core\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -475,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui_widgets.cpp">
       <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Core\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
