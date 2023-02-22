@@ -28,13 +28,13 @@ public:
 
 	void Update();
 	void UpdateCamera();
-	void UpdateModel();
+	void UpdateModel(Vector3 position, const MaterialPtr& material);
 	void UpdateSkyBox();
-	void UpdateUI();
+	void UpdateLight();
 
 	void Render();
 
-	void DrawMesh(const MeshPtr& mesh, const VertexShaderPtr& vertex_shader, const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer, const TexturePtr* texture_list, unsigned int texture_count);
+	void DrawMesh(const MeshPtr& mesh, const MaterialPtr& material);
 
 private:
 	SwapChainPtr m_swap_chain = nullptr;
@@ -46,11 +46,14 @@ private:
 	ConstantBufferPtr m_skybox_constant_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;
 
-	MeshPtr m_wall_mesh = nullptr;
-	TexturePtr m_wall_texture = nullptr;
-
-	MeshPtr m_skybox_mesh = nullptr;
+	TexturePtr m_plane_texture = nullptr;
 	TexturePtr m_skybox_texture = nullptr;
+
+	MeshPtr m_plane_mesh = nullptr;
+	MeshPtr m_skybox_mesh = nullptr;
+
+	MaterialPtr m_plane_material = nullptr;
+	MaterialPtr m_skybox_material = nullptr;
 
 	float m_rotation_x = 0.0f;
 	float m_rotation_y = 0.0f;
@@ -67,6 +70,6 @@ private:
 	bool m_play_state = false;
 	bool m_fullscreen_state = false;
 
-	Plane* m_plane = nullptr;
+	Vector4 m_light_position = {};
 };
 

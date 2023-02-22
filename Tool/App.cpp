@@ -14,7 +14,7 @@
 #include "PixelShader.h"
 #include "Texture.h"
 #include "Mesh.h"
-#include "Plane.h"
+#include "Material.h"
 
 void App::OnCreate()
 {
@@ -28,48 +28,16 @@ void App::OnCreate()
 	// 타이머
 	Timer::GetInstance()->Initialize();
 
-	// 실행 상태
+	// 실행 상태 설정
 	m_play_state = true;
 
 	// 공간 설정
 	m_world.SetTranslation(Vector3(0.0f, 2.0f, -5.0f));
 
-	// 에셋 로드
-	m_wall_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\scene.obj");
-	m_wall_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\wall.jpg");
-
-	m_skybox_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
-	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
-
 	// 스왑 체인 생성
 	RECT rect = GetClientWindowRect();
 	m_swap_chain = Engine::GetInstance()->GetGraphics()->CreateSwapChain(m_hwnd, rect.right - rect.left, rect.bottom - rect.top);
 	assert(m_swap_chain);
-
-	// 정점 셰이더 생성
-	void* shader_byte_code = nullptr;
-	size_t shader_byte_size = 0;
-	Engine::GetInstance()->GetGraphics()->CompileVertexShader(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
-	assert(shader_byte_code);
-	assert(shader_byte_size);
-	m_vertex_shader = Engine::GetInstance()->GetGraphics()->CreateVertexShader(shader_byte_code, shader_byte_size);
-	assert(m_vertex_shader);
-	Engine::GetInstance()->GetGraphics()->ReleaseCompiledShader();
-
-	// 픽셀 셰이더 생성
-	Engine::GetInstance()->GetGraphics()->CompilePixelShader(L"..\\..\\Assets\\Shaders\\PointLightPixelShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
-	assert(shader_byte_code);
-	assert(shader_byte_size);
-	m_pixel_shader = Engine::GetInstance()->GetGraphics()->CreatePixelShader(shader_byte_code, shader_byte_size);
-	assert(m_pixel_shader);
-	Engine::GetInstance()->GetGraphics()->ReleaseCompiledShader();
-
-	Engine::GetInstance()->GetGraphics()->CompilePixelShader(L"..\\..\\Assets\\Shaders\\SkyBoxShader.hlsl", "main", &shader_byte_code, &shader_byte_size);
-	assert(shader_byte_code);
-	assert(shader_byte_size);
-	m_skybox_pixel_shader = Engine::GetInstance()->GetGraphics()->CreatePixelShader(shader_byte_code, shader_byte_size);
-	assert(m_skybox_pixel_shader);
-	Engine::GetInstance()->GetGraphics()->ReleaseCompiledShader();
 
 	// 상수 버퍼 생성
 	Constant constant;
@@ -77,6 +45,25 @@ void App::OnCreate()
 	assert(m_constant_buffer);
 	m_skybox_constant_buffer = Engine::GetInstance()->GetGraphics()->CreateConstantBuffer(&constant, sizeof(Constant));
 	assert(m_skybox_constant_buffer);
+
+	// 메쉬 생성
+	m_skybox_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
+	m_plane_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\scene.obj");
+
+	// 텍스처 생성
+	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
+	m_plane_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\wall.jpg");
+
+	// 머티리얼 생성
+	m_skybox_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\SkyBoxShader.hlsl");
+	assert(m_skybox_material);
+	m_skybox_material->AddTexture(m_skybox_texture);
+	m_skybox_material->SetCullMode(CULL_MODE::CULL_MODE_FRONT);
+
+	m_plane_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PointLightPixelShader.hlsl");
+	assert(m_plane_material);
+	m_plane_material->AddTexture(m_plane_texture);
+	m_plane_material->SetCullMode(CULL_MODE::CULL_MODE_BACK);
 }
 
 void App::OnUpdate()
@@ -168,7 +155,6 @@ void App::OnKeyDown(int key)
 	else if (key == 'P')
 	{
 		m_light_radius += 1.0f * Timer::GetInstance()->GetDeltaTime();
-
 	}
 }
 
@@ -213,13 +199,13 @@ void App::Update()
 
 	// 변환 행렬 계산
 	UpdateCamera();
-	UpdateModel();
 	UpdateSkyBox();
+	UpdateLight();
 
-	if (m_plane)
-	{
-		m_plane->Update();
-	}
+	UpdateModel(Vector3(0.0f, 0.0f, 0.0f), m_plane_material);
+	DrawMesh(m_plane_mesh, m_plane_material);
+
+	DrawMesh(m_skybox_mesh, m_skybox_material);
 }
 
 void App::UpdateCamera()
@@ -236,7 +222,6 @@ void App::UpdateCamera()
 	camera *= temp;
 
 	Vector3 new_position = m_world.GetTranslation() + camera.GetZDirection() * (m_forward * 0.05f);
-
 	new_position = new_position + camera.GetXDirection() * (m_rightward * 0.05f);
 	new_position = new_position + camera.GetYDirection() * (m_upward * 0.05f);
 
@@ -262,27 +247,24 @@ void App::UpdateCamera()
 	);*/
 }
 
-void App::UpdateModel()
+void App::UpdateModel(Vector3 position, const MaterialPtr& material)
 {
 	Matrix4x4 light_rotation_matrix;
 	light_rotation_matrix.SetIdentity();
 	light_rotation_matrix.SetRotationY(m_light_rotation_y);
-	m_light_rotation_y += 1.57f * Timer::GetInstance()->GetDeltaTime();
 
 	Constant constant;
 	constant.world.SetIdentity();
+	constant.world.SetTranslation(position);
 	constant.view = m_view;
 	constant.projection = m_projection;
 	constant.camera_position = m_world.GetTranslation();
-
-	float dist_from_origin = 1.0f;
-
-	constant.light_position = Vector4(std::cos(m_light_rotation_y) * dist_from_origin, 1.0f, std::sin(m_light_rotation_y) * dist_from_origin, 1.0f);
+	constant.light_position = m_light_position;
 	constant.light_radius = m_light_radius;
 	constant.light_direction = light_rotation_matrix.GetZDirection();
 	constant.time = Timer::GetInstance()->GetGameTime();
 
-	m_constant_buffer->Update(Engine::GetInstance()->GetGraphics()->GetDeviceContext(), &constant);
+	material->SetData(&constant, sizeof(constant));
 }
 
 void App::UpdateSkyBox()
@@ -294,33 +276,19 @@ void App::UpdateSkyBox()
 	constant.view = m_view;
 	constant.projection = m_projection;
 
-	m_skybox_constant_buffer->Update(Engine::GetInstance()->GetGraphics()->GetDeviceContext(), &constant);
+	m_skybox_material->SetData(&constant, sizeof(constant));
 }
 
-void App::UpdateUI()
+void App::UpdateLight()
 {
+	m_light_rotation_y += 1.57f * Timer::GetInstance()->GetDeltaTime();
+
+	float dist_from_origin = 3.0f;
+	m_light_position = Vector4(std::cos(m_light_rotation_y) * dist_from_origin, 2.0f, std::sin(m_light_rotation_y) * dist_from_origin, 1.0f);
 }
 
 void App::Render()
 {
-	// 렌더링
-	Engine::GetInstance()->GetGraphics()->SetRasterizerState(false);
-
-	TexturePtr texture_list[1];
-	texture_list[0] = m_wall_texture;
-
-	DrawMesh(m_wall_mesh, m_vertex_shader, m_pixel_shader, m_constant_buffer, texture_list, 1);
-
-	Engine::GetInstance()->GetGraphics()->SetRasterizerState(true);
-
-	texture_list[0] = m_skybox_texture;
-	DrawMesh(m_skybox_mesh, m_vertex_shader, m_skybox_pixel_shader, m_skybox_constant_buffer, texture_list, 1);
-
-	if (m_plane)
-	{
-		m_plane->Render();
-	}
-
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -333,11 +301,6 @@ void App::Render()
 	if (ImGui::BeginMainMenuBar())
 	{
 		ImGui::EndMainMenuBar();
-	}
-
-	if (ImGui::Button("Plane"))
-	{
-		m_plane = new Plane;
 	}
 
 	// Our state
@@ -386,16 +349,10 @@ void App::Render()
 	m_swap_chain->Present(true);
 }
 
-void App::DrawMesh(const MeshPtr& mesh, const VertexShaderPtr& vertex_shader, const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer, const TexturePtr* texture_list, unsigned int texture_count)
+void App::DrawMesh(const MeshPtr& mesh, const MaterialPtr& material)
 {
-	// 상수 버퍼 설정
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetConstantBuffer(vertex_shader, constant_buffer);
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetConstantBuffer(pixel_shader, constant_buffer);
-
-	// 셰이더 설정
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexShader(vertex_shader);
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetPixelShader(pixel_shader);
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetTexture(pixel_shader, texture_list, texture_count);
+	// 머티리얼 설정
+	Engine::GetInstance()->SetMaterial(material);
 
 	// 정점 버퍼 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexBuffer(mesh->GetVertexBuffer());

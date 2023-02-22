@@ -61,6 +61,7 @@ class Texture;
 class TextureManager;
 class Mesh;
 class MeshManager;
+class Material;
 
 // typedef
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
@@ -73,6 +74,7 @@ typedef std::shared_ptr<PixelShader> PixelShaderPtr;
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
+typedef std::shared_ptr<Material> MaterialPtr;
 
 // using
 using int8 = __int8;

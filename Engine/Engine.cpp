@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Engine.h"
+#include "DeviceContext.h"
+#include "Material.h"
 
 Engine* Engine::m_engine = nullptr;
 
@@ -39,6 +41,32 @@ TextureManager* Engine::GetTextureManager()
 MeshManager* Engine::GetMeshManager()
 {
     return m_mesh_manager;
+}
+
+MaterialPtr Engine::CreateMaterial(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path)
+{
+    return std::make_shared<Material>(vertex_shader_path, pixel_shader_path);
+}
+
+MaterialPtr Engine::CreateMaterial(const MaterialPtr& material)
+{
+    return std::make_shared<Material>(material);
+}
+
+void Engine::SetMaterial(const MaterialPtr& material)
+{
+    // 래스터라이저 상태 설정
+    m_graphics->SetRasterizerState(material->GetCullMode() == CULL_MODE::CULL_MODE_FRONT);
+
+    // 상수 버퍼 설정
+    m_graphics->GetDeviceContext()->SetConstantBuffer(material->GetVertexShader(), material->GetConstantBuffer());
+    m_graphics->GetDeviceContext()->SetConstantBuffer(material->GetPixelShader(), material->GetConstantBuffer());
+
+    // 셰이더 설정
+    m_graphics->GetDeviceContext()->SetVertexShader(material->GetVertexShader());
+    m_graphics->GetDeviceContext()->SetPixelShader(material->GetPixelShader());
+    auto texture = material->GetTexture();
+    m_graphics->GetDeviceContext()->SetTexture(material->GetPixelShader(), &texture, material->GetTextureSize());
 }
 
 void Engine::GetVertexMeshLayoutShaderByteCodeAndSize(void** byte_code, size_t* size)

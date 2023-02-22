@@ -58,9 +58,6 @@
     <Filter Include="Core\GameObject">
       <UniqueIdentifier>{3a4aa9d0-e920-4d1a-8c41-e2e23fd6c510}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\GameObject\Plane">
-      <UniqueIdentifier>{052a84e2-dbd2-4cb7-afda-ad73ad3d1e82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Precompile">
       <UniqueIdentifier>{6bdfdff7-a3e6-4d60-9ac4-583325e62915}</UniqueIdentifier>
     </Filter>
@@ -102,6 +99,9 @@
     </Filter>
     <Filter Include="Core\Shader\VertexMeshLayoutShader">
       <UniqueIdentifier>{297ef8bd-8a7f-4b8c-a771-7640fec2165b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Resource\Material">
+      <UniqueIdentifier>{65aa310e-7f7e-4353-a523-daeaf32bece4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -249,9 +249,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Core\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Core\GameObject\Plane</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imstb_truetype.h">
       <Filter>Include\ImGui</Filter>
     </ClInclude>
@@ -396,6 +393,9 @@
     <ClInclude Include="VertexMesh.h">
       <Filter>Core\Math\VertexMesh</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Core\Resource\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -473,9 +473,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Core\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>Core\GameObject\Plane</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
       <Filter>Include\ImGui</Filter>
     </ClCompile>
@@ -502,6 +499,9 @@
     </ClCompile>
     <ClCompile Include="VertexMesh.cpp">
       <Filter>Core\Math\VertexMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Core\Resource\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

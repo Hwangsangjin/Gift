@@ -250,6 +250,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Precompile.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="IndexBuffer.h" />
@@ -263,7 +264,6 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClInclude Include="Point.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Plane.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
@@ -308,6 +308,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Precompile.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
@@ -328,7 +329,6 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
