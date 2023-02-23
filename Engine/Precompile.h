@@ -39,6 +39,7 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
+#include "ImGui/ImFileDialog.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
@@ -62,6 +63,7 @@ class TextureManager;
 class Mesh;
 class MeshManager;
 class Material;
+class Sprite;
 
 // typedef
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
@@ -75,6 +77,7 @@ typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<Material> MaterialPtr;
+typedef std::shared_ptr<Sprite> SpritePtr;
 
 // using
 using int8 = __int8;

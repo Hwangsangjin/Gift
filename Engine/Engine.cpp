@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "DeviceContext.h"
 #include "Material.h"
+#include "Sprite.h"
 
 Engine* Engine::m_engine = nullptr;
 
@@ -56,7 +57,8 @@ MaterialPtr Engine::CreateMaterial(const MaterialPtr& material)
 void Engine::SetMaterial(const MaterialPtr& material)
 {
     // 래스터라이저 상태 설정
-    m_graphics->SetRasterizerState(material->GetCullMode() == CULL_MODE::CULL_MODE_FRONT);
+    m_graphics->SetCullMode(material->GetCullMode() == Material::CullMode::Back);
+    m_graphics->SetFillMode(material->GetFillMode() == Material::FillMode::Solid);
 
     // 상수 버퍼 설정
     m_graphics->GetDeviceContext()->SetConstantBuffer(material->GetVertexShader(), material->GetConstantBuffer());
@@ -67,6 +69,33 @@ void Engine::SetMaterial(const MaterialPtr& material)
     m_graphics->GetDeviceContext()->SetPixelShader(material->GetPixelShader());
     auto texture = material->GetTexture();
     m_graphics->GetDeviceContext()->SetTexture(material->GetPixelShader(), &texture, material->GetTextureSize());
+}
+
+SpritePtr Engine::CreateSprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path)
+{
+    return std::make_shared<Sprite>(vertex_shader_path, pixel_shader_path);
+}
+
+SpritePtr Engine::CreateSprite(const SpritePtr& sprite)
+{
+    return std::make_shared<Sprite>(sprite);
+}
+
+void Engine::SetSprite(const SpritePtr& sprite)
+{
+    // 래스터라이저 상태 설정
+    m_graphics->SetCullMode(sprite->GetCullMode() == Sprite::CullMode::Back);
+    m_graphics->SetFillMode(sprite->GetFillMode() == Sprite::FillMode::Solid);
+
+    // 상수 버퍼 설정
+    m_graphics->GetDeviceContext()->SetConstantBuffer(sprite->GetVertexShader(), sprite->GetConstantBuffer());
+    m_graphics->GetDeviceContext()->SetConstantBuffer(sprite->GetPixelShader(), sprite->GetConstantBuffer());
+
+    // 셰이더 설정
+    m_graphics->GetDeviceContext()->SetVertexShader(sprite->GetVertexShader());
+    m_graphics->GetDeviceContext()->SetPixelShader(sprite->GetPixelShader());
+    auto texture = sprite->GetTexture();
+    m_graphics->GetDeviceContext()->SetTexture(sprite->GetPixelShader(), &texture, sprite->GetTextureSize());
 }
 
 void Engine::GetVertexMeshLayoutShaderByteCodeAndSize(void** byte_code, size_t* size)

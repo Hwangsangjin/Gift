@@ -19,6 +19,10 @@ public:
 	MaterialPtr CreateMaterial(const MaterialPtr& material);
 	void SetMaterial(const MaterialPtr& material);
 
+	SpritePtr CreateSprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path);
+	SpritePtr CreateSprite(const SpritePtr& sprite);
+	void SetSprite(const SpritePtr& sprite);
+
 	void GetVertexMeshLayoutShaderByteCodeAndSize(void** byte_code, size_t* size);
 
 private:

@@ -15,6 +15,7 @@
 #include "Texture.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Sprite.h"
 
 void App::OnCreate()
 {
@@ -32,7 +33,7 @@ void App::OnCreate()
 	m_play_state = true;
 
 	// 공간 설정
-	m_world.SetTranslation(Vector3(0.0f, 2.0f, -5.0f));
+	m_world.SetTranslation(Vector3(0.0f, 0.0f, 0.0f));
 
 	// 스왑 체인 생성
 	RECT rect = GetClientWindowRect();
@@ -52,18 +53,20 @@ void App::OnCreate()
 
 	// 텍스처 생성
 	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
-	m_plane_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\wall.jpg");
+	m_plane_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\plane.png");
+	m_start_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\start.png");
+	m_map_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\map.png");
+	m_exit_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\exit.png");
 
 	// 머티리얼 생성
 	m_skybox_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\SkyBoxShader.hlsl");
 	assert(m_skybox_material);
 	m_skybox_material->AddTexture(m_skybox_texture);
-	m_skybox_material->SetCullMode(CULL_MODE::CULL_MODE_FRONT);
+	m_skybox_material->SetCullMode(Material::CullMode::Front);
 
 	m_plane_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PointLightPixelShader.hlsl");
 	assert(m_plane_material);
 	m_plane_material->AddTexture(m_plane_texture);
-	m_plane_material->SetCullMode(CULL_MODE::CULL_MODE_BACK);
 }
 
 void App::OnUpdate()
@@ -202,8 +205,32 @@ void App::Update()
 	UpdateSkyBox();
 	UpdateLight();
 
-	UpdateModel(Vector3(0.0f, 0.0f, 0.0f), m_plane_material);
-	DrawMesh(m_plane_mesh, m_plane_material);
+	//UpdateModel(Vector3(0.0f, 0.0f, 0.0f), m_plane_material);
+	//DrawMesh(m_plane_mesh, m_plane_material);
+
+	if (m_plane_sprite)
+	{
+		UpdateUI(Vector3(0.0f, 0.0f, 0.0f), m_plane_sprite);
+		DrawSprite(m_plane_sprite);
+	}
+
+	if (m_start_sprite)
+	{
+		UpdateUI(Vector3(2.0f, 2.0f, 0.0f), m_start_sprite);
+		DrawSprite(m_start_sprite);
+	}
+
+	if (m_map_sprite)
+	{
+		UpdateUI(Vector3(2.0f, 0.0f, 0.0f), m_map_sprite);
+		DrawSprite(m_map_sprite);
+	}
+
+	if (m_exit_sprite)
+	{
+		UpdateUI(Vector3(2.0f, -2.0f, 0.0f), m_exit_sprite);
+		DrawSprite(m_exit_sprite);
+	}
 
 	DrawMesh(m_skybox_mesh, m_skybox_material);
 }
@@ -233,18 +260,23 @@ void App::UpdateCamera()
 
 	m_view = camera;
 
-	int width = GetClientWindowRect().right - GetClientWindowRect().left;
-	int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
+	if (m_projection_state)
+	{
+		int width = GetClientWindowRect().right - GetClientWindowRect().left;
+		int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
 
-	m_projection.SetPerspectiveProjection(1.57f, ((float)width / (float)height), 0.1f, 100.0f);
-
-	/*m_projection.SetOrthographicProjection
-	(
-		(GetClientWindowRect().right - GetClientWindowRect().left) / 100.0f,
-		(GetClientWindowRect().bottom - GetClientWindowRect().top) / 100.0f,
-		-4.0f,
-		4.0f
-	);*/
+		m_projection.SetPerspectiveProjection(1.57f, ((float)width / (float)height), 0.1f, 100.0f);
+	}
+	else
+	{
+		m_projection.SetOrthographicProjection
+		(
+			(GetClientWindowRect().right - GetClientWindowRect().left) / 100.0f,
+			(GetClientWindowRect().bottom - GetClientWindowRect().top) / 100.0f,
+			-4.0f,
+			4.0f
+		);
+	}
 }
 
 void App::UpdateModel(Vector3 position, const MaterialPtr& material)
@@ -287,6 +319,18 @@ void App::UpdateLight()
 	m_light_position = Vector4(std::cos(m_light_rotation_y) * dist_from_origin, 2.0f, std::sin(m_light_rotation_y) * dist_from_origin, 1.0f);
 }
 
+void App::UpdateUI(Vector3 position, const SpritePtr& sprite)
+{
+	Constant constant;
+	constant.world.SetIdentity();
+	constant.world.SetScale(Vector3(1.0f, 1.0f, 1.0f));
+	constant.world.SetTranslation(position);
+	constant.view = m_view;
+	constant.projection = m_projection;
+
+	sprite->SetData(&constant, sizeof(constant));
+}
+
 void App::Render()
 {
 	// Start the Dear ImGui frame
@@ -298,9 +342,66 @@ void App::Render()
 	// Create ImGui Window
 	ImGui::Begin("Inspector");
 
+	//ImGuiMainMenuBar();
 	if (ImGui::BeginMainMenuBar())
 	{
 		ImGui::EndMainMenuBar();
+	}
+
+	if (ImGui::Button("Plane"))
+	{
+		m_plane_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
+		assert(m_plane_sprite);
+		m_plane_sprite->AddTexture(m_plane_texture);
+	}
+
+	if (ImGui::Button("Start"))
+	{
+		m_start_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
+		assert(m_start_sprite);
+		m_start_sprite->AddTexture(m_start_texture);
+	}
+
+	if (ImGui::Button("Map"))
+	{
+		m_map_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
+		assert(m_map_sprite);
+		m_map_sprite->AddTexture(m_map_texture);
+	}
+
+	if (ImGui::Button("Exit"))
+	{
+		m_exit_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
+		assert(m_plane_sprite);
+		m_exit_sprite->AddTexture(m_exit_texture);
+	}
+
+	if (ImGui::Button("Wireframe"))
+	{
+		m_plane_material->SetFillMode(Material::FillMode::Wireframe);
+		m_plane_sprite->SetFillMode(Sprite::FillMode::Wireframe);
+		m_start_sprite->SetFillMode(Sprite::FillMode::Wireframe);
+		m_map_sprite->SetFillMode(Sprite::FillMode::Wireframe);
+		m_exit_sprite->SetFillMode(Sprite::FillMode::Wireframe);
+	}
+
+	if (ImGui::Button("Solid"))
+	{
+		m_plane_material->SetFillMode(Material::FillMode::Solid);
+		m_plane_sprite->SetFillMode(Sprite::FillMode::Solid);
+		m_start_sprite->SetFillMode(Sprite::FillMode::Solid);
+		m_map_sprite->SetFillMode(Sprite::FillMode::Solid);
+		m_exit_sprite->SetFillMode(Sprite::FillMode::Solid);
+	}
+
+	if (ImGui::Button("Orthographic"))
+	{
+		m_projection_state = false;
+	}
+
+	if (ImGui::Button("Perspective"))
+	{
+		m_projection_state = true;
 	}
 
 	// Our state
@@ -362,4 +463,19 @@ void App::DrawMesh(const MeshPtr& mesh, const MaterialPtr& material)
 
 	// 삼각형 그리기
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->DrawIndexedTriangleList(mesh->GetIndexBuffer()->GetIndexCount(), 0, 0);
+}
+
+void App::DrawSprite(const SpritePtr& sprite)
+{
+	// 스프라이트 설정
+	Engine::GetInstance()->SetSprite(sprite);
+	
+	// 정점 버퍼 설정
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexBuffer(sprite->GetVertexBuffer());
+
+	// 인덱스 버퍼 설정
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetIndexBuffer(sprite->GetIndexBuffer());
+
+	// 삼각형 그리기
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->DrawIndexedTriangleList(sprite->GetIndexBuffer()->GetIndexCount(), 0, 0);
 }

@@ -1,63 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Core">
-      <UniqueIdentifier>{d06741c3-947e-4976-aea0-186b26b5a32e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics">
-      <UniqueIdentifier>{612db928-bbc8-4631-ba35-d3a080aa028f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics\ConstantBuffer">
-      <UniqueIdentifier>{0ab9c443-3972-4cf0-ab40-596d3b3c9572}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics\IndexBuffer">
-      <UniqueIdentifier>{0efd487e-0a0f-4997-9426-7d29c0033078}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics\DeviceContext">
-      <UniqueIdentifier>{6df67621-14ca-41e8-8099-588885bf27ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics\PixelShader">
-      <UniqueIdentifier>{52f42d94-11a0-45e4-8016-5f1042310647}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics\SwapChain">
-      <UniqueIdentifier>{3175d48d-8551-4fe5-9e4a-20ba153f707c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics\VertexBuffer">
-      <UniqueIdentifier>{53c8d5b3-12ce-426f-8327-294ef9c4f5cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics\VertexShader">
-      <UniqueIdentifier>{7e1f029c-f349-4318-8be1-8fc7482ad22b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Math">
-      <UniqueIdentifier>{333bdae1-ac82-4635-9138-32826166afd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Math\Matrix">
-      <UniqueIdentifier>{aa7c79e9-1952-4b5b-aa05-5f0b6ae17a20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Math\Vector">
-      <UniqueIdentifier>{f43bb409-2646-4ffd-a024-7f707cdf6df4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Math\Point">
-      <UniqueIdentifier>{5d1e499a-addd-4ad1-8ab8-07843e42bab7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Resource">
-      <UniqueIdentifier>{edcf136c-f2b2-4315-b25c-ef55ed045887}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Resource\Texture">
-      <UniqueIdentifier>{9a34065f-f7db-46b9-8356-8d655212146c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Resource\Mesh">
-      <UniqueIdentifier>{5c94d905-bf92-4010-a1f6-f9b7ff852366}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Window">
-      <UniqueIdentifier>{ee8e0171-5419-4241-9edb-6f3c6913e6ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Input">
-      <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\GameObject">
-      <UniqueIdentifier>{3a4aa9d0-e920-4d1a-8c41-e2e23fd6c510}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Precompile">
       <UniqueIdentifier>{6bdfdff7-a3e6-4d60-9ac4-583325e62915}</UniqueIdentifier>
     </Filter>
@@ -79,85 +22,145 @@
     <Filter Include="Include\RapidJSON">
       <UniqueIdentifier>{6ca405e8-34b6-432b-983d-d7c8504c4ce2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Timer">
-      <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{d06741c3-947e-4976-aea0-186b26b5a32e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Math\VertexMesh">
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{612db928-bbc8-4631-ba35-d3a080aa028f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\ConstantBuffer">
+      <UniqueIdentifier>{0ab9c443-3972-4cf0-ab40-596d3b3c9572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\IndexBuffer">
+      <UniqueIdentifier>{0efd487e-0a0f-4997-9426-7d29c0033078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\DeviceContext">
+      <UniqueIdentifier>{6df67621-14ca-41e8-8099-588885bf27ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\PixelShader">
+      <UniqueIdentifier>{52f42d94-11a0-45e4-8016-5f1042310647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\SwapChain">
+      <UniqueIdentifier>{3175d48d-8551-4fe5-9e4a-20ba153f707c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\VertexBuffer">
+      <UniqueIdentifier>{53c8d5b3-12ce-426f-8327-294ef9c4f5cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\VertexShader">
+      <UniqueIdentifier>{7e1f029c-f349-4318-8be1-8fc7482ad22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math">
+      <UniqueIdentifier>{333bdae1-ac82-4635-9138-32826166afd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math\Matrix">
+      <UniqueIdentifier>{aa7c79e9-1952-4b5b-aa05-5f0b6ae17a20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math\Vector">
+      <UniqueIdentifier>{f43bb409-2646-4ffd-a024-7f707cdf6df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math\Point">
+      <UniqueIdentifier>{5d1e499a-addd-4ad1-8ab8-07843e42bab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math\VertexMesh">
       <UniqueIdentifier>{2e1c0397-d4a8-4235-b1ab-0d0bdaa89a0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Shader">
+    <Filter Include="Engine\Resource">
+      <UniqueIdentifier>{edcf136c-f2b2-4315-b25c-ef55ed045887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Texture">
+      <UniqueIdentifier>{9a34065f-f7db-46b9-8356-8d655212146c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Mesh">
+      <UniqueIdentifier>{5c94d905-bf92-4010-a1f6-f9b7ff852366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Material">
+      <UniqueIdentifier>{65aa310e-7f7e-4353-a523-daeaf32bece4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Sprite">
+      <UniqueIdentifier>{bb556efd-271c-4c3f-af7d-877dc5b48ead}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window">
+      <UniqueIdentifier>{ee8e0171-5419-4241-9edb-6f3c6913e6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject">
+      <UniqueIdentifier>{3a4aa9d0-e920-4d1a-8c41-e2e23fd6c510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Timer">
+      <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader">
       <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Shader\EarthShader">
+    <Filter Include="Engine\Shader\EarthShader">
       <UniqueIdentifier>{53860061-397c-495d-8763-cdcc8eb79f50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Shader\PointLightShader">
+    <Filter Include="Engine\Shader\PointLightShader">
       <UniqueIdentifier>{c55715cf-12e1-4c7f-ad54-92020c94876d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Shader\SkyBoxShader">
+    <Filter Include="Engine\Shader\SkyBoxShader">
       <UniqueIdentifier>{d1887272-d035-4920-9af7-5a21c5581f26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Shader\VertexMeshLayoutShader">
+    <Filter Include="Engine\Shader\VertexMeshLayoutShader">
       <UniqueIdentifier>{297ef8bd-8a7f-4b8c-a771-7640fec2165b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Resource\Material">
-      <UniqueIdentifier>{65aa310e-7f7e-4353-a523-daeaf32bece4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
-      <Filter>Core</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Core\Graphics</Filter>
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>Core\Graphics\ConstantBuffer</Filter>
+      <Filter>Engine\Graphics\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>Core\Graphics\IndexBuffer</Filter>
+      <Filter>Engine\Graphics\IndexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>Core\Graphics\PixelShader</Filter>
+      <Filter>Engine\Graphics\PixelShader</Filter>
     </ClInclude>
     <ClInclude Include="SwapChain.h">
-      <Filter>Core\Graphics\SwapChain</Filter>
+      <Filter>Engine\Graphics\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="DeviceContext.h">
-      <Filter>Core\Graphics\DeviceContext</Filter>
+      <Filter>Engine\Graphics\DeviceContext</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>Core\Graphics\VertexBuffer</Filter>
+      <Filter>Engine\Graphics\VertexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>Core\Graphics\VertexShader</Filter>
+      <Filter>Engine\Graphics\VertexShader</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
-      <Filter>Core\Math\Vector</Filter>
+      <Filter>Engine\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
-      <Filter>Core\Math\Vector</Filter>
+      <Filter>Engine\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
-      <Filter>Core\Math\Vector</Filter>
+      <Filter>Engine\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
-      <Filter>Core\Math\Point</Filter>
+      <Filter>Engine\Math\Point</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4x4.h">
-      <Filter>Core\Math\Matrix</Filter>
+      <Filter>Engine\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Core\Resource\Texture</Filter>
+      <Filter>Engine\Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>Core\Resource\Texture</Filter>
+      <Filter>Engine\Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Core\Resource</Filter>
+      <Filter>Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Core\Resource</Filter>
+      <Filter>Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Precompile</Filter>
@@ -166,16 +169,16 @@
       <Filter>Precompile</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Core\Resource\Mesh</Filter>
+      <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="MeshManager.h">
-      <Filter>Core\Resource\Mesh</Filter>
+      <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>Core\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>Core\Window</Filter>
+      <Filter>Engine\Window</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTex\DirectXTex.h">
       <Filter>Include\DirectTex</Filter>
@@ -247,7 +250,7 @@
       <Filter>Include\TinyObjLoader</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Core\GameObject</Filter>
+      <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imstb_truetype.h">
       <Filter>Include\ImGui</Filter>
@@ -388,69 +391,75 @@
       <Filter>Include\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Core\Timer</Filter>
+      <Filter>Engine\Timer</Filter>
     </ClInclude>
     <ClInclude Include="VertexMesh.h">
-      <Filter>Core\Math\VertexMesh</Filter>
+      <Filter>Engine\Math\VertexMesh</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Core\Resource\Material</Filter>
+      <Filter>Engine\Resource\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Engine\Resource\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\ImFileDialog.h">
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
-      <Filter>Core</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Core\Graphics</Filter>
+      <Filter>Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>Core\Graphics\ConstantBuffer</Filter>
+      <Filter>Engine\Graphics\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Core\Graphics\IndexBuffer</Filter>
+      <Filter>Engine\Graphics\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>Core\Graphics\PixelShader</Filter>
+      <Filter>Engine\Graphics\PixelShader</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
-      <Filter>Core\Graphics\SwapChain</Filter>
+      <Filter>Engine\Graphics\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="DeviceContext.cpp">
-      <Filter>Core\Graphics\DeviceContext</Filter>
+      <Filter>Engine\Graphics\DeviceContext</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
-      <Filter>Core\Graphics\VertexBuffer</Filter>
+      <Filter>Engine\Graphics\VertexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>Core\Graphics\VertexShader</Filter>
+      <Filter>Engine\Graphics\VertexShader</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
-      <Filter>Core\Math\Vector</Filter>
+      <Filter>Engine\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>Core\Math\Vector</Filter>
+      <Filter>Engine\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
-      <Filter>Core\Math\Vector</Filter>
+      <Filter>Engine\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Point.cpp">
-      <Filter>Core\Math\Point</Filter>
+      <Filter>Engine\Math\Point</Filter>
     </ClCompile>
     <ClCompile Include="Matrix4x4.cpp">
-      <Filter>Core\Math\Matrix</Filter>
+      <Filter>Engine\Math\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Core\Resource\Texture</Filter>
+      <Filter>Engine\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
-      <Filter>Core\Resource\Texture</Filter>
+      <Filter>Engine\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Resource.cpp">
-      <Filter>Core\Resource</Filter>
+      <Filter>Engine\Resource</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Core\Resource</Filter>
+      <Filter>Engine\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Precompile.cpp">
       <Filter>Precompile</Filter>
@@ -459,19 +468,19 @@
       <Filter>Precompile</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Core\Resource\Mesh</Filter>
+      <Filter>Engine\Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="MeshManager.cpp">
-      <Filter>Core\Resource\Mesh</Filter>
+      <Filter>Engine\Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>Core\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Core\Window</Filter>
+      <Filter>Engine\Window</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Core\GameObject</Filter>
+      <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
       <Filter>Include\ImGui</Filter>
@@ -495,33 +504,39 @@
       <Filter>Include\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Core\Timer</Filter>
+      <Filter>Engine\Timer</Filter>
     </ClCompile>
     <ClCompile Include="VertexMesh.cpp">
-      <Filter>Core\Math\VertexMesh</Filter>
+      <Filter>Engine\Math\VertexMesh</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Core\Resource\Material</Filter>
+      <Filter>Engine\Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Engine\Resource\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\ImFileDialog.cpp">
+      <Filter>Include\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>Core\Shader\EarthShader</Filter>
+      <Filter>Engine\Shader\EarthShader</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>Core\Shader\EarthShader</Filter>
+      <Filter>Engine\Shader\EarthShader</Filter>
     </FxCompile>
     <FxCompile Include="SkyBoxShader.hlsl">
-      <Filter>Core\Shader\SkyBoxShader</Filter>
+      <Filter>Engine\Shader\SkyBoxShader</Filter>
     </FxCompile>
     <FxCompile Include="VertexMeshLayoutShader.hlsl">
-      <Filter>Core\Shader\VertexMeshLayoutShader</Filter>
+      <Filter>Engine\Shader\VertexMeshLayoutShader</Filter>
     </FxCompile>
     <FxCompile Include="PointLightVertexShader.hlsl">
-      <Filter>Core\Shader\PointLightShader</Filter>
+      <Filter>Engine\Shader\PointLightShader</Filter>
     </FxCompile>
     <FxCompile Include="PointLightPixelShader.hlsl">
-      <Filter>Core\Shader\PointLightShader</Filter>
+      <Filter>Engine\Shader\PointLightShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

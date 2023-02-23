@@ -31,10 +31,12 @@ public:
 	void UpdateModel(Vector3 position, const MaterialPtr& material);
 	void UpdateSkyBox();
 	void UpdateLight();
+	void UpdateUI(Vector3 position, const SpritePtr& sprite);
 
 	void Render();
 
 	void DrawMesh(const MeshPtr& mesh, const MaterialPtr& material);
+	void DrawSprite(const SpritePtr& sprite);
 
 private:
 	SwapChainPtr m_swap_chain = nullptr;
@@ -47,6 +49,9 @@ private:
 	IndexBufferPtr m_index_buffer = nullptr;
 
 	TexturePtr m_plane_texture = nullptr;
+	TexturePtr m_start_texture = nullptr;
+	TexturePtr m_map_texture = nullptr;
+	TexturePtr m_exit_texture = nullptr;
 	TexturePtr m_skybox_texture = nullptr;
 
 	MeshPtr m_plane_mesh = nullptr;
@@ -54,6 +59,11 @@ private:
 
 	MaterialPtr m_plane_material = nullptr;
 	MaterialPtr m_skybox_material = nullptr;
+
+	SpritePtr m_plane_sprite = nullptr;
+	SpritePtr m_start_sprite = nullptr;
+	SpritePtr m_map_sprite = nullptr;
+	SpritePtr m_exit_sprite = nullptr;
 
 	float m_rotation_x = 0.0f;
 	float m_rotation_y = 0.0f;
@@ -69,6 +79,7 @@ private:
 
 	bool m_play_state = false;
 	bool m_fullscreen_state = false;
+	bool m_projection_state = false;
 
 	Vector4 m_light_position = {};
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-class Material
+class Sprite
 {
 public:
 	enum class CullMode
@@ -15,13 +15,15 @@ public:
 		Solid
 	};
 
-	Material(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path);
-	Material(const MaterialPtr& material);
-	~Material();
+	Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path);
+	Sprite(const SpritePtr& sprite);
+	~Sprite();
 
+	VertexBufferPtr GetVertexBuffer();
 	VertexShaderPtr GetVertexShader();
 	PixelShaderPtr GetPixelShader();
 	ConstantBufferPtr GetConstantBuffer();
+	IndexBufferPtr GetIndexBuffer();
 	TexturePtr GetTexture();
 	size_t GetTextureSize();
 
@@ -36,9 +38,11 @@ public:
 	void SetFillMode(FillMode fill_mode);
 
 private:
+	VertexBufferPtr m_vertex_buffer = nullptr;
 	VertexShaderPtr m_vertex_shader = nullptr;
 	PixelShaderPtr m_pixel_shader = nullptr;
 	ConstantBufferPtr m_constant_buffer = nullptr;
+	IndexBufferPtr m_index_buffer = nullptr;
 
 	std::vector<TexturePtr> m_vec_textures = {};
 

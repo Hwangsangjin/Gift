@@ -80,15 +80,24 @@ void Material::SetData(void* data, unsigned int size)
 		m_constant_buffer = Engine::GetInstance()->GetGraphics()->CreateConstantBuffer(&data, size);
 	else
 		m_constant_buffer->Update(Engine::GetInstance()->GetGraphics()->GetDeviceContext(), data);
-			assert(m_constant_buffer);
 }
 
-CULL_MODE Material::GetCullMode()
+Material::CullMode Material::GetCullMode()
 {
 	return m_cull_mode;
 }
 
-void Material::SetCullMode(CULL_MODE cull_mode)
+void Material::SetCullMode(CullMode cull_mode)
 {
 	m_cull_mode = cull_mode;
+}
+
+Material::FillMode Material::GetFillMode()
+{
+	return m_fill_mode;
+}
+
+void Material::SetFillMode(FillMode fill_mode)
+{
+	m_fill_mode = fill_mode;
 }

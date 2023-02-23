@@ -188,27 +188,46 @@ DeviceContextPtr Graphics::GetDeviceContext() const
     return m_device_context;
 }
 
-void Graphics::SetRasterizerState(bool cull_front)
+void Graphics::SetCullMode(bool cull_back)
 {
-    if (cull_front)
+    if (cull_back)
     {
-        m_immediate_context->RSSetState(m_cull_front);
+        m_immediate_context->RSSetState(m_cull_back);
     }
     else
     {
-        m_immediate_context->RSSetState(m_cull_back);
+        m_immediate_context->RSSetState(m_cull_front);
+    }
+}
+
+void Graphics::SetFillMode(bool fill_soild)
+{
+    if (fill_soild)
+    {
+        m_immediate_context->RSSetState(m_fill_solid);
+    }
+    else
+    {
+        m_immediate_context->RSSetState(m_fill_wireframe);
     }
 }
 
 void Graphics::InitializeRasterizerState()
 {
     D3D11_RASTERIZER_DESC desc = {};
+    ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
     desc.DepthClipEnable = true;
-    desc.FillMode = D3D11_FILL_SOLID;
+    desc.CullMode = D3D11_CULL_NONE;
 
-    desc.CullMode = D3D11_CULL_FRONT;
-    m_d3d_device->CreateRasterizerState(&desc, &m_cull_front);
+    desc.FillMode = D3D11_FILL_WIREFRAME;
+    m_d3d_device->CreateRasterizerState(&desc, &m_fill_wireframe);
 
     desc.CullMode = D3D11_CULL_BACK;
     m_d3d_device->CreateRasterizerState(&desc, &m_cull_back);
+
+    desc.FillMode = D3D11_FILL_SOLID;
+    m_d3d_device->CreateRasterizerState(&desc, &m_fill_solid);
+
+    desc.CullMode = D3D11_CULL_FRONT;
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_front);
 }

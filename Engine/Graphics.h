@@ -21,7 +21,8 @@ public:
 	IDXGIFactory* GetDXGIFactory() const;
 	DeviceContextPtr GetDeviceContext() const;
 
-	void SetRasterizerState(bool cull_front);
+	void SetCullMode(bool cull_back);
+	void SetFillMode(bool fill_soild);
 
 private:
 	void InitializeRasterizerState();
@@ -38,5 +39,7 @@ private:
 	ID3D11PixelShader* m_pixel_shader = nullptr;
 	ID3D11RasterizerState* m_cull_front = nullptr;
 	ID3D11RasterizerState* m_cull_back = nullptr;
+	ID3D11RasterizerState* m_fill_wireframe = nullptr;
+	ID3D11RasterizerState* m_fill_solid = nullptr;
 };
 
