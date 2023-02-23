@@ -146,9 +146,12 @@ bool Window::Broadcast()
 
 RECT Window::GetClientWindowRect() const
 {
-    RECT rc;
-    ::GetClientRect(m_hwnd, &rc);
-    return rc;
+    RECT rect;
+    ::GetClientRect(m_hwnd, &rect);
+    ::ClientToScreen(m_hwnd, (LPPOINT)&rect.left);
+    ::ClientToScreen(m_hwnd, (LPPOINT)&rect.right);
+
+    return rect;
 }
 
 RECT Window::GetScreenSize() const

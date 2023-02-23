@@ -94,17 +94,26 @@
     <Filter Include="Engine\Shader">
       <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Shader\EarthShader">
+    <Filter Include="Engine\Shader\Global">
+      <UniqueIdentifier>{c584759e-c2c4-4ac0-a53d-ce4cece3e5c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader\Global\DirectionalLight">
+      <UniqueIdentifier>{93527474-8eae-4ee9-a673-66deba0d5326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader\Earth">
       <UniqueIdentifier>{53860061-397c-495d-8763-cdcc8eb79f50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Shader\PointLightShader">
-      <UniqueIdentifier>{c55715cf-12e1-4c7f-ad54-92020c94876d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shader\SkyBoxShader">
+    <Filter Include="Engine\Shader\Global\SkyBox">
       <UniqueIdentifier>{d1887272-d035-4920-9af7-5a21c5581f26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Shader\VertexMeshLayoutShader">
+    <Filter Include="Engine\Shader\Global\PointLight">
+      <UniqueIdentifier>{c55715cf-12e1-4c7f-ad54-92020c94876d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader\VertexMeshLayout">
       <UniqueIdentifier>{297ef8bd-8a7f-4b8c-a771-7640fec2165b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader\Global\UI">
+      <UniqueIdentifier>{9f962152-02d9-4a0d-8c19-7aa1cfd11cf3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -402,6 +411,9 @@
     <ClInclude Include="Sprite.h">
       <Filter>Engine\Resource\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -458,9 +470,6 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Precompile.cpp">
-      <Filter>Precompile</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Precompile</Filter>
     </ClCompile>
@@ -515,22 +524,37 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>Engine\Shader\EarthShader</Filter>
+      <Filter>Engine\Shader\Earth</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>Engine\Shader\EarthShader</Filter>
+      <Filter>Engine\Shader\Earth</Filter>
     </FxCompile>
-    <FxCompile Include="SkyBoxShader.hlsl">
-      <Filter>Engine\Shader\SkyBoxShader</Filter>
+    <FxCompile Include="SkyBoxPixelShader.hlsl">
+      <Filter>Engine\Shader\Global\SkyBox</Filter>
     </FxCompile>
     <FxCompile Include="VertexMeshLayoutShader.hlsl">
-      <Filter>Engine\Shader\VertexMeshLayoutShader</Filter>
+      <Filter>Engine\Shader\VertexMeshLayout</Filter>
     </FxCompile>
     <FxCompile Include="PointLightVertexShader.hlsl">
-      <Filter>Engine\Shader\PointLightShader</Filter>
+      <Filter>Engine\Shader\Global\PointLight</Filter>
     </FxCompile>
     <FxCompile Include="PointLightPixelShader.hlsl">
-      <Filter>Engine\Shader\PointLightShader</Filter>
+      <Filter>Engine\Shader\Global\PointLight</Filter>
+    </FxCompile>
+    <FxCompile Include="DirectionalLightVertexShader.hlsl">
+      <Filter>Engine\Shader\Global\DirectionalLight</Filter>
+    </FxCompile>
+    <FxCompile Include="DirectionalLightPixelShader.hlsl">
+      <Filter>Engine\Shader\Global\DirectionalLight</Filter>
+    </FxCompile>
+    <FxCompile Include="SkyBoxVertexShader.hlsl">
+      <Filter>Engine\Shader\Global\SkyBox</Filter>
+    </FxCompile>
+    <FxCompile Include="UIVertexShader.hlsl">
+      <Filter>Engine\Shader\Global\UI</Filter>
+    </FxCompile>
+    <FxCompile Include="UIPixelShader.hlsl">
+      <Filter>Engine\Shader\Global\UI</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

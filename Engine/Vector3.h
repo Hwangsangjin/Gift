@@ -13,8 +13,14 @@ public:
 	float GetY() const;
 	float GetZ() const;
 
+	void SetX(float x);
+	void SetY(float y);
+	void SetZ(float z);
+
 	Vector3 operator*(float scalar);
-	Vector3 operator+(Vector3 vector);
+	Vector3 operator+(const Vector3& vector);
+	Vector3& operator+=(float scalar);
+	Vector3& operator+=(const Vector3& vector);
 
 private:
 	float m_x = 0.0f;

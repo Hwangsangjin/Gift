@@ -40,12 +40,45 @@ float Vector3::GetZ() const
 	return m_z;
 }
 
+void Vector3::SetX(float x)
+{
+	m_x += x;
+}
+
+void Vector3::SetY(float y)
+{
+	m_y += y;
+}
+
+void Vector3::SetZ(float z)
+{
+	m_z += z;
+}
+
 Vector3 Vector3::operator*(float scalar)
 {
 	return Vector3(m_x * scalar, m_y * scalar, m_z * scalar);
 }
 
-Vector3 Vector3::operator+(Vector3 vector)
+Vector3 Vector3::operator+(const Vector3& vector)
 {
 	return Vector3(m_x + vector.m_x, m_y + vector.m_y, m_z + vector.m_z);
+}
+
+Vector3& Vector3::operator+=(float scalar)
+{
+	m_x += scalar;
+	m_y += scalar;
+	m_z += scalar;
+
+	return *this;
+}
+
+Vector3& Vector3::operator+=(const Vector3& vector)
+{
+	m_x += vector.m_x;
+	m_y += vector.m_y;
+	m_z += vector.m_z;
+
+	return *this;
 }

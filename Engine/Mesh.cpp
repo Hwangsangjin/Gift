@@ -99,10 +99,10 @@ Mesh::Mesh(const wchar_t* full_path)
 	assert(shader_byte_code);
 	assert(shader_byte_size);
 
-	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(&mesh_vertices[0], sizeof(VertexMesh), (UINT)mesh_vertices.size(), shader_byte_code, (UINT)shader_byte_size);
+	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(&mesh_vertices[0], sizeof(VertexMesh), static_cast<UINT>(mesh_vertices.size()), shader_byte_code, static_cast<UINT>(shader_byte_size));
 	assert(m_vertex_buffer);
 
-	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(&mesh_indices[0], (UINT)mesh_indices.size());
+	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(&mesh_indices[0], static_cast<UINT>(mesh_indices.size()));
 	assert(m_index_buffer);
 }
 

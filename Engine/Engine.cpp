@@ -68,7 +68,7 @@ void Engine::SetMaterial(const MaterialPtr& material)
     m_graphics->GetDeviceContext()->SetVertexShader(material->GetVertexShader());
     m_graphics->GetDeviceContext()->SetPixelShader(material->GetPixelShader());
     auto texture = material->GetTexture();
-    m_graphics->GetDeviceContext()->SetTexture(material->GetPixelShader(), &texture, material->GetTextureSize());
+    m_graphics->GetDeviceContext()->SetTexture(material->GetPixelShader(), &texture, static_cast<unsigned int>(material->GetTextureSize()));
 }
 
 SpritePtr Engine::CreateSprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path)
@@ -95,7 +95,7 @@ void Engine::SetSprite(const SpritePtr& sprite)
     m_graphics->GetDeviceContext()->SetVertexShader(sprite->GetVertexShader());
     m_graphics->GetDeviceContext()->SetPixelShader(sprite->GetPixelShader());
     auto texture = sprite->GetTexture();
-    m_graphics->GetDeviceContext()->SetTexture(sprite->GetPixelShader(), &texture, sprite->GetTextureSize());
+    m_graphics->GetDeviceContext()->SetTexture(sprite->GetPixelShader(), &texture, static_cast<unsigned int>(sprite->GetTextureSize()));
 }
 
 void Engine::GetVertexMeshLayoutShaderByteCodeAndSize(void** byte_code, size_t* size)
