@@ -178,7 +178,6 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\ImGui\imconfig.h" />
-    <ClInclude Include="..\..\Include\ImGui\ImFileDialog.h" />
     <ClInclude Include="..\..\Include\ImGui\imgui.h" />
     <ClInclude Include="..\..\Include\ImGui\imgui_impl_dx11.h" />
     <ClInclude Include="..\..\Include\ImGui\imgui_impl_win32.h" />
@@ -278,9 +277,6 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Include\ImGui\ImFileDialog.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

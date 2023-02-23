@@ -28,14 +28,14 @@ public:
 
 	void Update();
 	void UpdateCamera();
-	void UpdateModel(Vector3 position, const MaterialPtr& material);
+	void UpdateModel(Vector3 position, const std::vector<MaterialPtr>& materials);
 	void UpdateSkyBox();
 	void UpdateLight();
 	void UpdateUI(Vector3 position, const SpritePtr& sprite);
 
 	void Render();
 
-	void DrawMesh(const MeshPtr& mesh, const MaterialPtr& material);
+	void DrawMesh(const MeshPtr& mesh, const std::vector<MaterialPtr>& materials);
 	void DrawSprite(const SpritePtr& sprite);
 
 private:
@@ -48,17 +48,29 @@ private:
 	ConstantBufferPtr m_skybox_constant_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;
 
+	MeshPtr m_plane_mesh = nullptr;
+	MeshPtr m_skybox_mesh = nullptr;
+	MeshPtr m_terrain_mesh = nullptr;
+	MeshPtr m_house_mesh = nullptr;
+
 	TexturePtr m_plane_texture = nullptr;
+	TexturePtr m_skybox_texture = nullptr;
+	TexturePtr m_sand_texture = nullptr;
+	TexturePtr m_barrel_texture = nullptr;
+	TexturePtr m_brick_texture = nullptr;
+	TexturePtr m_windows_texture = nullptr;
+	TexturePtr m_wood_texture = nullptr;
 	TexturePtr m_start_texture = nullptr;
 	TexturePtr m_map_texture = nullptr;
 	TexturePtr m_exit_texture = nullptr;
-	TexturePtr m_skybox_texture = nullptr;
-
-	MeshPtr m_plane_mesh = nullptr;
-	MeshPtr m_skybox_mesh = nullptr;
 
 	MaterialPtr m_plane_material = nullptr;
 	MaterialPtr m_skybox_material = nullptr;
+	MaterialPtr m_terrain_material = nullptr;
+	MaterialPtr m_barrel_material = nullptr;
+	MaterialPtr m_brick_material = nullptr;
+	MaterialPtr m_windows_material = nullptr;
+	MaterialPtr m_wood_material = nullptr;
 
 	SpritePtr m_plane_sprite = nullptr;
 	SpritePtr m_start_sprite = nullptr;
@@ -68,7 +80,7 @@ private:
 	float m_rotation_x = 0.0f;
 	float m_rotation_y = 0.0f;
 	float m_light_rotation_y = 0.0f;
-	float m_light_radius = 4.0f;
+	float m_light_radius = 500.0f;
 	float m_upward = 0.0f;
 	float m_forward = 0.0f;
 	float m_rightward = 0.0f;
@@ -82,5 +94,7 @@ private:
 	bool m_projection_state = false;
 
 	Vector4 m_light_position = {};
+
+	std::vector<MaterialPtr> m_materials;
 };
 

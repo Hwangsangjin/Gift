@@ -33,7 +33,7 @@ void App::OnCreate()
 	m_play_state = true;
 
 	// 공간 설정
-	m_world.SetTranslation(Vector3(0.0f, 0.0f, 0.0f));
+	m_world.SetTranslation(Vector3(0.0f, 5.0f, -20.0f));
 
 	// 스왑 체인 생성
 	RECT rect = GetClientWindowRect();
@@ -48,25 +48,54 @@ void App::OnCreate()
 	assert(m_skybox_constant_buffer);
 
 	// 메쉬 생성
+	m_plane_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\plane.obj");
 	m_skybox_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
-	m_plane_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\scene.obj");
+	m_terrain_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\terrain.obj");
+	m_house_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\house.obj");
 
 	// 텍스처 생성
-	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
 	m_plane_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\plane.png");
+	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\sky.jpg");
+	m_sand_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\sand.jpg");
+	m_barrel_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\barrel.jpg");
+	m_brick_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\house_brick.jpg");
+	m_windows_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\house_windows.jpg");
+	m_wood_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\house_wood.jpg");
 	m_start_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\start.png");
 	m_map_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\map.png");
 	m_exit_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\exit.png");
 
 	// 머티리얼 생성
+	m_plane_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PointLightPixelShader.hlsl");
+	assert(m_plane_material);
+	m_plane_material->AddTexture(m_plane_texture);
+
+	m_terrain_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
+	assert(m_terrain_material);
+	m_terrain_material->AddTexture(m_sand_texture);
+
+	m_barrel_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
+	assert(m_barrel_material);
+	m_barrel_material->AddTexture(m_barrel_texture);
+
+	m_brick_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
+	assert(m_brick_material);
+	m_brick_material->AddTexture(m_brick_texture);
+
+	m_windows_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
+	assert(m_windows_material);
+	m_windows_material->AddTexture(m_windows_texture);
+
+	m_wood_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
+	assert(m_wood_material);
+	m_wood_material->AddTexture(m_wood_texture);
+
 	m_skybox_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\SkyBoxShader.hlsl");
 	assert(m_skybox_material);
 	m_skybox_material->AddTexture(m_skybox_texture);
 	m_skybox_material->SetCullMode(Material::CullMode::Front);
 
-	m_plane_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PointLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PointLightPixelShader.hlsl");
-	assert(m_plane_material);
-	m_plane_material->AddTexture(m_plane_texture);
+	m_materials.reserve(32);
 }
 
 void App::OnUpdate()
@@ -232,7 +261,33 @@ void App::Update()
 		DrawSprite(m_exit_sprite);
 	}
 
-	DrawMesh(m_skybox_mesh, m_skybox_material);
+	// 집
+	m_materials.clear();
+	m_materials.push_back(m_barrel_material);
+	m_materials.push_back(m_brick_material);
+	m_materials.push_back(m_windows_material);
+	m_materials.push_back(m_wood_material);
+
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		for (unsigned int j = 0; j < 3; j++)
+		{
+			UpdateModel(Vector3(-14.0f + 14.0f * i, 0.0f, -14.0f + 14.0f * j), m_materials);
+			DrawMesh(m_house_mesh, m_materials);
+		}
+	}
+
+	// 지형
+	m_materials.clear();
+	m_materials.push_back(m_terrain_material);
+	UpdateModel(Vector3(0.0f, 0.0f, 0.0f), m_materials);
+	DrawMesh(m_terrain_mesh, m_materials);
+
+	// 스카이박스
+	m_materials.clear();
+	m_materials.push_back(m_skybox_material);
+
+	DrawMesh(m_skybox_mesh, m_materials);
 }
 
 void App::UpdateCamera()
@@ -279,7 +334,7 @@ void App::UpdateCamera()
 	}
 }
 
-void App::UpdateModel(Vector3 position, const MaterialPtr& material)
+void App::UpdateModel(Vector3 position, const std::vector<MaterialPtr>& materials)
 {
 	Matrix4x4 light_rotation_matrix;
 	light_rotation_matrix.SetIdentity();
@@ -296,7 +351,10 @@ void App::UpdateModel(Vector3 position, const MaterialPtr& material)
 	constant.light_direction = light_rotation_matrix.GetZDirection();
 	constant.time = Timer::GetInstance()->GetGameTime();
 
-	material->SetData(&constant, sizeof(constant));
+	for (size_t m = 0; m < materials.size(); m++)
+	{
+		materials[m]->SetData(&constant, sizeof(constant));
+	}
 }
 
 void App::UpdateSkyBox()
@@ -315,8 +373,9 @@ void App::UpdateLight()
 {
 	m_light_rotation_y += 1.57f * Timer::GetInstance()->GetDeltaTime();
 
-	float dist_from_origin = 3.0f;
-	m_light_position = Vector4(std::cos(m_light_rotation_y) * dist_from_origin, 2.0f, std::sin(m_light_rotation_y) * dist_from_origin, 1.0f);
+	const float dist_from_origin = 3.0f;
+	//m_light_position = Vector4(std::cos(m_light_rotation_y) * dist_from_origin, 2.0f, std::sin(m_light_rotation_y) * dist_from_origin, 1.0f);
+	m_light_position = Vector4(180.0f, 140.0f, 70.0f, 1.0f);
 }
 
 void App::UpdateUI(Vector3 position, const SpritePtr& sprite)
@@ -450,19 +509,28 @@ void App::Render()
 	m_swap_chain->Present(true);
 }
 
-void App::DrawMesh(const MeshPtr& mesh, const MaterialPtr& material)
+void App::DrawMesh(const MeshPtr& mesh, const std::vector<MaterialPtr>& materials)
 {
-	// 머티리얼 설정
-	Engine::GetInstance()->SetMaterial(material);
-
 	// 정점 버퍼 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexBuffer(mesh->GetVertexBuffer());
 
 	// 인덱스 버퍼 설정
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetIndexBuffer(mesh->GetIndexBuffer());
 
-	// 삼각형 그리기
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->DrawIndexedTriangleList(mesh->GetIndexBuffer()->GetIndexCount(), 0, 0);
+	// 머티리얼 슬롯의 크기 만큼 반복
+	for (size_t m = 0; m < mesh->GetMaterialSlotSize(); m++)
+	{
+		if (m >= materials.size())
+			break;
+
+		MaterialSlot material_slot = mesh->GetMaterialSlot(m);
+
+		// 머티리얼 설정
+		Engine::GetInstance()->SetMaterial(materials[m]);
+
+		// 삼각형 그리기
+		Engine::GetInstance()->GetGraphics()->GetDeviceContext()->DrawIndexedTriangleList(material_slot.index_size, 0, material_slot.start_index);
+	}
 }
 
 void App::DrawSprite(const SpritePtr& sprite)

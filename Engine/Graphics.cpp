@@ -222,11 +222,11 @@ void Graphics::InitializeRasterizerState()
     desc.FillMode = D3D11_FILL_WIREFRAME;
     m_d3d_device->CreateRasterizerState(&desc, &m_fill_wireframe);
 
-    desc.CullMode = D3D11_CULL_BACK;
-    m_d3d_device->CreateRasterizerState(&desc, &m_cull_back);
-
     desc.FillMode = D3D11_FILL_SOLID;
     m_d3d_device->CreateRasterizerState(&desc, &m_fill_solid);
+
+    desc.CullMode = D3D11_CULL_BACK;
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_back);
 
     desc.CullMode = D3D11_CULL_FRONT;
     m_d3d_device->CreateRasterizerState(&desc, &m_cull_front);

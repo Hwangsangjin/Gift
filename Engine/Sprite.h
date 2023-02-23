@@ -44,7 +44,7 @@ private:
 	ConstantBufferPtr m_constant_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;
 
-	std::vector<TexturePtr> m_vec_textures = {};
+	std::vector<TexturePtr> m_vec_textures;
 
 	CullMode m_cull_mode = CullMode::Back;
 	FillMode m_fill_mode = FillMode::Solid;

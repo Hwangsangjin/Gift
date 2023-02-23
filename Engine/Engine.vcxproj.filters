@@ -402,9 +402,6 @@
     <ClInclude Include="Sprite.h">
       <Filter>Engine\Resource\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\ImFileDialog.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -514,9 +511,6 @@
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Engine\Resource\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\ImFileDialog.cpp">
-      <Filter>Include\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
