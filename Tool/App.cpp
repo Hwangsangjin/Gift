@@ -25,13 +25,13 @@ void App::OnCreate()
 
 	// 입력
 	Input::GetInstance()->AddListener(this);
-	Input::GetInstance()->ShowCursor(false);
+	Input::GetInstance()->ShowCursor(true);
 
 	// 타이머
 	Timer::GetInstance()->Initialize();
 
 	// 실행 상태 설정
-	m_play_state = true;
+	m_play_state = false;
 
 	// 공간 설정
 	m_world.SetTranslation(Vector3(0.0f, 0.0f, 0.0f));
@@ -41,44 +41,18 @@ void App::OnCreate()
 	m_swap_chain = Engine::GetInstance()->GetGraphics()->CreateSwapChain(m_hwnd, rect.right - rect.left, rect.bottom - rect.top);
 	assert(m_swap_chain);
 
-	// 운석 랜덤 설정
-	srand((unsigned int)time(NULL));
-	for (unsigned int i = 0; i < 200; i++)
-	{
-		m_asteroids_position[i] = Vector3(rand() % 4000 + (-2000), rand() % 4000 + (-2000), rand() % 4000 + (-2000));
-		m_asteroids_rotation[i] = Vector3((rand() % 628) / 100.0f, (rand() % 628) / 100.0f, (rand() % 628) / 100.0f);
-		const float scale = rand() % 20 + (6);
-		m_asteroids_scale[i] = Vector3(scale, scale, scale);
-	}
-
 	// 메쉬 생성
 	m_skybox_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
 	m_plane_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\plane.obj");
-	m_spaceship_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\spaceship.obj");
-	m_asteroid_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\asteroid.obj");
 
 	// 텍스처 생성
 	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
 	m_plane_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\plane.png");
-	m_background_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\background.png");
-	m_start_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\start.png");
-	m_map_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\map.png");
-	m_exit_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\exit.png");
-	m_spaceship_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\spaceship.jpg");
-	m_asteroid_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\asteroid.jpg");
 
 	// 스프라이트 생성
-	m_background_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
-	assert(m_background_sprite);
-	m_background_sprite->AddTexture(m_background_texture);
-
-	m_start_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
-	assert(m_start_sprite);
-	m_start_sprite->AddTexture(m_start_texture);
-
-	m_exit_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
-	assert(m_exit_sprite);
-	m_exit_sprite->AddTexture(m_exit_texture);
+	m_plane_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
+	assert(m_plane_sprite);
+	m_plane_sprite->AddTexture(m_plane_texture);
 
 	// 머티리얼 생성
 	m_skybox_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\SkyBoxVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\SkyBoxPixelShader.hlsl");
@@ -89,14 +63,6 @@ void App::OnCreate()
 	m_plane_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\DirectionalLightVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\DirectionalLightPixelShader.hlsl");
 	assert(m_plane_material);
 	m_plane_material->AddTexture(m_plane_texture);
-
-	m_spaceship_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
-	assert(m_spaceship_material);
-	m_spaceship_material->AddTexture(m_spaceship_texture);
-
-	m_asteroid_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
-	assert(m_asteroid_material);
-	m_asteroid_material->AddTexture(m_asteroid_texture);
 
 	m_materials.reserve(32);
 }
@@ -158,10 +124,6 @@ void App::OnKeyUp(int key)
 
 		m_swap_chain->SetFullScreen(m_fullscreen_state, size_screen.right, size_screen.bottom);
 	}
-	else if (key == VK_SHIFT)
-	{
-		m_turbo_mode = false;
-	}
 }
 
 void App::OnKeyDown(int key)
@@ -200,10 +162,6 @@ void App::OnKeyDown(int key)
 	else if (key == 'P')
 	{
 		m_light_radius += 1.0f * Timer::GetInstance()->GetDeltaTime();
-	}
-	else if (key == VK_SHIFT)
-	{
-		m_turbo_mode = true;
 	}
 }
 
@@ -245,42 +203,9 @@ void App::OnRightButtonDown(const Point& point)
 void App::Update()
 {
 	// 변환 행렬 계산
-	UpdateSpaceship();
-	UpdateThirdPersonCamera();
+	UpdateCamera();
 	UpdateLight();
 	UpdateSkyBox();
-}
-
-void App::UpdateSpaceship()
-{
-	Matrix4x4 world, temp;
-	world.SetIdentity();
-
-	m_spaceship_rotation.SetX(m_delta_mouse_y * Timer::GetInstance()->GetDeltaTime() * 0.1f);
-	m_spaceship_rotation.SetY(m_delta_mouse_x * Timer::GetInstance()->GetDeltaTime() * 0.1f);
-
-	if (m_spaceship_rotation.GetX() >= 1.57f)
-		m_spaceship_rotation.SetX(1.57f);
-	else if (m_spaceship_rotation.GetX() <= -1.57f)
-		m_spaceship_rotation.SetX(-1.57f);
-
-	m_current_spaceship_rotation = Vector3::LinearInterpolation(m_current_spaceship_rotation, m_spaceship_rotation, 5.0f * Timer::GetInstance()->GetDeltaTime());
-
-	temp.SetIdentity();
-	temp.SetRotationX(m_current_spaceship_rotation.GetX());
-	world *= temp;
-
-	temp.SetIdentity();
-	temp.SetRotationY(m_current_spaceship_rotation.GetY());
-	world *= temp;
-
-	m_spaceship_speed = 125.0f;
-
-	if (m_turbo_mode)
-		m_spaceship_speed = 305.0f;
-
-	m_spaceship_position = m_spaceship_position + world.GetZDirection() * (m_forward)*m_spaceship_speed * Timer::GetInstance()->GetDeltaTime();
-	m_current_spaceship_position = Vector3::LinearInterpolation(m_current_spaceship_position, m_spaceship_position, 3.0f * Timer::GetInstance()->GetDeltaTime());
 }
 
 void App::UpdateThirdPersonCamera()
@@ -306,38 +231,9 @@ void App::UpdateThirdPersonCamera()
 	temp.SetRotationY(m_current_camera_rotation.GetY());
 	world *= temp;
 
-	if (m_forward)
-	{
-		if (m_turbo_mode)
-		{
-			if (m_forward > 0.0f)
-			{
-				m_camera_distance = 25.0f;
-			}
-			else
-			{
-				m_camera_distance = 5.0f;
-			}
-		}
-		else
-		{
-			if (m_forward > 0.0f)
-			{
-				m_camera_distance = 16.0f;
-			}
-			else
-			{
-				m_camera_distance = 9.0f;
-			}
-		}
-	}
-	else
-	{
-		m_camera_distance = 14.0f;
-	}
-
+	m_camera_distance = 2.0f;
 	m_current_camera_distance = LinearInterpolation(m_current_camera_distance, m_camera_distance, 2.0f * Timer::GetInstance()->GetDeltaTime());
-	m_camera_position = m_current_spaceship_position;
+	m_camera_position = Vector3();
 
 	Vector3 new_position = m_camera_position + world.GetZDirection() * (-m_current_camera_distance);
 	new_position = new_position + world.GetYDirection() * (5.0f);
@@ -350,10 +246,22 @@ void App::UpdateThirdPersonCamera()
 
 	m_view = world;
 
-	int width = GetClientWindowRect().right - GetClientWindowRect().left;
-	int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
-
-	m_projection.SetPerspectiveProjection(1.57f, ((float)width / (float)height), 0.1f, 5000.0f);	
+	if (m_projection_state)
+	{
+		int width = GetClientWindowRect().right - GetClientWindowRect().left;
+		int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
+		m_projection.SetPerspectiveProjection(1.57f, ((float)width / (float)height), 0.1f, 5000.0f);
+	}
+	else
+	{
+		m_projection.SetOrthographicProjection
+		(
+			(GetClientWindowRect().right - GetClientWindowRect().left) / 100.0f,
+			(GetClientWindowRect().bottom - GetClientWindowRect().top) / 100.0f,
+			-4.0f,
+			4.0f
+		);
+	}
 }
 
 void App::UpdateCamera()
@@ -381,13 +289,22 @@ void App::UpdateCamera()
 
 	m_view = world;
 
-	m_projection.SetOrthographicProjection
-	(
-		(GetClientWindowRect().right - GetClientWindowRect().left) / 100.0f,
-		(GetClientWindowRect().bottom - GetClientWindowRect().top) / 100.0f,
-		-4.0f,
-		4.0f
-	);
+	if (m_projection_state)
+	{
+		int width = GetClientWindowRect().right - GetClientWindowRect().left;
+		int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
+		m_projection.SetPerspectiveProjection(1.57f, ((float)width / (float)height), 0.1f, 5000.0f);
+	}
+	else
+	{
+		m_projection.SetOrthographicProjection
+		(
+			(GetClientWindowRect().right - GetClientWindowRect().left) / 100.0f,
+			(GetClientWindowRect().bottom - GetClientWindowRect().top) / 100.0f,
+			-4.0f,
+			4.0f
+		);
+	}
 }
 
 void App::UpdateLight()
@@ -476,20 +393,11 @@ void App::Render()
 	RECT rect = GetClientWindowRect();
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetViewportSize(static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top));
 
-	// 우주선
+	// 평면
 	m_materials.clear();
-	m_materials.push_back(m_spaceship_material);
-	UpdateModel(m_current_spaceship_position, m_current_spaceship_rotation, Vector3(1.0f, 1.0f, 1.0f), m_materials);
-	DrawMesh(m_spaceship_mesh, m_materials);
-
-	// 운석
-	m_materials.clear();
-	m_materials.push_back(m_asteroid_material);
-	for (unsigned int i = 0; i < 200; i++)
-	{
-		UpdateModel(m_asteroids_position[i], m_asteroids_rotation[i], m_asteroids_scale[i], m_materials);
-		DrawMesh(m_asteroid_mesh, m_materials);
-	}
+	m_materials.push_back(m_plane_material);
+	UpdateModel(Vector3(0.0f, -1.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), m_materials);
+	DrawMesh(m_plane_mesh, m_materials);
 
 	// 스카이박스
 	m_materials.clear();
@@ -497,14 +405,8 @@ void App::Render()
 	DrawMesh(m_skybox_mesh, m_materials);
 
 	// UI
-	UpdateUI(Vector3(0.0f, 0.0f, 0.0f), m_background_sprite);
-	DrawSprite(m_background_sprite);
-
-	UpdateUI(Vector3(0.0f, 2.0f, 0.0f), m_start_sprite);
-	DrawSprite(m_start_sprite);
-
-	UpdateUI(Vector3(0.0f, -2.0f, 0.0f), m_exit_sprite);
-	DrawSprite(m_exit_sprite);
+	UpdateUI(Vector3(0.0f, 0.0f, 0.0f), m_plane_sprite);
+	DrawSprite(m_plane_sprite);
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -528,54 +430,27 @@ void App::Render()
 		m_plane_sprite->AddTexture(m_plane_texture);
 	}
 
-	if (ImGui::Button("Start"))
-	{
-		m_start_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
-		assert(m_start_sprite);
-		m_start_sprite->AddTexture(m_start_texture);
-	}
-
-	if (ImGui::Button("Map"))
-	{
-		m_map_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
-		assert(m_map_sprite);
-		m_map_sprite->AddTexture(m_map_texture);
-	}
-
-	if (ImGui::Button("Exit"))
-	{
-		m_exit_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
-		assert(m_plane_sprite);
-		m_exit_sprite->AddTexture(m_exit_texture);
-	}
-
 	if (ImGui::Button("Wireframe"))
 	{
 		m_plane_material->SetFillMode(Material::FillMode::Wireframe);
 		m_plane_sprite->SetFillMode(Sprite::FillMode::Wireframe);
-		m_start_sprite->SetFillMode(Sprite::FillMode::Wireframe);
-		m_map_sprite->SetFillMode(Sprite::FillMode::Wireframe);
-		m_exit_sprite->SetFillMode(Sprite::FillMode::Wireframe);
 	}
 
 	if (ImGui::Button("Solid"))
 	{
 		m_plane_material->SetFillMode(Material::FillMode::Solid);
 		m_plane_sprite->SetFillMode(Sprite::FillMode::Solid);
-		m_start_sprite->SetFillMode(Sprite::FillMode::Solid);
-		m_map_sprite->SetFillMode(Sprite::FillMode::Solid);
-		m_exit_sprite->SetFillMode(Sprite::FillMode::Solid);
 	}
 
-	//if (ImGui::Button("Orthographic"))
-	//{
-	//	m_projection_state = false;
-	//}
+	if (ImGui::Button("Orthographic"))
+	{
+		m_projection_state = false;
+	}
 
-	//if (ImGui::Button("Perspective"))
-	//{
-	//	m_projection_state = true;
-	//}
+	if (ImGui::Button("Perspective"))
+	{
+		m_projection_state = true;
+	}
 
 	// Our state
 	bool show_demo_window = true;
@@ -625,25 +500,25 @@ void App::Render()
 
 void App::DrawMesh(const MeshPtr& mesh, const std::vector<MaterialPtr>& materials)
 {
-	// 정점 버퍼 설정
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexBuffer(mesh->GetVertexBuffer());
-
-	// 인덱스 버퍼 설정
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetIndexBuffer(mesh->GetIndexBuffer());
-
 	// 머티리얼 슬롯의 크기 만큼 반복
-	for (size_t m = 0; m < mesh->GetMaterialSlotSize(); m++)
+	for (unsigned int m = 0; m < mesh->GetMaterialSlotSize(); m++)
 	{
-		if (m >= materials.size())
+		if (m == materials.size())
 			break;
 
-		MaterialSlot material_slot = mesh->GetMaterialSlot(static_cast<unsigned int>(m));
+		MaterialSlot material_slot = mesh->GetMaterialSlot(m);
 
 		// 머티리얼 설정
 		Engine::GetInstance()->SetMaterial(materials[m]);
 
+		// 정점 버퍼 설정
+		Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetVertexBuffer(mesh->GetVertexBuffer());
+
+		// 인덱스 버퍼 설정
+		Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetIndexBuffer(mesh->GetIndexBuffer());
+
 		// 삼각형 그리기
-		Engine::GetInstance()->GetGraphics()->GetDeviceContext()->DrawIndexedTriangleList(material_slot.index_size, 0, static_cast<UINT>(material_slot.start_index));
+		Engine::GetInstance()->GetGraphics()->GetDeviceContext()->DrawIndexedTriangleList(static_cast<UINT>(material_slot.index_size), 0, static_cast<UINT>(material_slot.start_index));
 	}
 }
 

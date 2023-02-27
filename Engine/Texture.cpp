@@ -49,6 +49,12 @@ Texture::~Texture()
 		m_shader_resource_view->Release();
 		m_shader_resource_view = nullptr;
 	}
+
+	if (m_sampler_state)
+	{
+		m_sampler_state->Release();
+		m_sampler_state = nullptr;
+	}
 }
 
 ID3D11ShaderResourceView* Texture::GetShaderResourceView() const

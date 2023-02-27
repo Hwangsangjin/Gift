@@ -7,10 +7,10 @@ Sprite::Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pa
 {
 	Vector3 position[] =
 	{
-		{ Vector3(-0.5f, -0.5f, -0.5f) },
-		{ Vector3(-0.5f, 0.5f, -0.5f) },
-		{ Vector3(0.5f, 0.5f, -0.5f) },
-		{ Vector3(0.5f, -0.5f, -0.5f) },
+		{ Vector3(-1.0f, -1.0f, -1.0f) },
+		{ Vector3(-1.0f, 1.0f, -1.0f) },
+		{ Vector3(1.0f, 1.0f, -1.0f) },
+		{ Vector3(1.0f, -1.0f, -1.0f) }
 	};
 
 	Vector2 texcoord[] =
@@ -18,7 +18,7 @@ Sprite::Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pa
 		{ Vector2(0.0f, 0.0f) },
 		{ Vector2(0.0f, 1.0f) },
 		{ Vector2(1.0f, 0.0f) },
-		{ Vector2(1.0f, 1.0f) },
+		{ Vector2(1.0f, 1.0f) }
 	};
 
 	Vertex vertices[] =
@@ -26,14 +26,14 @@ Sprite::Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pa
 		{ position[0], texcoord[1] },
 		{ position[1], texcoord[0] },
 		{ position[2], texcoord[2] },
-		{ position[3], texcoord[3] },
+		{ position[3], texcoord[3] }
 	};
 	UINT vertex_count = ARRAYSIZE(vertices);
 
 	unsigned int indices[] =
 	{
 		0, 1, 2,
-		2, 3, 0,
+		2, 3, 0
 	};
 	UINT index_count = ARRAYSIZE(indices);
 
