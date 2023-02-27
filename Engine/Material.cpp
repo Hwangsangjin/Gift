@@ -51,27 +51,27 @@ ConstantBufferPtr Material::GetConstantBuffer()
 	return m_constant_buffer;
 }
 
-TexturePtr Material::GetTexture()
+TexturePtr& Material::GetTexture()
 {
-	return m_vec_textures[0];
+	return m_textures[0];
 }
 
 size_t Material::GetTextureSize()
 {
-	return m_vec_textures.size();
+	return m_textures.size();
 }
 
 void Material::AddTexture(const TexturePtr& texture)
 {
-	m_vec_textures.push_back(texture);
+	m_textures.push_back(texture);
 }
 
 void Material::RemoveTexture(unsigned int index)
 {
-	if (index >= m_vec_textures.size())
+	if (index >= m_textures.size())
 		return;
 
-	m_vec_textures.erase(m_vec_textures.begin() + index);
+	m_textures.erase(m_textures.begin() + index);
 }
 
 void Material::SetData(void* data, unsigned int size)

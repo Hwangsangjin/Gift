@@ -22,7 +22,7 @@ public:
 	VertexShaderPtr GetVertexShader();
 	PixelShaderPtr GetPixelShader();
 	ConstantBufferPtr GetConstantBuffer();
-	TexturePtr GetTexture();
+	TexturePtr& GetTexture();
 	size_t GetTextureSize();
 
 	void AddTexture(const TexturePtr& texture);
@@ -40,7 +40,7 @@ private:
 	PixelShaderPtr m_pixel_shader = nullptr;
 	ConstantBufferPtr m_constant_buffer = nullptr;
 
-	std::vector<TexturePtr> m_vec_textures = {};
+	std::vector<TexturePtr> m_textures = {};
 
 	CullMode m_cull_mode = CullMode::Back;
 	FillMode m_fill_mode = FillMode::Solid;

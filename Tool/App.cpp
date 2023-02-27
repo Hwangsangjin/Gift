@@ -48,11 +48,31 @@ void App::OnCreate()
 	// 텍스처 생성
 	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
 	m_plane_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\plane.png");
+	m_shine_texture[0] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine0.bmp");
+	m_shine_texture[1] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine1.bmp");
+	m_shine_texture[2] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine2.bmp");
+	m_shine_texture[3] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine3.bmp");
+	m_shine_texture[4] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine4.bmp");
+	m_shine_texture[5] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine5.bmp");
+	m_shine_texture[6] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine6.bmp");
+	m_shine_texture[7] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine7.bmp");
+	m_shine_texture[8] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine8.bmp");
+	m_shine_texture[9] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine9.bmp");
+	m_number_texture[0] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number0.bmp");
+	m_number_texture[1] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number1.bmp");
+	m_number_texture[2] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number2.bmp");
+	m_number_texture[3] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number3.bmp");
+	m_number_texture[4] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number4.bmp");
+	m_number_texture[5] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number5.bmp");
+	m_number_texture[6] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number6.bmp");
+	m_number_texture[7] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number7.bmp");
+	m_number_texture[8] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number8.bmp");
+	m_number_texture[9] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\number9.bmp");
 
 	// 스프라이트 생성
-	m_plane_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
-	assert(m_plane_sprite);
-	m_plane_sprite->AddTexture(m_plane_texture);
+	//m_plane_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
+	//assert(m_plane_sprite);
+	//m_plane_sprite->AddTexture(m_plane_texture);
 
 	// 머티리얼 생성
 	m_skybox_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\SkyBoxVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\SkyBoxPixelShader.hlsl");
@@ -366,10 +386,33 @@ void App::UpdateModel(Vector3 position, Vector3 rotation, Vector3 scale, const s
 	constant.light_direction = m_light_rotation.GetZDirection();
 	constant.time = Timer::GetInstance()->GetGameTime();
 
-	for (unsigned int m = 0; m < materials.size(); m++)
+	for (UINT m = 0; m < materials.size(); m++)
 	{
 		materials[m]->SetData(&constant, sizeof(constant));
 	}
+}
+
+void App::UpdateSprite(Vector3 position, const SpritePtr& sprite, float anim_time)
+{
+	m_render_time = anim_time / m_indices.size();
+
+	m_life_time += Timer::GetInstance()->GetDeltaTime();
+	if (m_life_time >= m_render_time)
+	{
+		if (++m_apply_index >= m_indices.size())
+			m_apply_index = 0;
+
+		m_life_time = 0.0f;
+	}
+
+	Constant constant;
+	constant.world.SetIdentity();
+	constant.world.SetScale(Vector3(1.0f, 1.0f, 1.0f));
+	constant.world.SetTranslation(position);
+	constant.view = m_view;
+	constant.projection = m_projection;
+
+	sprite->SetData(&constant, sizeof(constant));
 }
 
 void App::UpdateUI(Vector3 position, const SpritePtr& sprite)
@@ -399,14 +442,24 @@ void App::Render()
 	UpdateModel(Vector3(0.0f, -1.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), m_materials);
 	DrawMesh(m_plane_mesh, m_materials);
 
+	// UI
+	if (m_plane_sprite)
+	{
+		UpdateUI(Vector3(0.0f, 0.0f, 0.0f), m_plane_sprite);
+		DrawSprite(m_plane_sprite);
+	}
+
+	// 이펙트
+	if (m_shine_sprite)
+	{
+		UpdateSprite(Vector3(0.0f, 0.0f, 0.0f), m_shine_sprite, 1.0f);
+		DrawSprite(m_shine_sprite);
+	}
+
 	// 스카이박스
 	m_materials.clear();
 	m_materials.push_back(m_skybox_material);
 	DrawMesh(m_skybox_mesh, m_materials);
-
-	// UI
-	UpdateUI(Vector3(0.0f, 0.0f, 0.0f), m_plane_sprite);
-	DrawSprite(m_plane_sprite);
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -425,21 +478,40 @@ void App::Render()
 
 	if (ImGui::Button("Plane"))
 	{
-		m_plane_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\PlaneVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\PlanePixelShader.hlsl");
+		m_plane_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
 		assert(m_plane_sprite);
 		m_plane_sprite->AddTexture(m_plane_texture);
 	}
 
+	if (ImGui::Button("Sprite"))
+	{
+		m_shine_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
+		assert(m_shine_sprite);
+		for (UINT i = 0; i < 10; i++)
+		{
+			m_shine_sprite->AddTexture(m_number_texture[i]);
+			m_indices.push_back(i);
+		}
+	}
+
 	if (ImGui::Button("Wireframe"))
 	{
-		m_plane_material->SetFillMode(Material::FillMode::Wireframe);
-		m_plane_sprite->SetFillMode(Sprite::FillMode::Wireframe);
+		if (m_plane_material)
+			m_plane_material->SetFillMode(Material::FillMode::Wireframe);
+		if (m_plane_sprite)
+			m_plane_sprite->SetFillMode(Sprite::FillMode::Wireframe);
+		if (m_shine_sprite)
+			m_shine_sprite->SetFillMode(Sprite::FillMode::Wireframe);
 	}
 
 	if (ImGui::Button("Solid"))
 	{
-		m_plane_material->SetFillMode(Material::FillMode::Solid);
-		m_plane_sprite->SetFillMode(Sprite::FillMode::Solid);
+		if (m_plane_material)
+			m_plane_material->SetFillMode(Material::FillMode::Solid);
+		if (m_plane_sprite)
+			m_plane_sprite->SetFillMode(Sprite::FillMode::Solid);
+		if (m_shine_sprite)
+			m_shine_sprite->SetFillMode(Sprite::FillMode::Solid);
 	}
 
 	if (ImGui::Button("Orthographic"))
@@ -501,7 +573,7 @@ void App::Render()
 void App::DrawMesh(const MeshPtr& mesh, const std::vector<MaterialPtr>& materials)
 {
 	// 머티리얼 슬롯의 크기 만큼 반복
-	for (unsigned int m = 0; m < mesh->GetMaterialSlotSize(); m++)
+	for (UINT m = 0; m < mesh->GetMaterialSlotSize(); m++)
 	{
 		if (m == materials.size())
 			break;

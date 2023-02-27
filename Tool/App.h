@@ -32,6 +32,7 @@ public:
 	void UpdateLight();
 	void UpdateSkyBox();
 	void UpdateModel(Vector3 position, Vector3 rotation, Vector3 scale, const std::vector<MaterialPtr>& materials);
+	void UpdateSprite(Vector3 position, const SpritePtr& sprite, float anim_time);
 	void UpdateUI(Vector3 position, const SpritePtr& sprite);
 
 	void Render();
@@ -47,13 +48,22 @@ private:
 
 	TexturePtr m_skybox_texture = nullptr;
 	TexturePtr m_plane_texture = nullptr;
+	TexturePtr m_shine_texture[10];
+	TexturePtr m_number_texture[10];
 
 	SpritePtr m_plane_sprite = nullptr;
+	SpritePtr m_shine_sprite = nullptr;
 
 	MaterialPtr m_skybox_material = nullptr;
 	MaterialPtr m_plane_material = nullptr;
+	MaterialPtr m_shine_material = nullptr;
 
 	std::vector<MaterialPtr> m_materials;
+	std::vector<UINT> m_indices;
+
+	bool m_play_state = false;
+	bool m_fullscreen_state = false;
+	bool m_projection_state = false;
 
 	float m_rotation_x = 0.0f;
 	float m_rotation_y = 0.0f;
@@ -78,8 +88,8 @@ private:
 	Vector3 m_current_camera_rotation = {};
 	Vector3 m_camera_position = {};
 
-	bool m_play_state = false;
-	bool m_fullscreen_state = false;
-	bool m_projection_state = false;
+	UINT m_apply_index = 0;
+	float m_life_time = 0.0f;
+	float m_render_time = 0.0f;
 };
 

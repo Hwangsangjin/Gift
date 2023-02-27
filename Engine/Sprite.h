@@ -24,13 +24,14 @@ public:
 	PixelShaderPtr GetPixelShader();
 	ConstantBufferPtr GetConstantBuffer();
 	IndexBufferPtr GetIndexBuffer();
-	TexturePtr GetTexture();
+	TexturePtr& GetTexture();
+	std::vector<TexturePtr>& GetTextureList();
 	size_t GetTextureSize();
 
 	void AddTexture(const TexturePtr& texture);
-	void RemoveTexture(unsigned int index);
+	void RemoveTexture(UINT index);
 
-	void SetData(void* data, unsigned int size);
+	void SetData(void* data, UINT size);
 
 	CullMode GetCullMode();
 	void SetCullMode(CullMode cull_mode);
@@ -44,7 +45,7 @@ private:
 	ConstantBufferPtr m_constant_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;
 
-	std::vector<TexturePtr> m_vec_textures;
+	std::vector<TexturePtr> m_textures;
 
 	CullMode m_cull_mode = CullMode::Back;
 	FillMode m_fill_mode = FillMode::Solid;

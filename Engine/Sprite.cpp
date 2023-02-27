@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Sprite.h"
+#include "Texture.h"
 #include "Engine.h"
+#include "Timer.h"
 #include "ConstantBuffer.h"
 
 Sprite::Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path)
@@ -30,7 +32,7 @@ Sprite::Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pa
 	};
 	UINT vertex_count = ARRAYSIZE(vertices);
 
-	unsigned int indices[] =
+	UINT indices[] =
 	{
 		0, 1, 2,
 		2, 3, 0
@@ -62,6 +64,9 @@ Sprite::Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pa
 	// 인덱스 버퍼 생성
 	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(indices, index_count);
 	assert(m_index_buffer);
+
+	// 타이머
+	Timer::GetInstance()->Initialize();
 }
 
 Sprite::Sprite(const SpritePtr& sprite)
@@ -101,30 +106,30 @@ IndexBufferPtr Sprite::GetIndexBuffer()
 	return m_index_buffer;
 }
 
-TexturePtr Sprite::GetTexture()
+TexturePtr& Sprite::GetTexture()
 {
-	return m_vec_textures[0];
+	return m_textures[0];
 }
 
 size_t Sprite::GetTextureSize()
 {
-	return m_vec_textures.size();
+	return m_textures.size();
 }
 
 void Sprite::AddTexture(const TexturePtr& texture)
 {
-	m_vec_textures.push_back(texture);
+	m_textures.push_back(texture);
 }
 
-void Sprite::RemoveTexture(unsigned int index)
+void Sprite::RemoveTexture(UINT index)
 {
-	if (index >= m_vec_textures.size())
+	if (index >= m_textures.size())
 		return;
 
-	m_vec_textures.erase(m_vec_textures.begin() + index);
+	m_textures.erase(m_textures.begin() + index);
 }
 
-void Sprite::SetData(void* data, unsigned int size)
+void Sprite::SetData(void* data, UINT size)
 {
 	if (!m_constant_buffer)
 		m_constant_buffer = Engine::GetInstance()->GetGraphics()->CreateConstantBuffer(&data, size);

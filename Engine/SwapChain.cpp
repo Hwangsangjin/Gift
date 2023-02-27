@@ -7,7 +7,7 @@ SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Graphics* graphics)
 {
     // 스왑 체인 구조체
     DXGI_SWAP_CHAIN_DESC desc;
-    ZeroMemory(&desc, sizeof(desc));
+    ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
     desc.BufferCount = 1;
     desc.BufferDesc.Width = width > 0 ? width : 1;
     desc.BufferDesc.Height = height > 0 ? height : 1;
@@ -50,13 +50,13 @@ SwapChain::~SwapChain()
     }
 }
 
-void SwapChain::SetFullScreen(bool fullscreen, unsigned int width, unsigned int height)
+void SwapChain::SetFullScreen(bool fullscreen, UINT width, UINT height)
 {
     Resize(width, height);
     m_dxgi_swap_chain->SetFullscreenState(fullscreen, nullptr);
 }
 
-void SwapChain::Resize(unsigned int width, unsigned int height)
+void SwapChain::Resize(UINT width, UINT height)
 {
     if (m_render_target_view)
     {
@@ -89,7 +89,7 @@ ID3D11DepthStencilView* SwapChain::GetDepthStencilView() const
     return m_depth_stencil_view;
 }
 
-void SwapChain::LoadBuffers(unsigned int width, unsigned int height)
+void SwapChain::LoadBuffers(UINT width, UINT height)
 {
     // 후면 버퍼 색상을 가져와서 렌더 타겟 뷰를 생성
     ID3D11Device* device = m_graphics->GetD3DDevice();
