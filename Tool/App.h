@@ -4,8 +4,6 @@
 #include "Engine.h"
 #include "Matrix4x4.h"
 
-class Plane;
-
 class App : public Window
 {
 public:
@@ -27,7 +25,6 @@ public:
 	virtual void OnRightButtonDown(const Point& point) override;
 
 	void Update();
-	void UpdateThirdPersonCamera();
 	void UpdateCamera();
 	void UpdateLight();
 	void UpdateSkyBox();
@@ -35,19 +32,23 @@ public:
 	void UpdateSprite(Vector3 position, const SpritePtr& sprite, float anim_time);
 	void UpdateUI(Vector3 position, const SpritePtr& sprite);
 
-	void Render();
-
 	void DrawMesh(const MeshPtr& mesh, const std::vector<MaterialPtr>& materials);
 	void DrawSprite(const SpritePtr& sprite);
+
+	void Render();
 
 private:
 	SwapChainPtr m_swap_chain = nullptr;
 
-	MeshPtr m_skybox_mesh = nullptr;
 	MeshPtr m_plane_mesh = nullptr;
+	MeshPtr m_sphere_mesh = nullptr;
 
 	TexturePtr m_skybox_texture = nullptr;
 	TexturePtr m_plane_texture = nullptr;
+
+	TexturePtr m_brick_texture = nullptr;
+	TexturePtr m_brick_normal_texture = nullptr;
+
 	TexturePtr m_shine_texture[10];
 	TexturePtr m_number_texture[10];
 
@@ -57,6 +58,7 @@ private:
 	MaterialPtr m_skybox_material = nullptr;
 	MaterialPtr m_plane_material = nullptr;
 	MaterialPtr m_shine_material = nullptr;
+	MaterialPtr m_sphere_material = nullptr;
 
 	std::vector<MaterialPtr> m_materials;
 	std::vector<UINT> m_indices;
@@ -65,13 +67,12 @@ private:
 	bool m_fullscreen_state = false;
 	bool m_projection_state = false;
 
-	float m_rotation_x = 0.0f;
-	float m_rotation_y = 0.0f;
-	float m_light_rotation_y = 0.0f;
-	float m_light_radius = 500.0f;
 	float m_upward = 0.0f;
 	float m_forward = 0.0f;
 	float m_rightward = 0.0f;
+
+	float m_rotation_x = 0.0f;
+	float m_rotation_y = 0.0f;
 	float m_delta_mouse_x = 0.0f;
 	float m_delta_mouse_y = 0.0f;
 

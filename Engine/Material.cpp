@@ -56,7 +56,7 @@ TexturePtr& Material::GetTexture()
 	return m_textures[0];
 }
 
-size_t Material::GetTextureSize()
+size_t Material::GetTextureSize() const
 {
 	return m_textures.size();
 }
@@ -66,7 +66,7 @@ void Material::AddTexture(const TexturePtr& texture)
 	m_textures.push_back(texture);
 }
 
-void Material::RemoveTexture(unsigned int index)
+void Material::RemoveTexture(UINT index)
 {
 	if (index >= m_textures.size())
 		return;
@@ -74,7 +74,7 @@ void Material::RemoveTexture(unsigned int index)
 	m_textures.erase(m_textures.begin() + index);
 }
 
-void Material::SetData(void* data, unsigned int size)
+void Material::SetData(void* data, UINT size)
 {
 	if (!m_constant_buffer)
 		m_constant_buffer = Engine::GetInstance()->GetGraphics()->CreateConstantBuffer(&data, size);

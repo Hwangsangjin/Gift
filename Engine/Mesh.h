@@ -4,6 +4,9 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
+class Vector2;
+class Vector3;
+
 struct MaterialSlot
 {
 	size_t start_index = 0;
@@ -20,10 +23,17 @@ public:
 	const VertexBufferPtr& GetVertexBuffer();
 	const IndexBufferPtr& GetIndexBuffer();
 
-	const MaterialSlot& GetMaterialSlot(unsigned int slot);
+	const MaterialSlot& GetMaterialSlot(UINT slot);
 	size_t GetMaterialSlotSize() const;
 
 private:
+	void ComputeTangent
+	(
+		const Vector3 v0, const Vector3 v1, const Vector3 v2,
+		const Vector2 t0, const Vector2 t1, const Vector2 t2,
+		Vector3& tangent, Vector3 binormal
+	);
+
 	VertexBufferPtr m_vertex_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;
 

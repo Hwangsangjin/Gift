@@ -27,7 +27,6 @@ public:
 	void operator*=(const Matrix4x4& matrix);
 	void SetMatrix(const Matrix4x4& matrix);
 
-private:
 	float m_mat[4][4] = {};
 };
 

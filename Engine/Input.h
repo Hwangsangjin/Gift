@@ -18,8 +18,8 @@ public:
 
 private:
 	std::unordered_set<Window*> m_set_listeners;
-	unsigned char m_key_states[256] = {};
-	unsigned char m_old_key_states[256] = {};
+	UCHAR m_key_states[256] = {};
+	UCHAR m_old_key_states[256] = {};
 	Point m_old_mouse_position = {};
 	bool m_first_time = true;
 };

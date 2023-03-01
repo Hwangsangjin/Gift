@@ -12,13 +12,3 @@ Point::Point(const Point& point)
 	, m_y(point.m_y)
 {
 }
-
-int Point::GetX() const
-{
-	return m_x;
-}
-
-int Point::GetY() const
-{
-	return m_y;
-}

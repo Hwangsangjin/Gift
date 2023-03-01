@@ -8,16 +8,17 @@ Vector3::Vector3(float x, float y, float z)
 {
 }
 
-Vector3::Vector3(const Vector3& vector)
-	: m_x(vector.m_x)
-	, m_y(vector.m_y)
-	, m_z(vector.m_z)
+Vector3::Vector3(const Vector3& v)
+	: m_x(v.m_x)
+	, m_y(v.m_y)
+	, m_z(v.m_z)
 {
 }
 
-Vector3 Vector3::LinearInterpolation(const Vector3& start, const Vector3& end, float delta)
+Vector3 Vector3::Lerp(const Vector3& start, const Vector3& end, float delta)
 {
 	Vector3 v;
+
 	v.m_x = start.m_x * (1.0f - delta) + end.m_x * (delta);
 	v.m_y = start.m_y * (1.0f - delta) + end.m_y * (delta);
 	v.m_z = start.m_z * (1.0f - delta) + end.m_z * (delta);
@@ -25,60 +26,61 @@ Vector3 Vector3::LinearInterpolation(const Vector3& start, const Vector3& end, f
 	return v;
 }
 
-float Vector3::GetX() const
+Vector3 Vector3::Normalize(const Vector3& v)
 {
-	return m_x;
+	Vector3 result;
+
+	float length = std::sqrt(v.m_x * v.m_x) + (v.m_y * v.m_y) + (v.m_z * v.m_z);
+	if (!length)
+		return Vector3();
+
+	result.m_x = v.m_x / length;
+	result.m_y = v.m_y / length;
+	result.m_z = v.m_z / length;
+
+	return result;
 }
 
-float Vector3::GetY() const
+Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2)
 {
-	return m_y;
+	Vector3 result;
+
+	result.m_x = (v1.m_y * v2.m_z) - (v1.m_z * v2.m_y);
+	result.m_y = (v1.m_z * v2.m_x) - (v1.m_x * v2.m_z);
+	result.m_z = (v1.m_x * v2.m_y) - (v1.m_y * v2.m_x);
+
+	return result;
 }
 
-float Vector3::GetZ() const
+Vector3 Vector3::operator*(float n) const
 {
-	return m_z;
+	return Vector3(m_x * n, m_y * n, m_z * n);
 }
 
-void Vector3::SetX(float x)
+Vector3 Vector3::operator+(const Vector3& v) const
 {
-	m_x += x;
+	return Vector3(m_x + v.m_x, m_y + v.m_y, m_z + v.m_z);
 }
 
-void Vector3::SetY(float y)
+Vector3 Vector3::operator-(const Vector3& v) const
 {
-	m_y += y;
+	return Vector3(m_x - v.m_x, m_y - v.m_y, m_z - v.m_z);
 }
 
-void Vector3::SetZ(float z)
+Vector3& Vector3::operator+=(float n)
 {
-	m_z += z;
-}
-
-Vector3 Vector3::operator*(float scalar)
-{
-	return Vector3(m_x * scalar, m_y * scalar, m_z * scalar);
-}
-
-Vector3 Vector3::operator+(const Vector3& vector)
-{
-	return Vector3(m_x + vector.m_x, m_y + vector.m_y, m_z + vector.m_z);
-}
-
-Vector3& Vector3::operator+=(float scalar)
-{
-	m_x += scalar;
-	m_y += scalar;
-	m_z += scalar;
+	m_x += n;
+	m_y += n;
+	m_z += n;
 
 	return *this;
 }
 
-Vector3& Vector3::operator+=(const Vector3& vector)
+Vector3& Vector3::operator+=(const Vector3& v)
 {
-	m_x += vector.m_x;
-	m_y += vector.m_y;
-	m_z += vector.m_z;
+	m_x += v.m_x;
+	m_y += v.m_y;
+	m_z += v.m_z;
 
 	return *this;
 }

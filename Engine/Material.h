@@ -22,13 +22,14 @@ public:
 	VertexShaderPtr GetVertexShader();
 	PixelShaderPtr GetPixelShader();
 	ConstantBufferPtr GetConstantBuffer();
+
 	TexturePtr& GetTexture();
-	size_t GetTextureSize();
+	size_t GetTextureSize() const;
 
 	void AddTexture(const TexturePtr& texture);
-	void RemoveTexture(unsigned int index);
+	void RemoveTexture(UINT index);
 
-	void SetData(void* data, unsigned int size);
+	void SetData(void* data, UINT size);
 
 	CullMode GetCullMode();
 	void SetCullMode(CullMode cull_mode);

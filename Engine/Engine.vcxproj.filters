@@ -115,6 +115,9 @@
     <Filter Include="Engine\Shader\Global\UI">
       <UniqueIdentifier>{9f962152-02d9-4a0d-8c19-7aa1cfd11cf3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Shader\Global\DirectionalLightBump">
+      <UniqueIdentifier>{9ebe87ed-2683-41cd-a655-6cf4b58f7d5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -555,6 +558,12 @@
     </FxCompile>
     <FxCompile Include="UIPixelShader.hlsl">
       <Filter>Engine\Shader\Global\UI</Filter>
+    </FxCompile>
+    <FxCompile Include="DirectionalLightBumpVertexShader.hlsl">
+      <Filter>Engine\Shader\Global\DirectionalLightBump</Filter>
+    </FxCompile>
+    <FxCompile Include="DirectionalLightBumpPixelShader.hlsl">
+      <Filter>Engine\Shader\Global\DirectionalLightBump</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

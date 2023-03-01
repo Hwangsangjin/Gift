@@ -19,7 +19,7 @@ void Input::Update()
         m_first_time = false;
     }
 
-    if (current_mouse_position.x != m_old_mouse_position.GetX() || current_mouse_position.y != m_old_mouse_position.GetY())
+    if (current_mouse_position.x != m_old_mouse_position.m_x || current_mouse_position.y != m_old_mouse_position.m_y)
     {
         // Mouse move event
         std::unordered_set<Window*>::iterator iter = m_set_listeners.begin();
@@ -92,7 +92,7 @@ void Input::Update()
         }
 
         // 현재 키 상태를 이전 키 상태 버퍼에 저장
-        ::memcpy(m_old_key_states, m_key_states, sizeof(unsigned char) * 256);
+        ::memcpy(m_old_key_states, m_key_states, sizeof(UCHAR) * 256);
     }
 }
 
@@ -108,7 +108,7 @@ void Input::RemoveListener(Window* listener)
 
 void Input::SetCursorPosition(const Point& point)
 {
-    ::SetCursorPos(point.GetX(), point.GetY());
+    ::SetCursorPos(point.m_x, point.m_y);
 }
 
 void Input::ShowCursor(bool show)

@@ -7,28 +7,23 @@ Vector2::Vector2(float x, float y)
 {
 }
 
-Vector2::Vector2(const Vector2& vector)
-	: m_x(vector.m_x)
-	, m_y(vector.m_y)
+Vector2::Vector2(const Vector2& v)
+	: m_x(v.m_x)
+	, m_y(v.m_y)
 {
 }
 
-float Vector2::GetX() const
+Vector2 Vector2::operator*(float n) const
 {
-	return m_x;
+	return Vector2(m_x * n, m_y * n);
 }
 
-float Vector2::GetY() const
+Vector2 Vector2::operator+(const Vector2& v) const
 {
-	return m_y;
+	return Vector2(m_x + v.m_x, m_y + v.m_y);
 }
 
-Vector2 Vector2::operator*(float scalar)
+Vector2 Vector2::operator-(const Vector2& v) const
 {
-	return Vector2(m_x * scalar, m_y * scalar);
-}
-
-Vector2 Vector2::operator+(const Vector2& vector)
-{
-	return Vector2(m_x + vector.m_x, m_y + vector.m_y);
+	return Vector2(m_x - v.m_x, m_y - v.m_y);
 }

@@ -14,16 +14,16 @@ void Matrix4x4::SetIdentity()
 
 void Matrix4x4::SetTranslation(const Vector3& translation)
 {
-	m_mat[3][0] = translation.GetX();
-	m_mat[3][1] = translation.GetY();
-	m_mat[3][2] = translation.GetZ();
+	m_mat[3][0] = translation.m_x;
+	m_mat[3][1] = translation.m_y;
+	m_mat[3][2] = translation.m_z;
 }
 
 void Matrix4x4::SetScale(const Vector3& scale)
 {
-	m_mat[0][0] = scale.GetX();
-	m_mat[1][1] = scale.GetY();
-	m_mat[2][2] = scale.GetZ();
+	m_mat[0][0] = scale.m_x;
+	m_mat[1][1] = scale.m_y;
+	m_mat[2][2] = scale.m_z;
 }
 
 void Matrix4x4::SetRotationX(float x)
@@ -80,7 +80,7 @@ float Matrix4x4::GetDeterminant()
 	v3 = Vector4(m_mat[0][2], m_mat[1][2], m_mat[2][2], m_mat[3][2]);
 
 	minor.Cross(v1, v2, v3);
-	det = -(m_mat[0][3] * minor.GetX() + m_mat[1][3] * minor.GetY() + m_mat[2][3] * minor.GetZ() + m_mat[3][3] * minor.GetW());
+	det = -(m_mat[0][3] * minor.m_x + m_mat[1][3] * minor.m_y + m_mat[2][3] * minor.m_z + m_mat[3][3] * minor.m_w);
 	return det;
 }
 
@@ -94,9 +94,9 @@ void Matrix4x4::Inverse()
 	if (!det)
 		return;
 
-	for (unsigned int i = 0; i < 4; i++)
+	for (UINT i = 0; i < 4; i++)
 	{
-		for (unsigned int j = 0; j < 4; j++)
+		for (UINT j = 0; j < 4; j++)
 		{
 			if (j != i)
 			{
@@ -104,19 +104,19 @@ void Matrix4x4::Inverse()
 				if (j > i)
 					a -= 1;
 
-				vec[a].SetX(m_mat[j][0]);
-				vec[a].SetY(m_mat[j][1]);
-				vec[a].SetZ(m_mat[j][2]);
-				vec[a].SetW(m_mat[j][3]);
+				vec[a].m_x = m_mat[j][0];
+				vec[a].m_y = m_mat[j][1];
+				vec[a].m_z = m_mat[j][2];
+				vec[a].m_w = m_mat[j][3];
 			}
 		}
 
 		v.Cross(vec[0], vec[1], vec[2]);
 
-		out.m_mat[0][i] = static_cast<float>(std::pow(-1.0f, i)) * v.GetX() / det;
-		out.m_mat[1][i] = static_cast<float>(std::pow(-1.0f, i)) * v.GetY() / det;
-		out.m_mat[2][i] = static_cast<float>(std::pow(-1.0f, i)) * v.GetZ() / det;
-		out.m_mat[3][i] = static_cast<float>(std::pow(-1.0f, i)) * v.GetW() / det;
+		out.m_mat[0][i] = static_cast<float>(std::pow(-1.0f, i)) * v.m_x / det;
+		out.m_mat[1][i] = static_cast<float>(std::pow(-1.0f, i)) * v.m_y / det;
+		out.m_mat[2][i] = static_cast<float>(std::pow(-1.0f, i)) * v.m_z / det;
+		out.m_mat[3][i] = static_cast<float>(std::pow(-1.0f, i)) * v.m_w / det;
 	}
 
 	SetMatrix(out);
@@ -146,9 +146,9 @@ void Matrix4x4::operator*=(const Matrix4x4& matrix)
 {
 	Matrix4x4 out;
 
-	for (unsigned int i = 0; i < 4; i++)
+	for (UINT i = 0; i < 4; i++)
 	{
-		for (unsigned int j = 0; j < 4; j++)
+		for (UINT j = 0; j < 4; j++)
 		{
 			out.m_mat[i][j] =
 				m_mat[i][0] * matrix.m_mat[0][j] +

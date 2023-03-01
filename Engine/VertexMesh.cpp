@@ -3,10 +3,12 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
-VertexMesh::VertexMesh(Vector3 position, Vector2 texcoord, Vector3 normal)
+VertexMesh::VertexMesh(const Vector3& position, const Vector2& texcoord, const Vector3& normal, const Vector3& tangent, const Vector3& binormal)
 	: m_position(position)
 	, m_texcoord(texcoord)
 	, m_normal(normal)
+	, m_tangent(tangent)
+	, m_binormal(binormal)
 {
 }
 
@@ -14,6 +16,8 @@ VertexMesh::VertexMesh(const VertexMesh& vertex_mesh)
 	: m_position(vertex_mesh.m_position)
 	, m_texcoord(vertex_mesh.m_texcoord)
 	, m_normal(vertex_mesh.m_normal)
+	, m_tangent(vertex_mesh.m_tangent)
+	, m_binormal(vertex_mesh.m_binormal)
 {
 }
 
