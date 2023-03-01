@@ -144,7 +144,7 @@ bool Window::Broadcast()
     return true;
 }
 
-RECT Window::GetClientWindowRect() const
+RECT Window::GetClientRect() const
 {
     RECT rect;
     ::GetClientRect(m_hwnd, &rect);

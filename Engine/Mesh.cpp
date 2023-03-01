@@ -60,10 +60,13 @@ Mesh::Mesh(const wchar_t* full_path)
 
 			for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++)
 			{
-				if (shapes[s].mesh.material_ids[f] != m)
-					continue;
-
 				UCHAR num_face_vertices = shapes[s].mesh.num_face_vertices[f];
+
+				if (shapes[s].mesh.material_ids[f] != m)
+				{
+					index_offset += num_face_vertices;
+					continue;
+				}
 
 				Vector3 vertices_face[3];
 				Vector2 texcoords_face[3];

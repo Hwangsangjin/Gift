@@ -42,12 +42,10 @@ private:
 
 	MeshPtr m_plane_mesh = nullptr;
 	MeshPtr m_sphere_mesh = nullptr;
+	MeshPtr m_monitor_mesh = nullptr;
 
 	TexturePtr m_skybox_texture = nullptr;
 	TexturePtr m_plane_texture = nullptr;
-
-	TexturePtr m_brick_texture = nullptr;
-	TexturePtr m_brick_normal_texture = nullptr;
 
 	TexturePtr m_shine_texture[10];
 	TexturePtr m_number_texture[10];
@@ -59,6 +57,8 @@ private:
 	MaterialPtr m_plane_material = nullptr;
 	MaterialPtr m_shine_material = nullptr;
 	MaterialPtr m_sphere_material = nullptr;
+	MaterialPtr m_monitor_material = nullptr;
+	MaterialPtr m_screen_material = nullptr;
 
 	std::vector<MaterialPtr> m_materials;
 	std::vector<UINT> m_indices;
@@ -83,7 +83,7 @@ private:
 	Matrix4x4 m_light_rotation = {};
 	Vector4 m_light_position = {};
 
-	float m_camera_distance = 0.0f;
+	float m_camera_distance = 2.4f;
 	float m_current_camera_distance = 0.0f;
 	Vector3 m_camera_rotation = {};
 	Vector3 m_current_camera_rotation = {};

@@ -10,7 +10,7 @@ public:
 
 	bool IsRunning();
 
-	RECT GetClientWindowRect() const;
+	RECT GetClientRect() const;
 	RECT GetScreenSize() const;
 
 	virtual void OnCreate();

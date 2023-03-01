@@ -259,6 +259,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="Rect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="pch.h" />
@@ -319,6 +320,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     </ClCompile>
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="VertexMesh.cpp" />
     <ClCompile Include="pch.cpp">

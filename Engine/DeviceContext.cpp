@@ -29,6 +29,54 @@ ID3D11DeviceContext* DeviceContext::GetDeviceContext()
 	return m_device_context;
 }
 
+void DeviceContext::ClearRenderTargetColor(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha)
+{
+	FLOAT clear_color[] = { red, green, blue, alpha };
+	m_device_context->ClearRenderTargetView(swap_chain->GetRenderTargetView(), clear_color);
+	m_device_context->ClearDepthStencilView(swap_chain->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	auto render_target_view = swap_chain->GetRenderTargetView();
+	assert(render_target_view);
+	auto depth_stencil_view = swap_chain->GetDepthStencilView();
+	assert(depth_stencil_view);
+	m_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
+}
+
+void DeviceContext::ClearRenderTargetColor(const TexturePtr& render_target, float red, float green, float blue, float alpha)
+{
+	if (render_target->GetType() != Texture::Type::RenderTarget)
+		return;
+
+	FLOAT clear_color[] = { red, green, blue, alpha };
+	m_device_context->ClearRenderTargetView(render_target->GetRenderTargetView(), clear_color);
+}
+
+void DeviceContext::ClearDepthStencil(const SwapChainPtr& swap_chain)
+{
+	m_device_context->ClearDepthStencilView(swap_chain->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+}
+
+void DeviceContext::ClearDepthStencil(const TexturePtr& depth_stencil)
+{
+	if (depth_stencil->GetType() != Texture::Type::DepthStencil)
+		return;
+
+	m_device_context->ClearDepthStencilView(depth_stencil->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+}
+
+void DeviceContext::SetRenderTarget(const TexturePtr& render_target, const TexturePtr& depth_stencil)
+{
+	if (render_target->GetType() != Texture::Type::RenderTarget)
+		return;
+	if (depth_stencil->GetType() != Texture::Type::DepthStencil)
+		return;
+
+	auto render_target_view = render_target->GetRenderTargetView();
+	assert(render_target_view);
+	auto depth_stencil_view = depth_stencil->GetDepthStencilView();
+	assert(depth_stencil_view);
+	m_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
+}
+
 void DeviceContext::SetViewportSize(UINT width, UINT height)
 {
 	// 뷰포트 구조체
@@ -129,17 +177,4 @@ void DeviceContext::DrawTriangleStrip(UINT vertex_count, UINT start_vertex_locat
 {
 	m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	m_device_context->Draw(vertex_count, start_vertex_location);
-}
-
-void DeviceContext::ClearRenderTargetColor(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha)
-{
-	FLOAT clear_color[] = { red, green, blue, alpha };
-	assert(m_device_context);
-	m_device_context->ClearRenderTargetView(swap_chain->GetRenderTargetView(), clear_color);
-	m_device_context->ClearDepthStencilView(swap_chain->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-	auto render_target_view = swap_chain->GetRenderTargetView();
-	assert(render_target_view);
-	auto depth_stencil_view = swap_chain->GetDepthStencilView();
-	assert(depth_stencil_view);
-	m_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
 }

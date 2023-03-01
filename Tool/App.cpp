@@ -38,20 +38,18 @@ void App::OnCreate()
 	m_world.SetTranslation(Vector3(0.0f, 0.0f, 0.0f));
 
 	// 스왑 체인 생성
-	RECT rect = GetClientWindowRect();
+	RECT rect = GetClientRect();
 	m_swap_chain = Engine::GetInstance()->GetGraphics()->CreateSwapChain(m_hwnd, rect.right - rect.left, rect.bottom - rect.top);
 	assert(m_swap_chain);
 
 	// 메쉬 생성
 	m_sphere_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
 	m_plane_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\plane.obj");
+	m_monitor_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\monitor.obj");
 
 	// 텍스처 생성
 	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
 	m_plane_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\plane.png");
-
-	m_brick_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\brick_d.jpg");
-	m_brick_normal_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\brick_n.jpg");
 
 	m_shine_texture[0] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine0.bmp");
 	m_shine_texture[1] = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\shine1.bmp");
@@ -89,10 +87,13 @@ void App::OnCreate()
 	assert(m_plane_material);
 	m_plane_material->AddTexture(m_plane_texture);
 
-	m_sphere_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\DirectionalLightBumpVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\DirectionalLightBumpPixelShader.hlsl");
-	assert(m_sphere_material);
-	m_sphere_material->AddTexture(m_brick_texture);
-	m_sphere_material->AddTexture(m_brick_normal_texture);
+	m_monitor_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
+	m_monitor_material->AddTexture(m_plane_texture);
+	assert(m_monitor_material);
+
+	m_screen_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
+	assert(m_screen_material);
+	m_screen_material->AddTexture(m_skybox_material->GetTexture());
 
 	m_materials.reserve(32);
 }
@@ -112,7 +113,7 @@ void App::OnUpdate()
 
 void App::OnSize()
 {
-	RECT rect = GetClientWindowRect();
+	RECT rect = GetClientRect();
 	m_swap_chain->Resize(rect.right - rect.left, rect.bottom - rect.top);
 
 	Update();
@@ -190,15 +191,21 @@ void App::OnMouseMove(const Point& point)
 	if (!m_play_state)
 		return;
 
-	RECT win_size = this->GetClientWindowRect();
+	RECT rect = this->GetClientRect();
 
-	int width = (win_size.right - win_size.left);
-	int height = (win_size.bottom - win_size.top);
+	int width = (rect.right - rect.left);
+	int height = (rect.bottom - rect.top);
 
-	m_delta_mouse_x = static_cast<float>(point.m_x - (win_size.left + (width / 2.0f)));
-	m_delta_mouse_y = static_cast<float>(point.m_y - (win_size.top + (height / 2.0f)));
+	m_delta_mouse_x = static_cast<float>(point.m_x - (rect.left + (width / 2.0f)));
+	m_delta_mouse_y = static_cast<float>(point.m_y - (rect.top + (height / 2.0f)));
 
-	Input::GetInstance()->SetCursorPosition(Point(win_size.left + (width / 2), win_size.top + (height / 2)));
+	if (m_play_state)
+	{
+		m_delta_mouse_x = static_cast<float>(point.m_x - (rect.left + (width / 2.0f)));
+		m_delta_mouse_y = static_cast<float>(point.m_y - (rect.top + (height / 2.0f)));
+	}
+
+	Input::GetInstance()->SetCursorPosition(Point(rect.left + (width / 2), rect.top + (height / 2)));
 }
 
 void App::OnLeftButtonUp(const Point& point)
@@ -253,8 +260,6 @@ void App::UpdateCamera()
 	temp.SetRotationY(m_camera_rotation.m_y);
 	world *= temp;
 
-	m_camera_distance = 2.0f;
-
 	m_current_camera_distance = Lerp(m_current_camera_distance, m_camera_distance, 2.0f * Timer::GetInstance()->GetDeltaTime());
 
 	m_camera_position = Vector3();
@@ -271,16 +276,16 @@ void App::UpdateCamera()
 
 	if (m_projection_state)
 	{
-		int width = GetClientWindowRect().right - GetClientWindowRect().left;
-		int height = GetClientWindowRect().bottom - GetClientWindowRect().top;
+		int width = GetClientRect().right - GetClientRect().left;
+		int height = GetClientRect().bottom - GetClientRect().top;
 		m_projection.SetPerspectiveProjection(1.57f, ((float)width / (float)height), 0.1f, 5000.0f);
 	}
 	else
 	{
 		m_projection.SetOrthographicProjection
 		(
-			(GetClientWindowRect().right - GetClientWindowRect().left) / 100.0f,
-			(GetClientWindowRect().bottom - GetClientWindowRect().top) / 100.0f,
+			(GetClientRect().right - GetClientRect().left) / 100.0f,
+			(GetClientRect().bottom - GetClientRect().top) / 100.0f,
 			-4.0f,
 			4.0f
 		);
@@ -296,7 +301,7 @@ void App::UpdateLight()
 	temp.SetRotationX(-0.785f);
 	m_light_rotation *= temp;
 
-	temp.SetRotationY(0.785f);
+	temp.SetRotationY(2.14f);
 	m_light_rotation *= temp;
 }
 
@@ -433,7 +438,7 @@ void App::Render()
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearRenderTargetColor(m_swap_chain, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// 뷰포트 설정
-	RECT rect = GetClientWindowRect();
+	RECT rect = GetClientRect();
 	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetViewportSize(static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top));
 
 	// 평면
@@ -442,11 +447,12 @@ void App::Render()
 	UpdateModel(Vector3(0.0f, -1.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), m_materials);
 	DrawMesh(m_plane_mesh, m_materials);
 
-	// 구
+	// 모니터
 	m_materials.clear();
-	m_materials.push_back(m_sphere_material);
-	UpdateModel(Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), m_materials);
-	DrawMesh(m_sphere_mesh, m_materials);
+	m_materials.push_back(m_monitor_material);
+	m_materials.push_back(m_screen_material);
+	UpdateModel(Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 3.14f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), m_materials);
+	DrawMesh(m_monitor_mesh, m_materials);
 
 	// UI
 	if (m_plane_sprite)
@@ -466,6 +472,8 @@ void App::Render()
 	m_materials.clear();
 	m_materials.push_back(m_skybox_material);
 	DrawMesh(m_sphere_mesh, m_materials);
+
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearDepthStencil(m_swap_chain);
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();

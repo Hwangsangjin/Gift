@@ -77,7 +77,7 @@ void Material::RemoveTexture(UINT index)
 void Material::SetData(void* data, UINT size)
 {
 	if (!m_constant_buffer)
-		m_constant_buffer = Engine::GetInstance()->GetGraphics()->CreateConstantBuffer(&data, size);
+		m_constant_buffer = Engine::GetInstance()->GetGraphics()->CreateConstantBuffer(data, size);
 	else
 		m_constant_buffer->Update(Engine::GetInstance()->GetGraphics()->GetDeviceContext(), data);
 }
