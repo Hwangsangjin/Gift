@@ -6,9 +6,6 @@
 #pragma comment(lib, "dxgi")
 #pragma comment(lib, "DirectXTK")
 #pragma comment(lib, "DirectXTex")
-#pragma comment(lib, "libfbxsdk-md")
-#pragma comment(lib, "libxml2-md")
-#pragma comment(lib, "zlib-md")
 
 #include <cassert>
 #include <exception>
@@ -91,29 +88,6 @@ using uint8 = unsigned __int8;
 using uint16 = unsigned __int16;
 using uint32 = unsigned __int32;
 using uint64 = unsigned __int64;
-
-// utils
-std::wstring StringToWString(const std::string& s)
-{
-	int32 len;
-	int32 slength = static_cast<int32>(s.length()) + 1;
-	len = ::MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
-	wchar_t* buf = new wchar_t[len];
-	::MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
-	std::wstring ret(buf);
-	delete[] buf;
-	return ret;
-}
-
-std::string WStringToString(const std::wstring& s)
-{
-	int32 len;
-	int32 slength = static_cast<int32>(s.length()) + 1;
-	len = ::WideCharToMultiByte(CP_ACP, 0, s.c_str(), slength, 0, 0, 0, 0);
-	std::string r(len, '\0');
-	::WideCharToMultiByte(CP_ACP, 0, s.c_str(), slength, &r[0], len, 0, 0);
-	return r;
-}
 
 // Vertex
 struct Vertex

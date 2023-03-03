@@ -168,7 +168,7 @@ Mesh::Mesh(VertexMesh* vertex_mesh_data, UINT vertex_size, UINT* index_data, UIN
 	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(vertex_mesh_data, sizeof(VertexMesh), vertex_size, shader_byte_code, static_cast<UINT>(shader_byte_size));
 	assert(m_vertex_buffer);
 
-	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(index_data, vertex_size);
+	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(index_data, index_size);
 	assert(m_index_buffer);
 
 	m_material_slots.resize(material_slot_size);

@@ -124,9 +124,6 @@
     <Filter Include="Engine\Shader\Global\PostProcessEffect">
       <UniqueIdentifier>{4de5afd8-061b-4c68-b4c4-1531123bba15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\FBXLoader">
-      <UniqueIdentifier>{6f0c9462-1d65-4c1d-af65-0f22bb37c8a5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
