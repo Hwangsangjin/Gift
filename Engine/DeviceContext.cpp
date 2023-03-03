@@ -29,7 +29,7 @@ ID3D11DeviceContext* DeviceContext::GetDeviceContext()
 	return m_device_context;
 }
 
-void DeviceContext::ClearRenderTargetColor(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha)
+void DeviceContext::ClearRenderTarget(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha)
 {
 	FLOAT clear_color[] = { red, green, blue, alpha };
 	m_device_context->ClearRenderTargetView(swap_chain->GetRenderTargetView(), clear_color);
@@ -41,7 +41,7 @@ void DeviceContext::ClearRenderTargetColor(const SwapChainPtr& swap_chain, float
 	m_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
 }
 
-void DeviceContext::ClearRenderTargetColor(const TexturePtr& render_target, float red, float green, float blue, float alpha)
+void DeviceContext::ClearRenderTarget(const TexturePtr& render_target, float red, float green, float blue, float alpha)
 {
 	if (render_target->GetType() != Texture::Type::RenderTarget)
 		return;
@@ -77,7 +77,7 @@ void DeviceContext::SetRenderTarget(const TexturePtr& render_target, const Textu
 	m_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
 }
 
-void DeviceContext::SetViewportSize(UINT width, UINT height)
+void DeviceContext::SetViewport(UINT width, UINT height)
 {
 	// 뷰포트 구조체
 	D3D11_VIEWPORT viewport = {};

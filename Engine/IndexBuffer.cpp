@@ -10,7 +10,7 @@ IndexBuffer::IndexBuffer(void* indices, UINT index_count, Graphics* graphics)
     D3D11_BUFFER_DESC buff_desc = {};
     buff_desc.Usage = D3D11_USAGE_DEFAULT;
     buff_desc.ByteWidth = sizeof(UINT) * index_count;
-    buff_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    buff_desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
     buff_desc.CPUAccessFlags = 0;
     buff_desc.MiscFlags = 0;
 

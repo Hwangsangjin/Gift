@@ -10,10 +10,6 @@ public:
 	VertexMesh(const Vector3& position, const Vector2& texcoord, const Vector3& normal, const Vector3& tangent, const Vector3& binormal);
 	VertexMesh(const VertexMesh& vertex_mesh);
 
-	Vector3 GetPosition() const;
-	Vector2 GetTexcoord() const;
-	Vector3 GetNormal() const;
-
 private:
 	Vector3 m_position = {};
 	Vector2 m_texcoord = {};

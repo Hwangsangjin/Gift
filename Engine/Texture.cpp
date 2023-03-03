@@ -71,14 +71,11 @@ Texture::Texture(const Rect& rect, Texture::Type type)
 	Engine::GetInstance()->GetGraphics()->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, (ID3D11Texture2D**)&m_texture);
 	assert(m_texture);
 
-	if (type == Texture::Type::Normal || type == Texture::Type::RenderTarget)
+	if (type == Texture::Type::RenderTarget)
 	{
 		Engine::GetInstance()->GetGraphics()->GetD3DDevice()->CreateShaderResourceView(m_texture, nullptr, &m_shader_resource_view);
 		assert(m_shader_resource_view);
-	}
 
-	if (type == Texture::Type::RenderTarget)
-	{
 		Engine::GetInstance()->GetGraphics()->GetD3DDevice()->CreateRenderTargetView(m_texture, nullptr, &m_render_target_view);
 		assert(m_render_target_view);
 	}

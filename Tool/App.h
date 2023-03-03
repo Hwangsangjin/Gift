@@ -40,10 +40,12 @@ public:
 private:
 	SwapChainPtr m_swap_chain = nullptr;
 
+	MeshPtr m_quad_mesh = nullptr;
 	MeshPtr m_plane_mesh = nullptr;
 	MeshPtr m_sphere_mesh = nullptr;
-	MeshPtr m_monitor_mesh = nullptr;
 
+	TexturePtr m_render_target = nullptr;
+	TexturePtr m_depth_stencil = nullptr;
 	TexturePtr m_skybox_texture = nullptr;
 	TexturePtr m_plane_texture = nullptr;
 
@@ -57,8 +59,7 @@ private:
 	MaterialPtr m_plane_material = nullptr;
 	MaterialPtr m_shine_material = nullptr;
 	MaterialPtr m_sphere_material = nullptr;
-	MaterialPtr m_monitor_material = nullptr;
-	MaterialPtr m_screen_material = nullptr;
+	MaterialPtr m_postprocess_material = nullptr;
 
 	std::vector<MaterialPtr> m_materials;
 	std::vector<UINT> m_indices;
@@ -92,5 +93,7 @@ private:
 	UINT m_apply_index = 0;
 	float m_life_time = 0.0f;
 	float m_render_time = 0.0f;
+
+	float m_distortion_level = 2.0f;
 };
 

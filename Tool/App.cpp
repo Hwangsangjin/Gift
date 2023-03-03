@@ -17,6 +17,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Sprite.h"
+#include "VertexMesh.h"
 
 void App::OnCreate()
 {
@@ -42,10 +43,38 @@ void App::OnCreate()
 	m_swap_chain = Engine::GetInstance()->GetGraphics()->CreateSwapChain(m_hwnd, rect.right - rect.left, rect.bottom - rect.top);
 	assert(m_swap_chain);
 
+	// ·»´õ Å¸°Ù »ý¼º
+	m_render_target = Engine::GetInstance()->GetTextureManager()->CreateTexture(Rect(rect.right - rect.left, rect.bottom - rect.top), Texture::Type::RenderTarget);
+	assert(m_render_target);
+
+	// µª½º ½ºÅÙ½Ç »ý¼º
+	m_depth_stencil = Engine::GetInstance()->GetTextureManager()->CreateTexture(Rect(rect.right - rect.left, rect.bottom - rect.top), Texture::Type::DepthStencil);
+	assert(m_depth_stencil);
+
 	// ¸Þ½¬ »ý¼º
 	m_sphere_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\sphere.obj");
 	m_plane_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\plane.obj");
-	m_monitor_mesh = Engine::GetInstance()->GetMeshManager()->CreateMeshFromFile(L"..\\..\\Assets\\Meshes\\monitor.obj");
+
+	VertexMesh quad_vertices[] =
+	{
+		VertexMesh(Vector3(-1.0f, -1.0f, 0.0f), Vector2(0.0f, 1.0f), Vector3(), Vector3(), Vector3()),
+		VertexMesh(Vector3(-1.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f), Vector3(), Vector3(), Vector3()),
+		VertexMesh(Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f), Vector3(), Vector3(), Vector3()),
+		VertexMesh(Vector3(1.0f, -1.0f, 0.0f), Vector2(1.0f, 1.0f), Vector3(), Vector3(), Vector3())
+	};
+
+	UINT quad_indices[] =
+	{
+		0, 1, 2,
+		2, 3, 0
+	};
+
+	MaterialSlot quad_material_slots[] =
+	{
+		{ 0, 6, 0 }
+	};
+
+	m_quad_mesh = Engine::GetInstance()->GetMeshManager()->CreateMesh(quad_vertices, 4, quad_indices, 6, quad_material_slots, 1);
 
 	// ÅØ½ºÃ³ »ý¼º
 	m_skybox_texture = Engine::GetInstance()->GetTextureManager()->CreateTextureFromFile(L"..\\..\\Assets\\Textures\\stars_map.jpg");
@@ -77,6 +106,14 @@ void App::OnCreate()
 	//assert(m_plane_sprite);
 	//m_plane_sprite->AddTexture(m_plane_texture);
 
+	//m_shine_sprite = Engine::GetInstance()->CreateSprite(L"..\\..\\Assets\\Shaders\\UIVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\UIPixelShader.hlsl");
+	//assert(m_shine_sprite);
+	//for (UINT i = 0; i < 10; i++)
+	//{
+	//	m_shine_sprite->AddTexture(m_shine_texture[i]);
+	//	m_indices.push_back(i);
+	//}
+
 	// ¸ÓÆ¼¸®¾ó »ý¼º
 	m_skybox_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\SkyBoxVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\SkyBoxPixelShader.hlsl");
 	assert(m_skybox_material);
@@ -87,13 +124,8 @@ void App::OnCreate()
 	assert(m_plane_material);
 	m_plane_material->AddTexture(m_plane_texture);
 
-	m_monitor_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
-	m_monitor_material->AddTexture(m_plane_texture);
-	assert(m_monitor_material);
-
-	m_screen_material = Engine::GetInstance()->CreateMaterial(m_plane_material);
-	assert(m_screen_material);
-	m_screen_material->AddTexture(m_skybox_material->GetTexture());
+	m_postprocess_material = Engine::GetInstance()->CreateMaterial(L"..\\..\\Assets\\Shaders\\PostProcessVertexShader.hlsl", L"..\\..\\Assets\\Shaders\\DistortionEffect.hlsl");
+	m_postprocess_material->AddTexture(m_render_target);
 
 	m_materials.reserve(32);
 }
@@ -115,6 +147,12 @@ void App::OnSize()
 {
 	RECT rect = GetClientRect();
 	m_swap_chain->Resize(rect.right - rect.left, rect.bottom - rect.top);
+
+	m_render_target = Engine::GetInstance()->GetTextureManager()->CreateTexture(Rect(rect.right - rect.left, rect.bottom - rect.top), Texture::Type::RenderTarget);
+	m_depth_stencil = Engine::GetInstance()->GetTextureManager()->CreateTexture(Rect(rect.right - rect.left, rect.bottom - rect.top), Texture::Type::DepthStencil);
+
+	m_postprocess_material->RemoveTexture(0);
+	m_postprocess_material->AddTexture(m_render_target);
 
 	Update();
 	Render();
@@ -370,6 +408,15 @@ void App::UpdateSprite(Vector3 position, const SpritePtr& sprite, float anim_tim
 		m_life_time = 0.0f;
 	}
 
+	TexturePtr temp[32];
+	for (UINT i = 0; i < sprite->GetTextureSize(); i++)
+	{
+		temp[i] = sprite->m_textures[i];
+	}
+
+	if (m_indices.size())
+		sprite->m_textures[0] = temp[m_apply_index];
+
 	Constant constant;
 	constant.world.SetIdentity();
 	constant.world.SetScale(Vector3(1.0f, 1.0f, 1.0f));
@@ -435,11 +482,17 @@ void App::DrawSprite(const SpritePtr& sprite)
 void App::Render()
 {
 	// ·»´õ Å¸°Ù Áö¿ì±â
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearRenderTargetColor(m_swap_chain, 0.0f, 0.0f, 0.0f, 1.0f);
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearRenderTarget(m_render_target, 0.0f, 0.0f, 0.0f, 1.0f);
+
+	// µª½º ½ºÅÙ½Ç Áö¿ì±â
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearDepthStencil(m_depth_stencil);
+
+	// ·»´õ Å¸°Ù ¼³Á¤
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetRenderTarget(m_render_target, m_depth_stencil);
 
 	// ºäÆ÷Æ® ¼³Á¤
-	RECT rect = GetClientRect();
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetViewportSize(static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top));
+	Rect rect = m_render_target->GetRect();
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetViewport(rect.m_width, rect.m_height);
 
 	// Æò¸é
 	m_materials.clear();
@@ -447,17 +500,10 @@ void App::Render()
 	UpdateModel(Vector3(0.0f, -1.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), m_materials);
 	DrawMesh(m_plane_mesh, m_materials);
 
-	// ¸ð´ÏÅÍ
-	m_materials.clear();
-	m_materials.push_back(m_monitor_material);
-	m_materials.push_back(m_screen_material);
-	UpdateModel(Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 3.14f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), m_materials);
-	DrawMesh(m_monitor_mesh, m_materials);
-
 	// UI
 	if (m_plane_sprite)
 	{
-		UpdateUI(Vector3(0.0f, 0.0f, 0.0f), m_plane_sprite);
+		UpdateUI(Vector3(-2.0f, 0.0f, 0.0f), m_plane_sprite);
 		DrawSprite(m_plane_sprite);
 	}
 
@@ -473,7 +519,21 @@ void App::Render()
 	m_materials.push_back(m_skybox_material);
 	DrawMesh(m_sphere_mesh, m_materials);
 
-	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearDepthStencil(m_swap_chain);
+	// ·»´õ Å¸°Ù Áö¿ì±â
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->ClearRenderTarget(m_swap_chain, 0.0f, 0.0f, 0.0f, 1.0f);
+
+	// ºäÆ÷Æ® ¼³Á¤
+	RECT client_rect = GetClientRect();
+	Engine::GetInstance()->GetGraphics()->GetDeviceContext()->SetViewport(static_cast<UINT>(client_rect.right - client_rect.left), static_cast<UINT>(client_rect.bottom - client_rect.top));
+
+	// Æ÷½ºÆ® ÇÁ·Î¼¼½Ì
+	DistortionEffect distortion_effect;
+	distortion_effect.distortion_level = m_distortion_level;
+
+	m_materials.clear();
+	m_materials.push_back(m_postprocess_material);
+	m_postprocess_material->SetData(&distortion_effect, sizeof(DistortionEffect));
+	DrawMesh(m_quad_mesh, m_materials);
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -503,7 +563,7 @@ void App::Render()
 		assert(m_shine_sprite);
 		for (UINT i = 0; i < 10; i++)
 		{
-			m_shine_sprite->AddTexture(m_number_texture[i]);
+			m_shine_sprite->AddTexture(m_shine_texture[i]);
 			m_indices.push_back(i);
 		}
 	}

@@ -156,6 +156,29 @@ Mesh::Mesh(const wchar_t* full_path)
 	assert(m_index_buffer);
 }
 
+Mesh::Mesh(VertexMesh* vertex_mesh_data, UINT vertex_size, UINT* index_data, UINT index_size, MaterialSlot* material_slot, UINT material_slot_size)
+	: Resource(L"")
+{
+	void* shader_byte_code = nullptr;
+	size_t shader_byte_size = 0;
+	Engine::GetInstance()->GetVertexMeshLayoutShaderByteCodeAndSize(&shader_byte_code, &shader_byte_size);
+	assert(shader_byte_code);
+	assert(shader_byte_size);
+
+	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(vertex_mesh_data, sizeof(VertexMesh), vertex_size, shader_byte_code, static_cast<UINT>(shader_byte_size));
+	assert(m_vertex_buffer);
+
+	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(index_data, vertex_size);
+	assert(m_index_buffer);
+
+	m_material_slots.resize(material_slot_size);
+
+	for (UINT i = 0; i < material_slot_size; i++)
+	{
+		m_material_slots[i] = material_slot[i];
+	}
+}
+
 Mesh::~Mesh()
 {
 }
@@ -172,9 +195,6 @@ const IndexBufferPtr& Mesh::GetIndexBuffer()
 
 const MaterialSlot& Mesh::GetMaterialSlot(UINT slot)
 {
-	if (slot >= m_material_slots.size())
-		return MaterialSlot();
-
 	return m_material_slots[slot];
 }
 

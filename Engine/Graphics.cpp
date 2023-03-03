@@ -30,9 +30,7 @@ Graphics::Graphics()
     {
         hr = D3D11CreateDevice(NULL, driver_types[driver_type_index], NULL, NULL, feature_levels, num_feature_levels, D3D11_SDK_VERSION, &m_d3d_device, &m_feature_level, &m_immediate_context);
         if (SUCCEEDED(hr))
-        {
             break;
-        }
 
         ++driver_type_index;
     }
@@ -191,25 +189,17 @@ DeviceContextPtr Graphics::GetDeviceContext() const
 void Graphics::SetCullMode(bool cull_back)
 {
     if (cull_back)
-    {
         m_immediate_context->RSSetState(m_cull_back);
-    }
     else
-    {
         m_immediate_context->RSSetState(m_cull_front);
-    }
 }
 
 void Graphics::SetFillMode(bool fill_soild)
 {
     if (fill_soild)
-    {
         m_immediate_context->RSSetState(m_fill_solid);
-    }
     else
-    {
         m_immediate_context->RSSetState(m_fill_wireframe);
-    }
 }
 
 void Graphics::InitializeRasterizerState()

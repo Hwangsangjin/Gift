@@ -6,6 +6,7 @@
 
 class Vector2;
 class Vector3;
+class VertexMesh;
 
 struct MaterialSlot
 {
@@ -18,6 +19,7 @@ class Mesh : public Resource
 {
 public:
 	Mesh(const wchar_t* full_path);
+	Mesh(VertexMesh* vertex_mesh_data, UINT vertex_size, UINT* index_data, UINT index_size, MaterialSlot* material_slot, UINT material_slot_size);
 	virtual ~Mesh() override;
 
 	const VertexBufferPtr& GetVertexBuffer();

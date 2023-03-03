@@ -61,13 +61,19 @@ void Engine::SetMaterial(const MaterialPtr& material)
     m_graphics->SetFillMode(material->GetFillMode() == Material::FillMode::Solid);
 
     // 상수 버퍼 설정
-    m_graphics->GetDeviceContext()->SetConstantBuffer(material->GetVertexShader(), material->GetConstantBuffer());
-    m_graphics->GetDeviceContext()->SetConstantBuffer(material->GetPixelShader(), material->GetConstantBuffer());
+    if (material->GetConstantBuffer())
+    {
+        m_graphics->GetDeviceContext()->SetConstantBuffer(material->GetVertexShader(), material->GetConstantBuffer());
+        m_graphics->GetDeviceContext()->SetConstantBuffer(material->GetPixelShader(), material->GetConstantBuffer());
+    }
 
     // 셰이더 설정
     m_graphics->GetDeviceContext()->SetVertexShader(material->GetVertexShader());
     m_graphics->GetDeviceContext()->SetPixelShader(material->GetPixelShader());
-    m_graphics->GetDeviceContext()->SetTexture(material->GetPixelShader(), &material->GetTexture(), static_cast<UINT>(material->GetTextureSize()));
+
+    // 텍스처 설정
+    if (material->GetTextureSize())
+        m_graphics->GetDeviceContext()->SetTexture(material->GetPixelShader(), &material->GetTexture(), static_cast<UINT>(material->GetTextureSize()));
 }
 
 SpritePtr Engine::CreateSprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path)

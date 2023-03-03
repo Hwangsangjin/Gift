@@ -1,27 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Precompile">
-      <UniqueIdentifier>{6bdfdff7-a3e6-4d60-9ac4-583325e62915}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Include">
-      <UniqueIdentifier>{76bac2bd-fa80-405a-a9b2-93deff63688e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Include\DirectXTK">
-      <UniqueIdentifier>{3d691509-18c6-48de-9736-9474bbd30f37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Include\ImGui">
-      <UniqueIdentifier>{4a8f180f-c660-431d-9323-5e84dd629daa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Include\DirectTex">
-      <UniqueIdentifier>{f7db4a73-88d8-4c62-8e86-8a99ff8533ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Include\TinyObjLoader">
-      <UniqueIdentifier>{c4d81887-85ee-409a-9399-b4f64998c382}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Include\RapidJSON">
-      <UniqueIdentifier>{6ca405e8-34b6-432b-983d-d7c8504c4ce2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{d06741c3-947e-4976-aea0-186b26b5a32e}</UniqueIdentifier>
     </Filter>
@@ -121,6 +100,33 @@
     <Filter Include="Engine\Math\Rect">
       <UniqueIdentifier>{668cce69-342f-4f9f-834d-37bb33d54cc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vendor">
+      <UniqueIdentifier>{76bac2bd-fa80-405a-a9b2-93deff63688e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\DirectXTK">
+      <UniqueIdentifier>{3d691509-18c6-48de-9736-9474bbd30f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\ImGui">
+      <UniqueIdentifier>{4a8f180f-c660-431d-9323-5e84dd629daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\DirectTex">
+      <UniqueIdentifier>{f7db4a73-88d8-4c62-8e86-8a99ff8533ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\TinyObjLoader">
+      <UniqueIdentifier>{c4d81887-85ee-409a-9399-b4f64998c382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\RapidJSON">
+      <UniqueIdentifier>{6ca405e8-34b6-432b-983d-d7c8504c4ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precompile">
+      <UniqueIdentifier>{6bdfdff7-a3e6-4d60-9ac4-583325e62915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader\Global\PostProcessEffect">
+      <UniqueIdentifier>{4de5afd8-061b-4c68-b4c4-1531123bba15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\FBXLoader">
+      <UniqueIdentifier>{6f0c9462-1d65-4c1d-af65-0f22bb37c8a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -196,214 +202,214 @@
       <Filter>Engine\Window</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTex\DirectXTex.h">
-      <Filter>Include\DirectTex</Filter>
+      <Filter>Vendor\DirectTex</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\Audio.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\BufferHelpers.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\CommonStates.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\DDSTextureLoader.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\DirectXHelpers.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\Effects.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\GamePad.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\GeometricPrimitive.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\GraphicsMemory.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\Keyboard.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\Model.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\Mouse.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\PostProcess.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\PrimitiveBatch.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\ScreenGrab.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\SimpleMath.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\SpriteBatch.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\SpriteFont.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\VertexTypes.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\WICTextureLoader.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\DirectXTK\XboxDDSTextureLoader.h">
-      <Filter>Include\DirectXTK</Filter>
+      <Filter>Vendor\DirectXTK</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\TinyObjLoader\tiny_obj_loader.h">
-      <Filter>Include\TinyObjLoader</Filter>
+      <Filter>Vendor\TinyObjLoader</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imstb_truetype.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imconfig.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imgui.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imgui_impl_dx11.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imgui_impl_win32.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imgui_internal.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imstb_rectpack.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imstb_textedit.h">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\rapidjson.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\reader.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\schema.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\stream.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\stringbuffer.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\uri.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\writer.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\error\en.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\error\error.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\biginteger.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\clzll.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\diyfp.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\dtoa.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\ieee754.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\itoa.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\meta.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\pow10.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\regex.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\stack.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\strfunc.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\strtod.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\internal\swap.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\msinttypes\inttypes.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\msinttypes\stdint.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\allocators.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\cursorstreamwrapper.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\document.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\encodedstream.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\encodings.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\filereadstream.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\filewritestream.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\fwd.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\istreamwrapper.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\memorybuffer.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\memorystream.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\ostreamwrapper.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\pointer.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\prettywriter.h">
-      <Filter>Include\RapidJSON</Filter>
+      <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Engine\Timer</Filter>
@@ -498,25 +504,25 @@
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui_demo.cpp">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui_draw.cpp">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui_impl_dx11.cpp">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui_impl_win32.cpp">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui_tables.cpp">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui_widgets.cpp">
-      <Filter>Include\ImGui</Filter>
+      <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Engine\Timer</Filter>
@@ -573,6 +579,12 @@
     </FxCompile>
     <FxCompile Include="DirectionalLightBumpPixelShader.hlsl">
       <Filter>Engine\Shader\Global\DirectionalLightBump</Filter>
+    </FxCompile>
+    <FxCompile Include="PostProcessVertexShader.hlsl">
+      <Filter>Engine\Shader\Global\PostProcessEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="DistortionEffect.hlsl">
+      <Filter>Engine\Shader\Global\PostProcessEffect</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

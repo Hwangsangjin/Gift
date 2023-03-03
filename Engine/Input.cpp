@@ -32,12 +32,43 @@ void Input::Update()
     }
     m_old_mouse_position = Point(current_mouse_position.x, current_mouse_position.y);
 
-    if (::GetKeyboardState(m_key_states))
+    for (unsigned int i = 0; i < 256; i++)
     {
-        for (unsigned int i = 0; i < 256; i++)
+        // 비동기 키 입력
+        m_key_states[i] = ::GetAsyncKeyState(i);
+
+        // 키가 눌린 경우
+        if (m_key_states[i] & 0x8001)
         {
-            // Key is down
-            if (m_key_states[i] & 0x80)
+            std::unordered_set<Window*>::iterator iter = m_set_listeners.begin();
+
+            while (iter != m_set_listeners.end())
+            {
+                if (i == VK_LBUTTON)
+                {
+                    if (m_key_states[i] != m_old_key_states[i])
+                    {
+                        (*iter)->OnLeftButtonDown(Point(current_mouse_position.x, current_mouse_position.y));
+                    }
+                }
+                else if (i == VK_RBUTTON)
+                {
+                    if (m_key_states[i] != m_old_key_states[i])
+                    {
+                        (*iter)->OnRightButtonDown(Point(current_mouse_position.x, current_mouse_position.y));
+                    }
+                }
+                else
+                {
+                    (*iter)->OnKeyDown(i);
+                }
+                ++iter;
+            }
+        }
+        else
+        {
+            // 키의 현재 상태가 이전 상태와 같지 않은 경우
+            if (m_key_states[i] != m_old_key_states[i])
             {
                 std::unordered_set<Window*>::iterator iter = m_set_listeners.begin();
 
@@ -45,55 +76,24 @@ void Input::Update()
                 {
                     if (i == VK_LBUTTON)
                     {
-                        if (m_key_states[i] != m_old_key_states[i])
-                        {
-                            (*iter)->OnLeftButtonDown(Point(current_mouse_position.x, current_mouse_position.y));
-                        }
+                        (*iter)->OnLeftButtonUp(Point(current_mouse_position.x, current_mouse_position.y));
                     }
                     else if (i == VK_RBUTTON)
                     {
-                        if (m_key_states[i] != m_old_key_states[i])
-                        {
-                            (*iter)->OnRightButtonDown(Point(current_mouse_position.x, current_mouse_position.y));
-                        }
+                        (*iter)->OnRightButtonUp(Point(current_mouse_position.x, current_mouse_position.y));
                     }
                     else
                     {
-                        (*iter)->OnKeyDown(i);
+                        (*iter)->OnKeyUp(i);
                     }
                     ++iter;
                 }
             }
-            else // Key is up
-            {
-                // 키의 현재 상태가 이전 상태와 같지 않은 경우
-                if (m_key_states[i] != m_old_key_states[i])
-                {
-                    std::unordered_set<Window*>::iterator iter = m_set_listeners.begin();
-
-                    while (iter != m_set_listeners.end())
-                    {
-                        if (i == VK_LBUTTON)
-                        {
-                            (*iter)->OnLeftButtonUp(Point(current_mouse_position.x, current_mouse_position.y));
-                        }
-                        else if (i == VK_RBUTTON)
-                        {
-                            (*iter)->OnRightButtonUp(Point(current_mouse_position.x, current_mouse_position.y));
-                        }
-                        else
-                        {
-                            (*iter)->OnKeyUp(i);
-                        }
-                        ++iter;
-                    }
-                }
-            }
         }
-
-        // 현재 키 상태를 이전 키 상태 버퍼에 저장
-        ::memcpy(m_old_key_states, m_key_states, sizeof(UCHAR) * 256);
     }
+
+    // 현재 키 상태를 이전 키 상태 버퍼에 저장
+    ::memcpy(m_old_key_states, m_key_states, sizeof(UCHAR) * 256);
 }
 
 void Input::AddListener(Window* listener)

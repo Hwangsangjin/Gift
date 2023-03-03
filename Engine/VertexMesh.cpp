@@ -20,18 +20,3 @@ VertexMesh::VertexMesh(const VertexMesh& vertex_mesh)
 	, m_binormal(vertex_mesh.m_binormal)
 {
 }
-
-Vector3 VertexMesh::GetPosition() const
-{
-	return m_position;
-}
-
-Vector2 VertexMesh::GetTexcoord() const
-{
-	return m_texcoord;
-}
-
-Vector3 VertexMesh::GetNormal() const
-{
-	return m_normal;
-}
