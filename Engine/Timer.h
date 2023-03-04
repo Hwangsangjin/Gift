@@ -5,7 +5,7 @@ class Timer
 public:
     static Timer* GetInstance();
 
-    void Initialize();
+    void CreateTimer();
     void Update();
 
     uint32 GetFPS();

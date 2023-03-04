@@ -2,6 +2,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Timer.h"
+#include "Sound.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -29,7 +30,10 @@ void App::OnCreate()
 	Input::GetInstance()->ShowCursor(false);
 
 	// 타이머
-	Timer::GetInstance()->Initialize();
+	Timer::GetInstance()->CreateTimer();
+	
+	// 사운드
+	Sound::GetInstance()->CreateSound("..\\..\\Assets\\Sounds\\The Crows.mp3", "title_bgm", true);
 
 	// 실행 상태 설정
 	m_play_state = true;
@@ -596,6 +600,16 @@ void App::Render()
 	if (ImGui::Button("Perspective"))
 	{
 		m_projection_state = true;
+	}
+
+	if (ImGui::Button("PlaySound"))
+	{
+		Sound::GetInstance()->PlaySound("title_bgm");
+	}
+
+	if (ImGui::Button("StopSound"))
+	{
+		Sound::GetInstance()->StopSound("title_bgm");
 	}
 
 	// Our state

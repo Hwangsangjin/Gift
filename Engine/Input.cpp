@@ -35,7 +35,7 @@ void Input::Update()
     for (unsigned int i = 0; i < 256; i++)
     {
         // 비동기 키 입력
-        m_key_states[i] = ::GetAsyncKeyState(i);
+        m_key_states[i] = static_cast<UCHAR>(::GetAsyncKeyState(i));
 
         // 키가 눌린 경우
         if (m_key_states[i] & 0x8001)

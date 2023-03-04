@@ -64,9 +64,6 @@ Sprite::Sprite(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pa
 	// 인덱스 버퍼 생성
 	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(indices, index_count);
 	assert(m_index_buffer);
-
-	// 타이머
-	Timer::GetInstance()->Initialize();
 }
 
 Sprite::Sprite(const SpritePtr& sprite)

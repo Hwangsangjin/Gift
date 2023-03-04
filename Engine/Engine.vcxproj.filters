@@ -124,6 +124,9 @@
     <Filter Include="Engine\Shader\Global\PostProcessEffect">
       <UniqueIdentifier>{4de5afd8-061b-4c68-b4c4-1531123bba15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Sound">
+      <UniqueIdentifier>{f65fae06-9d98-47dc-b01a-00c581e9d15a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -426,6 +429,7 @@
     <ClInclude Include="Rect.h">
       <Filter>Engine\Math\Rect</Filter>
     </ClInclude>
+    <ClInclude Include="Sound.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -536,6 +540,7 @@
     <ClCompile Include="Rect.cpp">
       <Filter>Engine\Math\Rect</Filter>
     </ClCompile>
+    <ClCompile Include="Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">

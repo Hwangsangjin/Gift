@@ -6,6 +6,7 @@
 #pragma comment(lib, "dxgi")
 #pragma comment(lib, "DirectXTK")
 #pragma comment(lib, "DirectXTex")
+#pragma comment(lib, "fmod_vc")
 
 #include <cassert>
 #include <exception>
@@ -41,10 +42,7 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/ImFileDialog.h"
 
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/prettywriter.h"
+#include "FMOD/fmod.hpp"
 
 // class
 class SwapChain;

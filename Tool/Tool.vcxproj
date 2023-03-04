@@ -145,7 +145,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\Libs\DirectXTex\$(Configuration);..\..\Libs\DirectXTK\$(Configuration);..\..\Libs\Engine\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Libs\FMOD\$(Configuration);..\..\Libs\DirectXTex\$(Configuration);..\..\Libs\DirectXTK\$(Configuration);..\..\Libs\Engine\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
@@ -173,7 +173,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\Libs\DirectXTex\$(Configuration);..\..\Libs\DirectXTK\$(Configuration);..\..\Libs\Engine\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Libs\FMOD\$(Configuration);..\..\Libs\DirectXTex\$(Configuration);..\..\Libs\DirectXTK\$(Configuration);..\..\Libs\Engine\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent />
@@ -190,6 +190,11 @@
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{64091678-15f8-4970-b738-9263547d79d4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

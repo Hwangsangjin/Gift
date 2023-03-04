@@ -7,7 +7,7 @@ Timer* Timer::GetInstance()
 	return &instance;
 }
 
-void Timer::Initialize()
+void Timer::CreateTimer()
 {
 	::QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&m_frequency));
 	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&m_prev_count));
