@@ -1,19 +1,18 @@
 #include "pch.h"
 #include "Mesh.h"
 #include "Engine.h"
+#include "Graphics.h"
 #include "VertexMesh.h"
+#include "ResourceManager.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "App.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "TinyObjLoader/tiny_obj_loader.h"
 
-#include <locale>
-#include <codecvt>
-#include <filesystem>
-
-Mesh::Mesh(const wchar_t* full_path)
-	: Resource(full_path)
+Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
+	: Resource(file_path, resource_manager)
 {
 	tinyobj::attrib_t attribs;
 	std::vector<tinyobj::shape_t> shapes;
@@ -22,15 +21,15 @@ Mesh::Mesh(const wchar_t* full_path)
 	std::string warning;
 	std::string error;
 
-	auto input_file = std::filesystem::path(full_path).string();
+	auto input_file = std::filesystem::path(file_path).string();
 
 	std::string mtl_dir = input_file.substr(0, input_file.find_last_of("\\/"));
 
 	bool result = tinyobj::LoadObj(&attribs, &shapes, &materials, &warning, &error, input_file.c_str(), mtl_dir.c_str());
 	if (!error.empty())
-		throw std::exception("Mesh not created successfully");
+		GiftError("Mesh not created successfully");
 	if (!result)
-		throw std::exception("Mesh not created successfully");
+		GiftError("Mesh not created successfully");
 
 	std::vector<VertexMesh> vertex_mesh_vertices;
 	std::vector<UINT> vertex_mesh_indices;
@@ -143,32 +142,20 @@ Mesh::Mesh(const wchar_t* full_path)
 		m_material_slots[m].index_size = index_global_offset - m_material_slots[m].start_index;
 	}
 
-	void* shader_byte_code = nullptr;
-	size_t shader_byte_size = 0;
-	Engine::GetInstance()->GetVertexMeshLayoutShaderByteCodeAndSize(&shader_byte_code, &shader_byte_size);
-	assert(shader_byte_code);
-	assert(shader_byte_size);
-
-	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(&vertex_mesh_vertices[0], sizeof(VertexMesh), static_cast<UINT>(vertex_mesh_vertices.size()), shader_byte_code, static_cast<UINT>(shader_byte_size));
+	m_vertex_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateVertexBuffer(&vertex_mesh_vertices[0], sizeof(VertexMesh), static_cast<UINT>(vertex_mesh_vertices.size()));
 	assert(m_vertex_buffer);
 
-	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(&vertex_mesh_indices[0], static_cast<UINT>(vertex_mesh_indices.size()));
+	m_index_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateIndexBuffer(&vertex_mesh_indices[0], static_cast<UINT>(vertex_mesh_indices.size()));
 	assert(m_index_buffer);
 }
 
-Mesh::Mesh(VertexMesh* vertex_mesh_data, UINT vertex_size, UINT* index_data, UINT index_size, MaterialSlot* material_slot, UINT material_slot_size)
-	: Resource(L"")
+Mesh::Mesh(VertexMesh* vertex_mesh_data, UINT vertex_size, UINT* index_data, UINT index_size, MaterialSlot* material_slot, UINT material_slot_size, ResourceManager* resource_manager)
+	: Resource(L"", resource_manager)
 {
-	void* shader_byte_code = nullptr;
-	size_t shader_byte_size = 0;
-	Engine::GetInstance()->GetVertexMeshLayoutShaderByteCodeAndSize(&shader_byte_code, &shader_byte_size);
-	assert(shader_byte_code);
-	assert(shader_byte_size);
-
-	m_vertex_buffer = Engine::GetInstance()->GetGraphics()->CreateVertexBuffer(vertex_mesh_data, sizeof(VertexMesh), vertex_size, shader_byte_code, static_cast<UINT>(shader_byte_size));
+	m_vertex_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateVertexBuffer(vertex_mesh_data, sizeof(VertexMesh), vertex_size);
 	assert(m_vertex_buffer);
 
-	m_index_buffer = Engine::GetInstance()->GetGraphics()->CreateIndexBuffer(index_data, index_size);
+	m_index_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateIndexBuffer(index_data, index_size);
 	assert(m_index_buffer);
 
 	m_material_slots.resize(material_slot_size);
@@ -193,7 +180,7 @@ const IndexBufferPtr& Mesh::GetIndexBuffer()
 	return m_index_buffer;
 }
 
-const MaterialSlot& Mesh::GetMaterialSlot(UINT slot)
+MaterialSlot Mesh::GetMaterialSlot(UINT slot)
 {
 	return m_material_slots[slot];
 }

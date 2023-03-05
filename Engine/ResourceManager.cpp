@@ -1,17 +1,12 @@
 #include "pch.h"
 #include "ResourceManager.h"
 #include "Resource.h"
+#include "Mesh.h"
+#include "Texture.h"
+#include "Material.h"
 
-#if __cplusplus <= 201402L 
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental/filesystem>
-#endif
-
-#if __cplusplus >= 201703L
-#include <filesystem>
-#endif
-
-ResourceManager::ResourceManager()
+ResourceManager::ResourceManager(App* app)
+    : m_app(app)
 {
 }
 
@@ -19,26 +14,42 @@ ResourceManager::~ResourceManager()
 {
 }
 
-ResourcePtr ResourceManager::CreateResourceFromFile(const wchar_t* file_path)
+App* ResourceManager::GetApp()
 {
-#if (_MSC_VER >= 1900 && _MSC_VER <= 1916)  || ( _MSC_VER >= 1920 && __cplusplus <= 201402L) 
-    std::wstring full_path = std::experimental::filesystem::absolute(file_path);
-#endif
+    return m_app;
+}
 
-#if _MSC_VER >= 1920 && __cplusplus > 201402L 
-    std::wstring full_path = std::filesystem::absolute(file_path);
-#endif
+ResourcePtr ResourceManager::CreateResourceFromFileConcrete(const wchar_t* file_path)
+{
+    std::filesystem::path resource_path = file_path;
+    auto extension = resource_path.extension();
 
-    auto iter = m_resources.find(full_path);
+    auto iter = m_resources.find(file_path);
     if (iter != m_resources.end())
-        return iter->second;
-
-    Resource* raw_res = CreateResourceFromFileConcrete(full_path.c_str());
-    if (raw_res)
     {
-        ResourcePtr res(raw_res);
-        m_resources[full_path] = res;
-        return res;
+        auto material = std::dynamic_pointer_cast<Material>(iter->second);
+        if (material)
+            return std::make_shared<Material>(material, this);
+
+        return iter->second;
+    }
+
+    if (!std::filesystem::exists(resource_path))
+        return ResourcePtr();
+
+    ResourcePtr resource_ptr = nullptr;
+
+    if (!extension.compare(L".obj"))
+        resource_ptr = std::make_shared<Mesh>(resource_path.c_str(), this);
+    else if (!extension.compare(L".jpg") || !extension.compare(L".png") || !extension.compare(L".bmp"))
+        resource_ptr = std::make_shared<Texture>(resource_path.c_str(), this);
+    else if (!extension.compare(L".hlsl") || !extension.compare(L".fx"))
+        resource_ptr = std::make_shared<Material>(resource_path.c_str(), this);
+
+    if (resource_ptr)
+    {
+        m_resources.emplace(file_path, resource_ptr);
+        return resource_ptr;
     }
 
     return nullptr;

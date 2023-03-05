@@ -1,19 +1,23 @@
 #pragma once
 
-class Resource;
-
 class ResourceManager
 {
 public:
-	ResourceManager();
-	virtual ~ResourceManager();
+	ResourceManager(App* app);
+	~ResourceManager();
 
-	ResourcePtr CreateResourceFromFile(const wchar_t* file_path);
+	template<typename T>
+	std::shared_ptr<T> CreateResourceFromFile(const wchar_t* file_path)
+	{
+		return std::dynamic_pointer_cast<T>(CreateResourceFromFileConcrete(file_path));
+	}
 
-protected:
-	virtual Resource* CreateResourceFromFileConcrete(const wchar_t* file_path) = 0;
+	App* GetApp();
 
 private:
+	ResourcePtr CreateResourceFromFileConcrete(const wchar_t* file_path);
+
 	std::unordered_map<std::wstring, ResourcePtr> m_resources;
+	App* m_app = nullptr;
 };
 

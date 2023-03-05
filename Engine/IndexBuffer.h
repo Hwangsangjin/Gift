@@ -3,16 +3,15 @@
 class IndexBuffer
 {
 public:
-	IndexBuffer(void* indices, UINT index_count, Graphics* graphics);
-	~IndexBuffer();
+	IndexBuffer(void* index_list, UINT index_count, Graphics* graphics);
 
-	ID3D11Buffer* GetBuffer() const;
 	UINT GetIndexCount() const;
+	ID3D11Buffer* GetBuffer() const;
 
 private:
 	UINT m_index_count = 0;
 
-	ID3D11Buffer* m_buffer = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> m_buffer = nullptr;
 	Graphics* m_graphics = nullptr;
 };
 

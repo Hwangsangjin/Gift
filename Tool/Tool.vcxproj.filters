@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="App">
-      <UniqueIdentifier>{ac0e19b1-becb-462e-b817-f01bd0f08a6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Precompile">
       <UniqueIdentifier>{84ba8acb-fc36-4c3c-853e-6be00d23f567}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{ac0e19b1-becb-462e-b817-f01bd0f08a6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
-      <Filter>App</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Precompile</Filter>
     </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>App</Filter>
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>Tool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

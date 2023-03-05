@@ -1,27 +1,17 @@
 #include "pch.h"
-#include "App.h"
+#include "Tool.h"
 
 int main()
 {
 	try
 	{
-		Engine::Create();
+		Tool tool;
+		tool.Run();
 	}
-	catch (...) { return -1; }
-
+	catch (...)
 	{
-		try
-		{
-			App app;
-			while (app.IsRunning());
-		}
-		catch (...)
-		{
-			Engine::Release();
-			return -1;
-		}
+		return -1;
 	}
 
-	Engine::Release();
 	return 0;
 }

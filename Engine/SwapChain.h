@@ -4,7 +4,6 @@ class SwapChain
 {
 public:
 	SwapChain(HWND hwnd, UINT width, UINT height, Graphics* graphics);
-	~SwapChain();
 
 	void SetFullScreen(bool fullscreen, UINT width, UINT height);
 	void Resize(UINT width, UINT height);
@@ -14,11 +13,12 @@ public:
 	ID3D11DepthStencilView* GetDepthStencilView() const;
 
 private:
-	void LoadBuffers(UINT width, UINT height);
+	void ReloadBuffers(UINT width, UINT height);
 
-	IDXGISwapChain* m_dxgi_swap_chain = nullptr;
-	ID3D11RenderTargetView* m_render_target_view = nullptr;
-	ID3D11DepthStencilView* m_depth_stencil_view = nullptr;
+	Microsoft::WRL::ComPtr<IDXGISwapChain> m_dxgi_swap_chain = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_render_target_view = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_depth_stencil_view = nullptr;
+
 	Graphics* m_graphics = nullptr;
 };
 

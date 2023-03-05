@@ -37,7 +37,7 @@ public:
 	FillMode GetFillMode();
 	void SetFillMode(FillMode fill_mode);
 
-//private:
+private:
 	VertexBufferPtr m_vertex_buffer = nullptr;
 	VertexShaderPtr m_vertex_shader = nullptr;
 	PixelShaderPtr m_pixel_shader = nullptr;

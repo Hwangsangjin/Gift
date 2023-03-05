@@ -1,30 +1,26 @@
 #include "pch.h"
 #include "Material.h"
-#include "Engine.h"
 #include "ConstantBuffer.h"
+#include "ResourceManager.h"
+#include "App.h"
+#include "Engine.h"
+#include "Graphics.h"
+#include "Texture.h"
 
-Material::Material(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path)
+Material::Material(const wchar_t* file_path, ResourceManager* resource_manager)
+	: Resource(file_path, resource_manager)
 {
 	// Á¤Á¡ ¼ÎÀÌ´õ »ý¼º
-	void* shader_byte_code = nullptr;
-	size_t shader_byte_size = 0;
-	Engine::GetInstance()->GetGraphics()->CompileVertexShader(vertex_shader_path, "main", &shader_byte_code, &shader_byte_size);
-	assert(shader_byte_code);
-	assert(shader_byte_size);
-	m_vertex_shader = Engine::GetInstance()->GetGraphics()->CreateVertexShader(shader_byte_code, shader_byte_size);
+	m_vertex_shader = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateVertexShader(file_path);
 	assert(m_vertex_shader);
-	Engine::GetInstance()->GetGraphics()->ReleaseCompiledShader();
 
 	// ÇÈ¼¿ ¼ÎÀÌ´õ »ý¼º
-	Engine::GetInstance()->GetGraphics()->CompilePixelShader(pixel_shader_path, "main", &shader_byte_code, &shader_byte_size);
-	assert(shader_byte_code);
-	assert(shader_byte_size);
-	m_pixel_shader = Engine::GetInstance()->GetGraphics()->CreatePixelShader(shader_byte_code, shader_byte_size);
+	m_pixel_shader = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreatePixelShader(file_path);
 	assert(m_pixel_shader);
-	Engine::GetInstance()->GetGraphics()->ReleaseCompiledShader();
 }
 
-Material::Material(const MaterialPtr& material)
+Material::Material(const MaterialPtr& material, ResourceManager* resource_manager)
+	: Resource(L"", resource_manager)
 {
 	m_vertex_shader = material->GetVertexShader();
 	m_pixel_shader = material->GetPixelShader();
@@ -49,7 +45,7 @@ ConstantBufferPtr Material::GetConstantBuffer()
 	return m_constant_buffer;
 }
 
-TexturePtr& Material::GetTexture()
+Texture2DPtr& Material::GetTexture()
 {
 	return m_textures[0];
 }
@@ -61,7 +57,7 @@ size_t Material::GetTextureSize() const
 
 void Material::AddTexture(const TexturePtr& texture)
 {
-	m_textures.push_back(texture);
+	m_textures.push_back(texture->GetTexture());
 }
 
 void Material::RemoveTexture(UINT index)
@@ -75,9 +71,9 @@ void Material::RemoveTexture(UINT index)
 void Material::SetData(void* data, UINT size)
 {
 	if (!m_constant_buffer)
-		m_constant_buffer = Engine::GetInstance()->GetGraphics()->CreateConstantBuffer(data, size);
+		m_constant_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateConstantBuffer(data, size);
 	else
-		m_constant_buffer->Update(Engine::GetInstance()->GetGraphics()->GetDeviceContext(), data);
+		m_constant_buffer->Update(m_resource_manager->GetApp()->GetEngine()->GetGraphics()->GetDeviceContext(), data);
 }
 
 Material::CullMode Material::GetCullMode()

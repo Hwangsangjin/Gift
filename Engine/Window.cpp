@@ -6,27 +6,27 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
-        return true;
+ /*   if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+        return true;*/
 
     switch (msg)
     {
     case WM_CREATE:
     {
         // 윈도우가 생성될 때 실행되는 이벤트
-        Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+        //Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-        // Setup Dear ImGui context
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
+        //// Setup Dear ImGui context
+        //IMGUI_CHECKVERSION();
+        //ImGui::CreateContext();
+        //ImGuiIO& io = ImGui::GetIO();
 
-        // Setup Dear ImGui style
-        ImGui::StyleColorsDark();
+        //// Setup Dear ImGui style
+        //ImGui::StyleColorsDark();
 
-        // Setup Platform/Renderer backends
-        ImGui_ImplWin32_Init(hwnd);
-        ImGui_ImplDX11_Init(Engine::GetInstance()->GetGraphics()->GetD3DDevice(), Engine::GetInstance()->GetGraphics()->GetImmediateContext());
+        //// Setup Platform/Renderer backends
+        //ImGui_ImplWin32_Init(hwnd);
+        //ImGui_ImplDX11_Init(Engine::GetInstance()->GetGraphics()->GetD3DDevice(), Engine::GetInstance()->GetGraphics()->GetImmediateContext());
         break;
     }
     case WM_SIZE:
@@ -34,7 +34,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
         // 윈도우의 크기를 변경할 때 실행되는 이벤트
         Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
         if (window)
-            window->OnSize();
+            window->OnSize(window->GetClientSize());
         break;
     }
     case WM_SETFOCUS:
@@ -58,12 +58,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
         Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
         window->OnDestroy();
 
-        // ImGui Cleanup
-        ImGui_ImplDX11_Shutdown();
-        ImGui_ImplWin32_Shutdown();
-        ImGui::DestroyContext();
-
-        ::PostQuitMessage(0);
+        //// ImGui Cleanup
+        //ImGui_ImplDX11_Shutdown();
+        //ImGui_ImplWin32_Shutdown();
+        //ImGui::DestroyContext();
+        break;
+    }
+    case WM_CLOSE:
+    {
+        // 윈도우를 닫았을 때 실행되는 이벤트
+        PostQuitMessage(0);
         break;
     }
     default:
@@ -76,91 +80,57 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 Window::Window()
 {
     // 윈도우 클래스 객체 설정
-    WNDCLASSEX wc;
-    wc.cbClsExtra = NULL;
+    WNDCLASSEX wc = {};
     wc.cbSize = sizeof(WNDCLASSEX);
-    wc.cbWndExtra = NULL;
-    wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hInstance = NULL;
     wc.lpszClassName = L"Gift";
-    wc.lpszMenuName = L"";
-    wc.style = NULL;
     wc.lpfnWndProc = &WndProc;
 
     // 클래스 등록을 실패한 경우
-    if (!::RegisterClassEx(&wc))
-        throw std::exception("Window class not registered successfully");
+    auto id = RegisterClassEx(&wc);
+    if (!id)
+        GiftError("Window not registered successfully.");
 
     // 윈도우 생성
-    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"Gift", L"Gift", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, NULL);
+    RECT rect = { 0, 0, static_cast<LONG>(m_size.m_width), static_cast<LONG>(m_size.m_height) };
+    AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
+    m_hwnd = CreateWindowEx(NULL, MAKEINTATOM(id), L"Gift", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, NULL, NULL);
 
     // 윈도우 생성을 실패한 경우
     if (!m_hwnd)
-        throw std::exception("Window not created successfully");
+        GiftError("Window not created successfully.");
+
+    auto hwnd = static_cast<HWND>(m_hwnd);
+    SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
     // 윈도우 창 보이기
-    ::ShowWindow(m_hwnd, SW_SHOW);
-    ::UpdateWindow(m_hwnd);
-
-    // 윈도우 실행 플래그 설정
-    m_is_running = true;
+    ::ShowWindow(hwnd, SW_SHOW);
+    ::UpdateWindow(hwnd);
 }
 
 Window::~Window()
 {
+    DestroyWindow(static_cast<HWND>(m_hwnd));
 }
 
-bool Window::IsRunning()
+Rect Window::GetClientSize() const
 {
-    if (m_is_running)
-        Broadcast();
+    RECT rect = {};
+    auto hwnd = static_cast<HWND>(m_hwnd);
+    ::GetClientRect(hwnd, &rect);
+    ::ClientToScreen(hwnd, (LPPOINT)&rect.left);
+    ::ClientToScreen(hwnd, (LPPOINT)&rect.right);
 
-    return m_is_running;
+    return { static_cast<UINT>(rect.left), static_cast<UINT>(rect.top), static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top) };
 }
 
-bool Window::Broadcast()
+Rect Window::GetScreenSize() const
 {
-    if (!m_is_initialize)
-    {
-        SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
-        OnCreate();
-        m_is_initialize = true;
-    }
-
-    OnUpdate();
-
-    MSG msg = {};
-    while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-
-    ::Sleep(1);
-
-    return true;
-}
-
-RECT Window::GetClientRect() const
-{
-    RECT rect;
-    ::GetClientRect(m_hwnd, &rect);
-    ::ClientToScreen(m_hwnd, (LPPOINT)&rect.left);
-    ::ClientToScreen(m_hwnd, (LPPOINT)&rect.right);
-
-    return rect;
-}
-
-RECT Window::GetScreenSize() const
-{
-    RECT rect;
+    RECT rect = {};
     rect.right = GetSystemMetrics(SM_CXSCREEN);
     rect.bottom = GetSystemMetrics(SM_CYSCREEN);
 
-    return rect;
+    return { 0, 0, static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top) };
 }
 
 void Window::OnCreate()
@@ -171,7 +141,7 @@ void Window::OnUpdate()
 {
 }
 
-void Window::OnSize()
+void Window::OnSize(const Rect& size)
 {
 }
 
@@ -184,34 +154,5 @@ void Window::OnKillFocus()
 }
 
 void Window::OnDestroy()
-{
-    m_is_running = false;
-}
-
-void Window::OnKeyUp(int key)
-{
-}
-
-void Window::OnKeyDown(int key)
-{
-}
-
-void Window::OnMouseMove(const Point& point)
-{
-}
-
-void Window::OnLeftButtonUp(const Point& point)
-{
-}
-
-void Window::OnLeftButtonDown(const Point& point)
-{
-}
-
-void Window::OnRightButtonUp(const Point& point)
-{
-}
-
-void Window::OnRightButtonDown(const Point& point)
 {
 }

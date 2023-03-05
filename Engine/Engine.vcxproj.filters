@@ -1,6 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Vendor">
+      <UniqueIdentifier>{76bac2bd-fa80-405a-a9b2-93deff63688e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\DirectXTK">
+      <UniqueIdentifier>{3d691509-18c6-48de-9736-9474bbd30f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\ImGui">
+      <UniqueIdentifier>{4a8f180f-c660-431d-9323-5e84dd629daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\DirectTex">
+      <UniqueIdentifier>{f7db4a73-88d8-4c62-8e86-8a99ff8533ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\TinyObjLoader">
+      <UniqueIdentifier>{c4d81887-85ee-409a-9399-b4f64998c382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\RapidJSON">
+      <UniqueIdentifier>{6ca405e8-34b6-432b-983d-d7c8504c4ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precompile">
+      <UniqueIdentifier>{6bdfdff7-a3e6-4d60-9ac4-583325e62915}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{d06741c3-947e-4976-aea0-186b26b5a32e}</UniqueIdentifier>
     </Filter>
@@ -43,6 +64,9 @@
     <Filter Include="Engine\Math\VertexMesh">
       <UniqueIdentifier>{2e1c0397-d4a8-4235-b1ab-0d0bdaa89a0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Math\Rect">
+      <UniqueIdentifier>{668cce69-342f-4f9f-834d-37bb33d54cc1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Resource">
       <UniqueIdentifier>{edcf136c-f2b2-4315-b25c-ef55ed045887}</UniqueIdentifier>
     </Filter>
@@ -61,15 +85,6 @@
     <Filter Include="Engine\Window">
       <UniqueIdentifier>{ee8e0171-5419-4241-9edb-6f3c6913e6ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Input">
-      <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject">
-      <UniqueIdentifier>{3a4aa9d0-e920-4d1a-8c41-e2e23fd6c510}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Timer">
-      <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Shader">
       <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
     </Filter>
@@ -79,17 +94,11 @@
     <Filter Include="Engine\Shader\Global\DirectionalLight">
       <UniqueIdentifier>{93527474-8eae-4ee9-a673-66deba0d5326}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Shader\Earth">
-      <UniqueIdentifier>{53860061-397c-495d-8763-cdcc8eb79f50}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Shader\Global\SkyBox">
       <UniqueIdentifier>{d1887272-d035-4920-9af7-5a21c5581f26}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Shader\Global\PointLight">
       <UniqueIdentifier>{c55715cf-12e1-4c7f-ad54-92020c94876d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shader\VertexMeshLayout">
-      <UniqueIdentifier>{297ef8bd-8a7f-4b8c-a771-7640fec2165b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Shader\Global\UI">
       <UniqueIdentifier>{9f962152-02d9-4a0d-8c19-7aa1cfd11cf3}</UniqueIdentifier>
@@ -97,35 +106,32 @@
     <Filter Include="Engine\Shader\Global\DirectionalLightBump">
       <UniqueIdentifier>{9ebe87ed-2683-41cd-a655-6cf4b58f7d5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Math\Rect">
-      <UniqueIdentifier>{668cce69-342f-4f9f-834d-37bb33d54cc1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor">
-      <UniqueIdentifier>{76bac2bd-fa80-405a-a9b2-93deff63688e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor\DirectXTK">
-      <UniqueIdentifier>{3d691509-18c6-48de-9736-9474bbd30f37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor\ImGui">
-      <UniqueIdentifier>{4a8f180f-c660-431d-9323-5e84dd629daa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor\DirectTex">
-      <UniqueIdentifier>{f7db4a73-88d8-4c62-8e86-8a99ff8533ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor\TinyObjLoader">
-      <UniqueIdentifier>{c4d81887-85ee-409a-9399-b4f64998c382}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor\RapidJSON">
-      <UniqueIdentifier>{6ca405e8-34b6-432b-983d-d7c8504c4ce2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Precompile">
-      <UniqueIdentifier>{6bdfdff7-a3e6-4d60-9ac4-583325e62915}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Shader\Global\PostProcessEffect">
       <UniqueIdentifier>{4de5afd8-061b-4c68-b4c4-1531123bba15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Shader\VertexMeshLayout">
+      <UniqueIdentifier>{297ef8bd-8a7f-4b8c-a771-7640fec2165b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Sound">
       <UniqueIdentifier>{f65fae06-9d98-47dc-b01a-00c581e9d15a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Timer">
+      <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader\Default">
+      <UniqueIdentifier>{53860061-397c-495d-8763-cdcc8eb79f50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Texture2D">
+      <UniqueIdentifier>{786a0fbf-a9ec-4e2e-9f1f-e89d95027476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Display">
+      <UniqueIdentifier>{f4bcc7b9-0c02-43e8-bdec-fa8ba378143b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App">
+      <UniqueIdentifier>{18ca733d-895f-4ed0-b076-d40c9c00a3f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,12 +177,6 @@
     <ClInclude Include="Matrix4x4.h">
       <Filter>Engine\Math\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Engine\Resource\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Engine\Resource\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Engine\Resource</Filter>
     </ClInclude>
@@ -190,9 +190,6 @@
       <Filter>Precompile</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Engine\Resource\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshManager.h">
       <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
@@ -269,9 +266,6 @@
     </ClInclude>
     <ClInclude Include="..\Include\TinyObjLoader\tiny_obj_loader.h">
       <Filter>Vendor\TinyObjLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ImGui\imstb_truetype.h">
       <Filter>Vendor\ImGui</Filter>
@@ -429,7 +423,21 @@
     <ClInclude Include="Rect.h">
       <Filter>Engine\Math\Rect</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h" />
+    <ClInclude Include="Sound.h">
+      <Filter>Engine\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Engine\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Engine\Graphics\Texture2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Engine\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Engine\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -474,12 +482,6 @@
     <ClCompile Include="Matrix4x4.cpp">
       <Filter>Engine\Math\Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Engine\Resource\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Engine\Resource\Texture</Filter>
-    </ClCompile>
     <ClCompile Include="Resource.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
@@ -492,17 +494,11 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Engine\Resource\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="MeshManager.cpp">
-      <Filter>Engine\Resource\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Engine\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
       <Filter>Vendor\ImGui</Filter>
@@ -540,20 +536,25 @@
     <ClCompile Include="Rect.cpp">
       <Filter>Engine\Math\Rect</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Sound.cpp">
+      <Filter>Engine\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Engine\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Engine\Graphics\Texture2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>Engine\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Engine\App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>Engine\Shader\Earth</Filter>
-    </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>Engine\Shader\Earth</Filter>
-    </FxCompile>
     <FxCompile Include="SkyBoxPixelShader.hlsl">
       <Filter>Engine\Shader\Global\SkyBox</Filter>
-    </FxCompile>
-    <FxCompile Include="VertexMeshLayoutShader.hlsl">
-      <Filter>Engine\Shader\VertexMeshLayout</Filter>
     </FxCompile>
     <FxCompile Include="PointLightVertexShader.hlsl">
       <Filter>Engine\Shader\Global\PointLight</Filter>
@@ -588,5 +589,13 @@
     <FxCompile Include="DistortionEffect.hlsl">
       <Filter>Engine\Shader\Global\PostProcessEffect</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DefaultShader.hlsl">
+      <Filter>Engine\Shader\Default</Filter>
+    </None>
+    <None Include="VertexMeshLayoutShader.hlsl">
+      <Filter>Engine\Shader\VertexMeshLayout</Filter>
+    </None>
   </ItemGroup>
 </Project>

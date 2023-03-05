@@ -22,32 +22,11 @@ SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Graphics* graphics)
     desc.Windowed = TRUE;
 
     // 스왑 체인 생성
-    ID3D11Device* device = m_graphics->GetD3DDevice();
+    auto device = m_graphics->GetD3DDevice();
     m_graphics->GetDXGIFactory()->CreateSwapChain(device, &desc, &m_dxgi_swap_chain);
-    assert(&m_dxgi_swap_chain);
+    assert(m_dxgi_swap_chain);
 
-    LoadBuffers(width, height);
-}
-
-SwapChain::~SwapChain()
-{
-    if (m_render_target_view)
-    {
-        m_render_target_view->Release();
-        m_render_target_view = nullptr;
-    }
-
-    if (m_depth_stencil_view)
-    {
-        m_depth_stencil_view->Release();
-        m_depth_stencil_view = nullptr;
-    }
-
-    if (m_dxgi_swap_chain)
-    {
-        m_dxgi_swap_chain->Release();
-        m_dxgi_swap_chain = nullptr;
-    }
+    ReloadBuffers(width, height);
 }
 
 void SwapChain::SetFullScreen(bool fullscreen, UINT width, UINT height)
@@ -58,20 +37,11 @@ void SwapChain::SetFullScreen(bool fullscreen, UINT width, UINT height)
 
 void SwapChain::Resize(UINT width, UINT height)
 {
-    if (m_render_target_view)
-    {
-        m_render_target_view->Release();
-        m_render_target_view = nullptr;
-    }
-
-    if (m_depth_stencil_view)
-    {
-        m_depth_stencil_view->Release();
-        m_depth_stencil_view = nullptr;
-    }
+    m_render_target_view.Reset();
+    m_depth_stencil_view.Reset();
 
     m_dxgi_swap_chain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
-    LoadBuffers(width, height);
+    ReloadBuffers(width, height);
 }
 
 void SwapChain::Present(bool vsync)
@@ -81,24 +51,21 @@ void SwapChain::Present(bool vsync)
 
 ID3D11RenderTargetView* SwapChain::GetRenderTargetView() const
 {
-    return m_render_target_view;
+    return m_render_target_view.Get();
 }
 
 ID3D11DepthStencilView* SwapChain::GetDepthStencilView() const
 {
-    return m_depth_stencil_view;
+    return m_depth_stencil_view.Get();
 }
 
-void SwapChain::LoadBuffers(UINT width, UINT height)
+void SwapChain::ReloadBuffers(UINT width, UINT height)
 {
-    // 후면 버퍼 색상을 가져와서 렌더 타겟 뷰를 생성
-    ID3D11Device* device = m_graphics->GetD3DDevice();
     ID3D11Texture2D* buffer = nullptr;
-
     m_dxgi_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
     assert(buffer);
 
-    device->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
+    m_graphics->GetD3DDevice()->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
     buffer->Release();
     assert(m_render_target_view);
 
@@ -115,10 +82,10 @@ void SwapChain::LoadBuffers(UINT width, UINT height)
     texture_desc.ArraySize = 1;
     texture_desc.CPUAccessFlags = 0;
 
-    device->CreateTexture2D(&texture_desc, nullptr, &buffer);
+    m_graphics->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, &buffer);
     assert(buffer);
 
-    device->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
+    m_graphics->GetD3DDevice()->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
     buffer->Release();
     assert(m_depth_stencil_view);
 }

@@ -13,7 +13,7 @@ struct VS_OUTPUT
 	float2 texcoord : TEXCOORD0;
 };
 
-VS_OUTPUT main(VS_INPUT input)
+VS_OUTPUT vsmain(VS_INPUT input)
 {
 	VS_OUTPUT output = (VS_OUTPUT) 0;
 	return output;

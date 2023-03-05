@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "Resource.h"
+#include "ResourceManager.h"
 
-Resource::Resource(const wchar_t* full_path)
-	: m_full_path(full_path)
+Resource::Resource(const wchar_t* file_path, ResourceManager* resource_manager)
+	: m_file_path(file_path)
+	, m_resource_manager(resource_manager)
 {
 }
 

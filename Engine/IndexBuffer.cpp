@@ -3,7 +3,7 @@
 #include "Engine.h"
 #include "Graphics.h"
 
-IndexBuffer::IndexBuffer(void* indices, UINT index_count, Graphics* graphics)
+IndexBuffer::IndexBuffer(void* index_list, UINT index_count, Graphics* graphics)
     : m_graphics(graphics)
 {
     // 버퍼 구조체
@@ -16,27 +16,18 @@ IndexBuffer::IndexBuffer(void* indices, UINT index_count, Graphics* graphics)
 
     // 서브리소스 구조체
     D3D11_SUBRESOURCE_DATA init_data = {};
-    init_data.pSysMem = indices;
+    init_data.pSysMem = index_list;
 
     m_index_count = index_count;
 
     // 버퍼 생성
-    Engine::GetInstance()->GetGraphics()->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
+    m_graphics->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
     assert(m_buffer);
-}
-
-IndexBuffer::~IndexBuffer()
-{
-    if (m_buffer)
-    {
-        m_buffer->Release();
-        m_buffer = nullptr;
-    }
 }
 
 ID3D11Buffer* IndexBuffer::GetBuffer() const
 {
-    return m_buffer;
+    return m_buffer.Get();
 }
 
 UINT IndexBuffer::GetIndexCount() const

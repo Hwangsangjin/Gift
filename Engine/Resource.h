@@ -3,10 +3,11 @@
 class Resource
 {
 public:
-	Resource(const wchar_t* full_path);
+	Resource(const wchar_t* file_path, ResourceManager* manager);
 	virtual ~Resource();
 
 protected:
-	std::wstring m_full_path = L"";
+	std::wstring m_file_path = L"";
+	ResourceManager* m_resource_manager = nullptr;
 };
 

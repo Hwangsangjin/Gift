@@ -22,21 +22,12 @@ ConstantBuffer::ConstantBuffer(void* buffer, UINT buffer_size, Graphics* graphic
     m_graphics->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
 }
 
-ConstantBuffer::~ConstantBuffer()
-{
-    if (m_buffer)
-    {
-        m_buffer->Release();
-        m_buffer = nullptr;
-    }
-}
-
 void ConstantBuffer::Update(DeviceContextPtr device_context, void* buffer)
 {
-    device_context->GetDeviceContext()->UpdateSubresource(m_buffer, NULL, nullptr, buffer, NULL, NULL);
+    device_context->GetDeviceContext()->UpdateSubresource(m_buffer.Get(), NULL, nullptr, buffer, NULL, NULL);
 }
 
 ID3D11Buffer* ConstantBuffer::GetBuffer() const
 {
-    return m_buffer;
+    return m_buffer.Get();
 }

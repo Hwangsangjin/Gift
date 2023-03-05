@@ -3,13 +3,12 @@
 class PixelShader
 {
 public:
-	PixelShader(const void* shader_byte_code, size_t byte_code_size, Graphics* graphics);
-	~PixelShader();
+	PixelShader(const wchar_t* file_path, Graphics* graphics);
 
 	ID3D11PixelShader* GetPixelShader() const;
 
 private:
-	ID3D11PixelShader* m_pixel_shader = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixel_shader = nullptr;
 	Graphics* m_graphics = nullptr;
 };
 

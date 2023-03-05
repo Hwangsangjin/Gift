@@ -1,6 +1,8 @@
 #pragma once
 
-class Material
+#include "Resource.h"
+
+class Material : public Resource
 {
 public:
 	enum class CullMode
@@ -15,15 +17,15 @@ public:
 		Solid
 	};
 
-	Material(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path);
-	Material(const MaterialPtr& material);
-	~Material();
+	Material(const wchar_t* file_path, ResourceManager* resource_manager);
+	Material(const MaterialPtr& material, ResourceManager* resource_manager);
+	virtual ~Material() override;
 
 	VertexShaderPtr GetVertexShader();
 	PixelShaderPtr GetPixelShader();
 	ConstantBufferPtr GetConstantBuffer();
 
-	TexturePtr& GetTexture();
+	Texture2DPtr& GetTexture();
 	size_t GetTextureSize() const;
 
 	void AddTexture(const TexturePtr& texture);
@@ -41,7 +43,7 @@ private:
 	PixelShaderPtr m_pixel_shader = nullptr;
 	ConstantBufferPtr m_constant_buffer = nullptr;
 
-	std::vector<TexturePtr> m_textures = {};
+	std::vector<Texture2DPtr> m_textures = {};
 
 	CullMode m_cull_mode = CullMode::Back;
 	FillMode m_fill_mode = FillMode::Solid;

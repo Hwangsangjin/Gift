@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "Input.h"
-#include "Window.h"
+#include "Vector2.h"
 
-Input* Input::GetInstance()
+Input::Input()
 {
-    static Input instance;
-    return &instance;
+}
+
+Input::~Input()
+{
 }
 
 void Input::Update()
@@ -13,105 +15,99 @@ void Input::Update()
     POINT current_mouse_position = {};
     ::GetCursorPos(&current_mouse_position);
 
-    if (m_first_time)
-    {
-        m_old_mouse_position = Point(current_mouse_position.x, current_mouse_position.y);
-        m_first_time = false;
-    }
-
     if (current_mouse_position.x != m_old_mouse_position.m_x || current_mouse_position.y != m_old_mouse_position.m_y)
     {
-        // Mouse move event
-        std::unordered_set<Window*>::iterator iter = m_set_listeners.begin();
-
-        while (iter != m_set_listeners.end())
-        {
-            (*iter)->OnMouseMove(Point(current_mouse_position.x, current_mouse_position.y));
-            ++iter;
-        }
+        m_delta_mouse_position = Vector2(static_cast<float>(current_mouse_position.x) - static_cast<float>(m_old_mouse_position.m_x), static_cast<float>(current_mouse_position.y) - static_cast<float>(m_old_mouse_position.m_y));
     }
-    m_old_mouse_position = Point(current_mouse_position.x, current_mouse_position.y);
+    else
+    {
+        m_delta_mouse_position = Vector2(0.0f, 0.0f);
+    }
 
-    for (unsigned int i = 0; i < 256; i++)
+    if (!m_cursor_locked)
+        m_old_mouse_position = Vector2(static_cast<float>(current_mouse_position.x), static_cast<float>(current_mouse_position.y));
+    else
+    {
+        ::SetCursorPos(static_cast<int>(m_lock_area_center.m_x), static_cast<int>(m_lock_area_center.m_y));
+        m_old_mouse_position = m_lock_area_center;
+    }
+
+    for (UINT i = 0; i < 256; i++)
     {
         // 비동기 키 입력
-        m_key_states[i] = static_cast<UCHAR>(::GetAsyncKeyState(i));
+        m_key_states[i] = ::GetAsyncKeyState(i);
 
         // 키가 눌린 경우
         if (m_key_states[i] & 0x8001)
         {
-            std::unordered_set<Window*>::iterator iter = m_set_listeners.begin();
-
-            while (iter != m_set_listeners.end())
-            {
-                if (i == VK_LBUTTON)
-                {
-                    if (m_key_states[i] != m_old_key_states[i])
-                    {
-                        (*iter)->OnLeftButtonDown(Point(current_mouse_position.x, current_mouse_position.y));
-                    }
-                }
-                else if (i == VK_RBUTTON)
-                {
-                    if (m_key_states[i] != m_old_key_states[i])
-                    {
-                        (*iter)->OnRightButtonDown(Point(current_mouse_position.x, current_mouse_position.y));
-                    }
-                }
-                else
-                {
-                    (*iter)->OnKeyDown(i);
-                }
-                ++iter;
-            }
+            m_final_key_states[i] = 0;
         }
         else
         {
             // 키의 현재 상태가 이전 상태와 같지 않은 경우
             if (m_key_states[i] != m_old_key_states[i])
             {
-                std::unordered_set<Window*>::iterator iter = m_set_listeners.begin();
-
-                while (iter != m_set_listeners.end())
-                {
-                    if (i == VK_LBUTTON)
-                    {
-                        (*iter)->OnLeftButtonUp(Point(current_mouse_position.x, current_mouse_position.y));
-                    }
-                    else if (i == VK_RBUTTON)
-                    {
-                        (*iter)->OnRightButtonUp(Point(current_mouse_position.x, current_mouse_position.y));
-                    }
-                    else
-                    {
-                        (*iter)->OnKeyUp(i);
-                    }
-                    ++iter;
-                }
+                m_final_key_states[i] = 1;
+            }
+            else
+            {
+                m_final_key_states[i] = 2;
             }
         }
     }
 
     // 현재 키 상태를 이전 키 상태 버퍼에 저장
-    ::memcpy(m_old_key_states, m_key_states, sizeof(UCHAR) * 256);
+    ::memcpy(m_old_key_states, m_key_states, sizeof(short) * 256);
 }
 
-void Input::AddListener(Window* listener)
+void Input::LockCursor(bool lock)
 {
-    m_set_listeners.insert(listener);
+    m_cursor_locked = lock;
 }
 
-void Input::RemoveListener(Window* listener)
+void Input::SetLockArea(const Rect& area)
 {
-    m_set_listeners.erase(listener);
+    m_lock_area = area;
+    m_lock_area_center = Vector2(area.m_left + static_cast<float>(area.m_width) / 2.0f, area.m_top + static_cast<float>(area.m_height) / 2.0f);
 }
 
-void Input::SetCursorPosition(const Point& point)
+bool Input::IsKeyUp(const Key& key)
 {
-    ::SetCursorPos(point.m_x, point.m_y);
+    return (m_final_key_states[GetKeyCode(key)] == 1);
 }
 
-void Input::ShowCursor(bool show)
+bool Input::IsKeyDown(const Key& key)
 {
-    ::ShowCursor(show);
+    return (m_final_key_states[GetKeyCode(key)] == 0);
+}
+
+Vector2 Input::GetDeltaMousePosition()
+{
+    return m_delta_mouse_position;
+}
+
+short Input::GetKeyCode(const Key& key)
+{
+    short result = 0;
+
+    if (key >= Key::A && key <= Key::Z)
+        result = 'A' + ((short)key - (short)Key::A);
+    else if (key >= Key::_0 && key <= Key::_9)
+        result = '0' + ((short)key - (short)Key::_0);
+    else if (key == Key::Shift)
+        result = VK_SHIFT;
+    else if (key == Key::Escape)
+        result = VK_ESCAPE;
+    else if (key == Key::Space)
+        result = VK_SPACE;
+    else if (key == Key::Enter)
+        result = VK_RETURN;
+    else if (key == Key::LeftMouseButton)
+        result = VK_LBUTTON;
+    else if (key == Key::MiddleMouseButton)
+        result = VK_MBUTTON;
+    else if (key == Key::RightMouseButton)
+        result = VK_RBUTTON;
+
+    return result;
 }

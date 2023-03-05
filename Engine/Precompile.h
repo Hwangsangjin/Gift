@@ -10,11 +10,13 @@
 
 #include <cassert>
 #include <exception>
+#include <stdexcept>
 #include <windows.h>
 #include <iostream>
 #include <comdef.h>
 #include <chrono>
 #include <fstream>
+#include <filesystem>
 #include <tchar.h>
 #include <memory>
 #include <string>
@@ -27,6 +29,7 @@
 #include <set>
 #include <unordered_set>
 
+#include <wrl.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
@@ -44,7 +47,74 @@
 
 #include "FMOD/fmod.hpp"
 
+// define
+#define GiftError(message)\
+{\
+std::wclog << "Error: " << message << std::endl;\
+throw std::runtime_error("");\
+}
+
+#define GiftWarning(message)\
+std::wclog << "Warning: " << message << std::endl;
+
+#define GiftInformation(message)\
+std::wclog << "Information: " << message << std::endl;
+
+// enum
+enum class Key
+{
+	A,
+	B,
+	C,
+	D,
+	E,
+	F,
+	G,
+	H,
+	I,
+	J,
+	K,
+	L,
+	M,
+	N,
+	O,
+	P,
+	Q,
+	R,
+	S,
+	T,
+	U,
+	V,
+	W,
+	X,
+	Y,
+	Z,
+	_0,
+	_1,
+	_2,
+	_3,
+	_4,
+	_5,
+	_6,
+	_7,
+	_8,
+	_9,
+	Escape,
+	Shift,
+	Space,
+	Enter,
+	LeftMouseButton,
+	MiddleMouseButton,
+	RightMouseButton
+};
+
 // class
+class App;
+class Window;
+class Display;
+class Input;
+class Engine;
+class Graphics;
 class SwapChain;
 class DeviceContext;
 class VertexBuffer;
@@ -52,14 +122,11 @@ class IndexBuffer;
 class ConstantBuffer;
 class VertexShader;
 class PixelShader;
-class Graphics;
-class Engine;
-class Resource;
 class ResourceManager;
-class Texture;
-class TextureManager;
+class Resource;
 class Mesh;
-class MeshManager;
+class Texture;
+class Texture2D;
 class Material;
 class Sprite;
 
@@ -72,8 +139,9 @@ typedef std::shared_ptr<ConstantBuffer> ConstantBufferPtr;
 typedef std::shared_ptr<VertexShader> VertexShaderPtr;
 typedef std::shared_ptr<PixelShader> PixelShaderPtr;
 typedef std::shared_ptr<Resource> ResourcePtr;
-typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
+typedef std::shared_ptr<Texture> TexturePtr;
+typedef std::shared_ptr<Texture2D> Texture2DPtr;
 typedef std::shared_ptr<Material> MaterialPtr;
 typedef std::shared_ptr<Sprite> SpritePtr;
 
@@ -106,10 +174,4 @@ struct Constant
 	Vector4 light_position = Vector4(0.0f, 1.0f, 0.0f, 0.0f);
 	float light_radius = 4.0f;
 	float time = 0.0f;
-};
-
-__declspec(align(16))
-struct DistortionEffect
-{
-	float distortion_level = 0.0f;
 };
