@@ -62,6 +62,10 @@ std::wclog << "Information: " << message << std::endl;
 
 // class
 class App;
+class World;
+class Entity;
+class Component;
+class TransformComponent;
 class Input;
 class Timer;
 class Window;
@@ -82,8 +86,6 @@ class Texture;
 class Texture2D;
 class Material;
 class Sprite;
-class Entity;
-class World;
 
 // typedef
 typedef std::shared_ptr<SwapChain> SwapChainPtr;

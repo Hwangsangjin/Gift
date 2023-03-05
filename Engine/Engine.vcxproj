@@ -246,10 +246,11 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClInclude Include="..\Include\DirectXTK\WICTextureLoader.h" />
     <ClInclude Include="..\Include\DirectXTK\XboxDDSTextureLoader.h" />
     <ClInclude Include="..\Include\TinyObjLoader\tiny_obj_loader.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="Display.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Entity.h" />
@@ -268,6 +269,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PixelShader.h" />
@@ -314,10 +316,11 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="Display.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -336,6 +339,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="VertexMesh.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

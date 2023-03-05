@@ -2,11 +2,11 @@
 
 #include "Entity.h"
 
-class GameObject : public Entity
+class Object : public Entity
 {
 public:
-	GameObject();
-	virtual ~GameObject();
+	Object();
+	virtual ~Object();
 
 //protected:
 	virtual void OnCreate() override;
@@ -14,6 +14,6 @@ public:
 
 private:
 	Entity* m_entity = nullptr;
-	float m_time = 0.0f;
+	float m_elapsed_time = 0.0f;
 };
 

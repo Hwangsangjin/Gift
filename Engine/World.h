@@ -10,6 +10,7 @@ public:
 	T* CreateEntity()
 	{
 		static_assert(std::is_base_of<Entity, T>::value, "T must derive from Entity class.");
+
 		auto id = typeid(T).hash_code();
 		auto entity = new T();
 
