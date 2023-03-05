@@ -12,8 +12,8 @@ public:
 		DepthStencil
 	};
 
-	Texture2D(const wchar_t* file_path, Graphics* graphics);
-	Texture2D(const Rect& size, Texture2D::Type type, Graphics* graphics);
+	Texture2D(const wchar_t* file_path, Renderer* renderer);
+	Texture2D(const Rect& size, Texture2D::Type type, Renderer* renderer);
 
 	ID3D11ShaderResourceView* GetShaderResourceView() const;
 	ID3D11RenderTargetView* GetRenderTargetView() const;
@@ -32,6 +32,6 @@ private:
 	Rect m_size = {};
 	Texture2D::Type m_type = Texture2D::Type::Normal;
 
-	Graphics* m_graphics = nullptr;
+	Renderer* m_renderer = nullptr;
 };
 

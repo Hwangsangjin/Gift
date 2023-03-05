@@ -3,23 +3,23 @@
 class Timer
 {
 public:
-    static Timer* GetInstance();
+    Timer();
+    ~Timer();
 
-    void CreateTimer();
     void Update();
 
-    uint32 GetFPS();
+    unsigned int GetFramePerSecond();
     float GetDeltaTime();
     float GetGameTime();
 
 private:
-    uint64 m_frequency = 0;
-    uint64 m_prev_count = 0;
-    float m_delta_time = 0.0f;
+    unsigned long long m_frequency = 0;
+    unsigned long long m_prev_count = 0;
 
-    uint32 m_frame_count = 0;
+    unsigned int m_frame_count = 0;
+    unsigned int m_frame_per_second = 0;
     float m_frame_time = 0.0f;
+    float m_delta_time = 0.0f;
     float m_game_time = 0.0f;
-    uint32 m_fps = 0;
 };
 

@@ -3,7 +3,7 @@
 class VertexBuffer
 {
 public:
-	VertexBuffer(void* vertex_list, UINT vertex_size, UINT vertex_count, Graphics* graphics);
+	VertexBuffer(void* vertex_list, UINT vertex_size, UINT vertex_count, Renderer* renderer);
 
 	ID3D11Buffer* GetBuffer() const;
 	ID3D11InputLayout* GetInputLayout() const;
@@ -16,6 +16,6 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_buffer = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_input_layout = nullptr;
-	Graphics* m_graphics = nullptr;
+	Renderer* m_renderer = nullptr;
 };
 

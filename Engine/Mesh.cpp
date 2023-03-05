@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Mesh.h"
-#include "Engine.h"
 #include "Graphics.h"
+#include "Renderer.h"
 #include "VertexMesh.h"
 #include "ResourceManager.h"
 #include "Vector2.h"
@@ -142,20 +142,20 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 		m_material_slots[m].index_size = index_global_offset - m_material_slots[m].start_index;
 	}
 
-	m_vertex_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateVertexBuffer(&vertex_mesh_vertices[0], sizeof(VertexMesh), static_cast<UINT>(vertex_mesh_vertices.size()));
+	m_vertex_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateVertexBuffer(&vertex_mesh_vertices[0], sizeof(VertexMesh), static_cast<UINT>(vertex_mesh_vertices.size()));
 	assert(m_vertex_buffer);
 
-	m_index_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateIndexBuffer(&vertex_mesh_indices[0], static_cast<UINT>(vertex_mesh_indices.size()));
+	m_index_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateIndexBuffer(&vertex_mesh_indices[0], static_cast<UINT>(vertex_mesh_indices.size()));
 	assert(m_index_buffer);
 }
 
 Mesh::Mesh(VertexMesh* vertex_mesh_data, UINT vertex_size, UINT* index_data, UINT index_size, MaterialSlot* material_slot, UINT material_slot_size, ResourceManager* resource_manager)
 	: Resource(L"", resource_manager)
 {
-	m_vertex_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateVertexBuffer(vertex_mesh_data, sizeof(VertexMesh), vertex_size);
+	m_vertex_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateVertexBuffer(vertex_mesh_data, sizeof(VertexMesh), vertex_size);
 	assert(m_vertex_buffer);
 
-	m_index_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateIndexBuffer(index_data, index_size);
+	m_index_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateIndexBuffer(index_data, index_size);
 	assert(m_index_buffer);
 
 	m_material_slots.resize(material_slot_size);

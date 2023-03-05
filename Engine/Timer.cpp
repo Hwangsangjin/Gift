@@ -1,25 +1,23 @@
 #include "pch.h"
 #include "Timer.h"
 
-Timer* Timer::GetInstance()
-{
-	static Timer instance;
-	return &instance;
-}
-
-void Timer::CreateTimer()
+Timer::Timer()
 {
 	::QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&m_frequency));
 	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&m_prev_count));
 }
 
+Timer::~Timer()
+{
+}
+
 void Timer::Update()
 {
-	uint64 currentCount = 0;
-	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&currentCount));
+	unsigned long long current_count = 0;
+	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&current_count));
 
-	m_delta_time = (currentCount - m_prev_count) / static_cast<float>(m_frequency);
-	m_prev_count = currentCount;
+	m_delta_time = (current_count - m_prev_count) / static_cast<float>(m_frequency);
+	m_prev_count = current_count;
 
 	m_frame_count++;
 	m_frame_time += m_delta_time;
@@ -27,7 +25,7 @@ void Timer::Update()
 
 	if (m_frame_time >= 1.0f)
 	{
-		m_fps = static_cast<uint32>(m_frame_count / m_frame_time);
+		m_frame_per_second = static_cast<unsigned int>(m_frame_count / m_frame_time);
 
 		m_frame_time = 0.0f;
 		m_frame_count = 0;
@@ -39,9 +37,9 @@ void Timer::Update()
 #endif
 }
 
-uint32 Timer::GetFPS()
+unsigned int Timer::GetFramePerSecond()
 {
-	return m_fps;
+	return m_frame_per_second;
 }
 
 float Timer::GetDeltaTime()

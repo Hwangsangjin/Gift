@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "DeviceContext.h"
-#include "Graphics.h"
+#include "Renderer.h"
 #include "SwapChain.h"
 #include "ConstantBuffer.h"
 #include "IndexBuffer.h"
@@ -9,9 +9,9 @@
 #include "PixelShader.h"
 #include "Texture2D.h"
 
-DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, Graphics* graphics)
+DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, Renderer* renderer)
 	: m_device_context(device_context)
-	, m_graphics(graphics)
+	, m_renderer(renderer)
 {
 }
 

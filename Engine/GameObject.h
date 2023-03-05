@@ -1,18 +1,19 @@
 #pragma once
 
-#include "App.h"
+#include "Entity.h"
 
-class Tool : public App
+class GameObject : public Entity
 {
 public:
-	Tool();
-	virtual ~Tool() override;
+	GameObject();
+	virtual ~GameObject();
 
-protected:
+//protected:
 	virtual void OnCreate() override;
 	virtual void OnUpdate(float delta_time) override;
 
 private:
 	Entity* m_entity = nullptr;
+	float m_time = 0.0f;
 };
 

@@ -19,6 +19,6 @@ private:
 	std::map<std::string, FMOD::Sound*> m_sounds;
 	std::map<FMOD::Sound*, FMOD::Channel*> m_channels;
 
-	UINT m_version;
+	UINT m_version = 0;
 };
 

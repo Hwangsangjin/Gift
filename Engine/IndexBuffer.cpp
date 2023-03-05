@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "IndexBuffer.h"
-#include "Engine.h"
-#include "Graphics.h"
+#include "Renderer.h"
 
-IndexBuffer::IndexBuffer(void* index_list, UINT index_count, Graphics* graphics)
-    : m_graphics(graphics)
+IndexBuffer::IndexBuffer(void* index_list, UINT index_count, Renderer* renderer)
+    : m_renderer(renderer)
 {
     // 버퍼 구조체
     D3D11_BUFFER_DESC buff_desc = {};
@@ -21,7 +20,7 @@ IndexBuffer::IndexBuffer(void* index_list, UINT index_count, Graphics* graphics)
     m_index_count = index_count;
 
     // 버퍼 생성
-    m_graphics->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
+    m_renderer->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
     assert(m_buffer);
 }
 

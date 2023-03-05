@@ -60,6 +60,46 @@ std::wclog << "Warning: " << message << std::endl;
 #define GiftInformation(message)\
 std::wclog << "Information: " << message << std::endl;
 
+// class
+class App;
+class Input;
+class Timer;
+class Window;
+class Display;
+class Graphics;
+class Renderer;
+class SwapChain;
+class DeviceContext;
+class VertexBuffer;
+class IndexBuffer;
+class ConstantBuffer;
+class VertexShader;
+class PixelShader;
+class ResourceManager;
+class Resource;
+class Mesh;
+class Texture;
+class Texture2D;
+class Material;
+class Sprite;
+class Entity;
+class World;
+
+// typedef
+typedef std::shared_ptr<SwapChain> SwapChainPtr;
+typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
+typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
+typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;
+typedef std::shared_ptr<ConstantBuffer> ConstantBufferPtr;
+typedef std::shared_ptr<VertexShader> VertexShaderPtr;
+typedef std::shared_ptr<PixelShader> PixelShaderPtr;
+typedef std::shared_ptr<Resource> ResourcePtr;
+typedef std::shared_ptr<Mesh> MeshPtr;
+typedef std::shared_ptr<Texture> TexturePtr;
+typedef std::shared_ptr<Texture2D> Texture2DPtr;
+typedef std::shared_ptr<Material> MaterialPtr;
+typedef std::shared_ptr<Sprite> SpritePtr;
+
 // enum
 enum class Key
 {
@@ -106,72 +146,4 @@ enum class Key
 	LeftMouseButton,
 	MiddleMouseButton,
 	RightMouseButton
-};
-
-// class
-class App;
-class Window;
-class Display;
-class Input;
-class Engine;
-class Graphics;
-class SwapChain;
-class DeviceContext;
-class VertexBuffer;
-class IndexBuffer;
-class ConstantBuffer;
-class VertexShader;
-class PixelShader;
-class ResourceManager;
-class Resource;
-class Mesh;
-class Texture;
-class Texture2D;
-class Material;
-class Sprite;
-
-// typedef
-typedef std::shared_ptr<SwapChain> SwapChainPtr;
-typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
-typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
-typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;
-typedef std::shared_ptr<ConstantBuffer> ConstantBufferPtr;
-typedef std::shared_ptr<VertexShader> VertexShaderPtr;
-typedef std::shared_ptr<PixelShader> PixelShaderPtr;
-typedef std::shared_ptr<Resource> ResourcePtr;
-typedef std::shared_ptr<Mesh> MeshPtr;
-typedef std::shared_ptr<Texture> TexturePtr;
-typedef std::shared_ptr<Texture2D> Texture2DPtr;
-typedef std::shared_ptr<Material> MaterialPtr;
-typedef std::shared_ptr<Sprite> SpritePtr;
-
-// using
-using int8 = __int8;
-using int16 = __int16;
-using int32 = __int32;
-using int64 = __int64;
-using uint8 = unsigned __int8;
-using uint16 = unsigned __int16;
-using uint32 = unsigned __int32;
-using uint64 = unsigned __int64;
-
-// Vertex
-struct Vertex
-{
-	Vector3 position;
-	Vector2 texcoord;
-};
-
-// Constant
-__declspec(align(16))
-struct Constant
-{
-	Matrix4x4 world;
-	Matrix4x4 view;
-	Matrix4x4 projection;
-	Vector4 light_direction;
-	Vector4 camera_position;
-	Vector4 light_position = Vector4(0.0f, 1.0f, 0.0f, 0.0f);
-	float light_radius = 4.0f;
-	float time = 0.0f;
 };

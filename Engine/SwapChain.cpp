@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "SwapChain.h"
-#include "Graphics.h"
+#include "Renderer.h"
 
-SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Graphics* graphics)
-    : m_graphics(graphics)
+SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Renderer* renderer)
+    : m_renderer(renderer)
 {
-    // 스왑 체인 구조체
     DXGI_SWAP_CHAIN_DESC desc;
     ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
     desc.BufferCount = 1;
@@ -21,9 +20,8 @@ SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Graphics* graphics)
     desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
     desc.Windowed = TRUE;
 
-    // 스왑 체인 생성
-    auto device = m_graphics->GetD3DDevice();
-    m_graphics->GetDXGIFactory()->CreateSwapChain(device, &desc, &m_dxgi_swap_chain);
+    auto device = m_renderer->GetD3DDevice();
+    m_renderer->GetDXGIFactory()->CreateSwapChain(device, &desc, &m_dxgi_swap_chain);
     assert(m_dxgi_swap_chain);
 
     ReloadBuffers(width, height);
@@ -65,7 +63,7 @@ void SwapChain::ReloadBuffers(UINT width, UINT height)
     m_dxgi_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
     assert(buffer);
 
-    m_graphics->GetD3DDevice()->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
+    m_renderer->GetD3DDevice()->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
     buffer->Release();
     assert(m_render_target_view);
 
@@ -82,10 +80,10 @@ void SwapChain::ReloadBuffers(UINT width, UINT height)
     texture_desc.ArraySize = 1;
     texture_desc.CPUAccessFlags = 0;
 
-    m_graphics->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, &buffer);
+    m_renderer->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, &buffer);
     assert(buffer);
 
-    m_graphics->GetD3DDevice()->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
+    m_renderer->GetD3DDevice()->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
     buffer->Release();
     assert(m_depth_stencil_view);
 }

@@ -1,15 +1,15 @@
 #include "pch.h"
 #include "Display.h"
 #include "App.h"
-#include "Engine.h"
 #include "Graphics.h"
+#include "Renderer.h"
 #include "SwapChain.h"
 
 Display::Display(App* game)
 	: m_app(game)
 {
 	auto client_size = GetClientSize();
-	m_swap_chain = game->GetEngine()->GetGraphics()->CreateSwapChain(static_cast<HWND>(m_hwnd), client_size.m_width, client_size.m_height);
+	m_swap_chain = game->GetGraphics()->GetRenderer()->CreateSwapChain(static_cast<HWND>(m_hwnd), client_size.m_width, client_size.m_height);
 }
 
 Display::~Display()

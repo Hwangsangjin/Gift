@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "App.h"
 #include "Input.h"
-#include "Engine.h"
+#include "Timer.h"
+#include "World.h"
+#include "Graphics.h"
+#include "Renderer.h"
 #include "Display.h"
 #include "ResourceManager.h"
 #include "Mesh.h"
@@ -11,7 +14,9 @@
 App::App()
 {
     m_input = std::make_unique<Input>();
-    m_engine = std::make_unique<Engine>(this);
+    m_timer = std::make_unique<Timer>();
+    m_world = std::make_unique<World>();
+    m_graphics = std::make_unique<Graphics>(this);
     m_display = std::make_unique<Display>(this);
     m_resource_manager = std::make_unique<ResourceManager>(this);
 
@@ -21,7 +26,6 @@ App::App()
     m_material->AddTexture(m_texture);
 
     m_input->SetLockArea(m_display->GetClientSize());
-    m_input->LockCursor(true);
 }
 
 App::~App()
@@ -49,7 +53,7 @@ void App::Run()
             }
         }
 
-        OnCore();
+        Core();
     }
 
     OnQuit();
@@ -59,7 +63,7 @@ void App::OnCreate()
 {
 }
 
-void App::OnUpdate()
+void App::OnUpdate(float delta_time)
 {
 }
 
@@ -72,15 +76,9 @@ void App::Quit()
     m_running = false;
 }
 
-void App::Resize(const Rect& size)
+Graphics* App::GetGraphics() const
 {
-    m_input->SetLockArea(m_display->GetClientSize());
-    OnCore();
-}
-
-Engine* App::GetEngine() const
-{
-    return m_engine.get();
+    return m_graphics.get();
 }
 
 Display* App::GetDisplay() const
@@ -88,13 +86,28 @@ Display* App::GetDisplay() const
     return m_display.get();
 }
 
-void App::OnCore()
+World* App::GetWorld() const
+{
+    return m_world.get();
+}
+
+void App::Core()
 {
     m_input->Update();
     if (m_input->IsKeyDown(Key::Escape))
     {
         m_input->LockCursor(false);
     }
+    
+    m_timer->Update();
+    OnUpdate(m_timer->GetDeltaTime());
+    m_world->Update(m_timer->GetDeltaTime());
 
-    m_engine->Update({ m_mesh, m_material });
+    m_graphics->Update({ m_mesh, m_material });
+}
+
+void App::Resize(const Rect& size)
+{
+    m_input->SetLockArea(m_display->GetClientSize());
+    Core();
 }

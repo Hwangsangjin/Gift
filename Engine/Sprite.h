@@ -1,5 +1,11 @@
 #pragma once
 
+struct Vertex
+{
+	Vector3 position;
+	Vector2 texcoord;
+};
+
 class Sprite
 {
 public:

@@ -3,19 +3,19 @@
 #include "ConstantBuffer.h"
 #include "ResourceManager.h"
 #include "App.h"
-#include "Engine.h"
 #include "Graphics.h"
+#include "Renderer.h"
 #include "Texture.h"
 
 Material::Material(const wchar_t* file_path, ResourceManager* resource_manager)
 	: Resource(file_path, resource_manager)
 {
 	// Á¤Á¡ ¼ÎÀÌ´õ »ý¼º
-	m_vertex_shader = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateVertexShader(file_path);
+	m_vertex_shader = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateVertexShader(file_path);
 	assert(m_vertex_shader);
 
 	// ÇÈ¼¿ ¼ÎÀÌ´õ »ý¼º
-	m_pixel_shader = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreatePixelShader(file_path);
+	m_pixel_shader = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreatePixelShader(file_path);
 	assert(m_pixel_shader);
 }
 
@@ -71,9 +71,9 @@ void Material::RemoveTexture(UINT index)
 void Material::SetData(void* data, UINT size)
 {
 	if (!m_constant_buffer)
-		m_constant_buffer = m_resource_manager->GetApp()->GetEngine()->GetGraphics()->CreateConstantBuffer(data, size);
+		m_constant_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateConstantBuffer(data, size);
 	else
-		m_constant_buffer->Update(m_resource_manager->GetApp()->GetEngine()->GetGraphics()->GetDeviceContext(), data);
+		m_constant_buffer->Update(m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->GetDeviceContext(), data);
 }
 
 Material::CullMode Material::GetCullMode()
