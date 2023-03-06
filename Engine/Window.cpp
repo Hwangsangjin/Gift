@@ -97,26 +97,6 @@ Window::~Window()
     DestroyWindow(static_cast<HWND>(m_hwnd));
 }
 
-Rect Window::GetClientSize() const
-{
-    RECT rect = {};
-    auto hwnd = static_cast<HWND>(m_hwnd);
-    ::GetClientRect(hwnd, &rect);
-    ::ClientToScreen(hwnd, (LPPOINT)&rect.left);
-    ::ClientToScreen(hwnd, (LPPOINT)&rect.right);
-
-    return { static_cast<UINT>(rect.left), static_cast<UINT>(rect.top), static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top) };
-}
-
-Rect Window::GetScreenSize() const
-{
-    RECT rect = {};
-    rect.right = GetSystemMetrics(SM_CXSCREEN);
-    rect.bottom = GetSystemMetrics(SM_CYSCREEN);
-
-    return { 0, 0, static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top) };
-}
-
 void Window::OnCreate()
 {
 }
@@ -139,4 +119,24 @@ void Window::OnKillFocus()
 
 void Window::OnDestroy()
 {
+}
+
+Rect Window::GetClientSize() const
+{
+    RECT rect = {};
+    auto hwnd = static_cast<HWND>(m_hwnd);
+    ::GetClientRect(hwnd, &rect);
+    ::ClientToScreen(hwnd, (LPPOINT)&rect.left);
+    ::ClientToScreen(hwnd, (LPPOINT)&rect.right);
+
+    return { static_cast<UINT>(rect.left), static_cast<UINT>(rect.top), static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top) };
+}
+
+Rect Window::GetScreenSize() const
+{
+    RECT rect = {};
+    rect.right = GetSystemMetrics(SM_CXSCREEN);
+    rect.bottom = GetSystemMetrics(SM_CYSCREEN);
+
+    return { 0, 0, static_cast<UINT>(rect.right - rect.left), static_cast<UINT>(rect.bottom - rect.top) };
 }

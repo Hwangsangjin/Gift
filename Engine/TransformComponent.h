@@ -27,6 +27,6 @@ protected:
 	Vector3 m_rotation = {};
 	Vector3 m_scale = Vector3(1.0f, 1.0f, 1.0f);
 
-	Matrix4x4 world_matrix = {};
+	Matrix4x4 m_world_matrix = {};
 };
 

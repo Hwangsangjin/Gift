@@ -13,7 +13,8 @@ public:
 	virtual void OnUpdate(float delta_time) override;
 
 private:
-	Entity* m_entity = nullptr;
-	float m_elapsed_time = 0.0f;
+	float m_upward = 0.0f;
+	float m_forward = 0.0f;
+	float m_rightward = 0.0f;
 };
 

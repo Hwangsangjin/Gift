@@ -14,7 +14,7 @@ ResourceManager::~ResourceManager()
 {
 }
 
-App* ResourceManager::GetApp()
+App* ResourceManager::GetApp() const
 {
     return m_app;
 }

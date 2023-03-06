@@ -13,8 +13,6 @@ protected:
 	virtual void OnUpdate(float delta_time) override;
 
 private:
-	Entity* m_entity = nullptr;
-
-	float m_rotation = 0.0f;
+	bool m_locked = true;
 };
 

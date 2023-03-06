@@ -44,32 +44,32 @@ void TransformComponent::SetScale(const Vector3& scale)
 
 void TransformComponent::GetWorldMatrix(Matrix4x4& matrix)
 {
-	matrix.SetMatrix(world_matrix);
+	matrix.SetMatrix(m_world_matrix);
 }
 
 void TransformComponent::UpdateWorldMatrix()
 {
-	world_matrix.SetIdentity();
+	m_world_matrix.SetIdentity();
 
 	Matrix4x4 temp;
 
 	temp.SetIdentity();
 	temp.SetScale(m_scale);
-	world_matrix *= temp;
+	m_world_matrix *= temp;
 
 	temp.SetIdentity();
 	temp.SetRotationX(m_rotation.m_x);
-	world_matrix *= temp;
+	m_world_matrix *= temp;
 
 	temp.SetIdentity();
 	temp.SetRotationY(m_rotation.m_y);
-	world_matrix *= temp;
+	m_world_matrix *= temp;
 
 	temp.SetIdentity();
 	temp.SetRotationZ(m_rotation.m_z);
-	world_matrix *= temp;
+	m_world_matrix *= temp;
 
 	temp.SetIdentity();
 	temp.SetTranslation(m_position);
-	world_matrix *= temp;
+	m_world_matrix *= temp;
 }

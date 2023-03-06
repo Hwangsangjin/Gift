@@ -67,6 +67,7 @@ class Entity;
 class Component;
 class TransformComponent;
 class MeshComponent;
+class CameraComponent;
 class Input;
 class Timer;
 class Window;
@@ -104,6 +105,25 @@ typedef std::shared_ptr<Material> MaterialPtr;
 typedef std::shared_ptr<Sprite> SpritePtr;
 
 // enum
+enum class CameraType
+{
+	Orthorthographic,
+	Perspective
+};
+
+enum class CullMode
+{
+	None,
+	Front,
+	Back
+};
+
+enum class FillMode
+{
+	Wireframe,
+	Solid
+};
+
 enum class Key
 {
 	A,

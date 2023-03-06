@@ -10,7 +10,7 @@ public:
 
     unsigned int GetFramePerSecond();
     float GetDeltaTime();
-    float GetGameTime();
+    float GetElapsedTime();
 
 private:
     unsigned long long m_frequency = 0;
@@ -20,6 +20,6 @@ private:
     unsigned int m_frame_per_second = 0;
     float m_frame_time = 0.0f;
     float m_delta_time = 0.0f;
-    float m_game_time = 0.0f;
+    float m_elapsed_time = 0.0f;
 };
 

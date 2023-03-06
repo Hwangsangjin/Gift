@@ -5,18 +5,6 @@
 class Material : public Resource
 {
 public:
-	enum class CullMode
-	{
-		Front,
-		Back
-	};
-
-	enum class FillMode
-	{
-		Wireframe,
-		Solid
-	};
-
 	Material(const wchar_t* file_path, ResourceManager* resource_manager);
 	Material(const MaterialPtr& material, ResourceManager* resource_manager);
 	virtual ~Material() override;
@@ -33,12 +21,12 @@ public:
 
 	void SetData(void* data, UINT size);
 
-	CullMode GetCullMode();
+	CullMode GetCullMode() const;
 	void SetCullMode(CullMode cull_mode);
-	FillMode GetFillMode();
+	FillMode GetFillMode() const;
 	void SetFillMode(FillMode fill_mode);
 
-private:
+//private:
 	VertexShaderPtr m_vertex_shader = nullptr;
 	PixelShaderPtr m_pixel_shader = nullptr;
 	ConstantBufferPtr m_constant_buffer = nullptr;

@@ -21,7 +21,7 @@ void Timer::Update()
 
 	m_frame_count++;
 	m_frame_time += m_delta_time;
-	m_game_time += m_delta_time;
+	m_elapsed_time += m_delta_time;
 
 	if (m_frame_time >= 1.0f)
 	{
@@ -47,7 +47,7 @@ float Timer::GetDeltaTime()
 	return m_delta_time;
 }
 
-float Timer::GetGameTime()
+float Timer::GetElapsedTime()
 {
-	return m_game_time;
+	return m_elapsed_time;
 }
