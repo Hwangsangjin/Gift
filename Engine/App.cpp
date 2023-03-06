@@ -7,23 +7,15 @@
 #include "Renderer.h"
 #include "Display.h"
 #include "ResourceManager.h"
-#include "Mesh.h"
-#include "Texture.h"
-#include "Material.h"
 
 App::App()
 {
     m_input = std::make_unique<Input>();
     m_timer = std::make_unique<Timer>();
-    m_world = std::make_unique<World>();
     m_graphics = std::make_unique<Graphics>(this);
     m_display = std::make_unique<Display>(this);
+    m_world = std::make_unique<World>(this);
     m_resource_manager = std::make_unique<ResourceManager>(this);
-
-    m_mesh =  m_resource_manager->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\house.obj");
-    m_texture = m_resource_manager->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\wood.jpg");
-    m_material = m_resource_manager->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\DefaultShader.hlsl");
-    m_material->AddTexture(m_texture);
 
     m_input->SetLockArea(m_display->GetClientSize());
 }
@@ -81,6 +73,11 @@ Graphics* App::GetGraphics() const
     return m_graphics.get();
 }
 
+ResourceManager* App::GetResourceManager() const
+{
+    return m_resource_manager.get();
+}
+
 Display* App::GetDisplay() const
 {
     return m_display.get();
@@ -103,7 +100,7 @@ void App::Core()
     OnUpdate(m_timer->GetDeltaTime());
     m_world->Update(m_timer->GetDeltaTime());
 
-    m_graphics->Update({ m_mesh, m_material });
+    m_graphics->Update();
 }
 
 void App::Resize(const Rect& size)

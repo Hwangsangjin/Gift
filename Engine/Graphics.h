@@ -1,11 +1,5 @@
 #pragma once
 
-struct ObjectData
-{
-	MeshPtr mesh;
-	MaterialPtr material;
-};
-
 __declspec(align(16))
 struct ConstantData
 {
@@ -19,12 +13,17 @@ class Graphics
 public:
 	Graphics(App* app);
 
-	void Update(const ObjectData& mesh_data);
+	void Update();
+
+	void AddComponent(Component* component);
+	void RemoveComponent(Component* component);
 
 	Renderer* GetRenderer();
 
 private:
 	std::unique_ptr<Renderer> m_renderer = nullptr;
 	App* m_app = nullptr;
+
+	std::set<MeshComponent*> m_meshes;
 };
 

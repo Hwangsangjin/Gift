@@ -3,7 +3,7 @@
 class World
 {
 public:
-	World();
+	World(App* app);
 	~World();
 
 	template<typename T>
@@ -26,11 +26,14 @@ public:
 
 	void Update(float delta_time);
 
+	App* GetApp() const;
+
 private:
 	void RemoveEntity(Entity* entity);
 
 	std::map<size_t, std::map<Entity*, std::unique_ptr<Entity>>> m_entities;
 	std::set<Entity*> m_entities_to_destroy;
+	App* m_app = nullptr;
 
 	friend Entity;
 };

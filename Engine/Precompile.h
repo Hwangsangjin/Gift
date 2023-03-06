@@ -66,6 +66,7 @@ class World;
 class Entity;
 class Component;
 class TransformComponent;
+class MeshComponent;
 class Input;
 class Timer;
 class Window;

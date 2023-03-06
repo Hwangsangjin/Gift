@@ -14,5 +14,7 @@ protected:
 
 private:
 	Entity* m_entity = nullptr;
+
+	float m_rotation = 0.0f;
 };
 

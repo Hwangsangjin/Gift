@@ -7,6 +7,7 @@
 #include "PixelShader.h"
 #include "ConstantBuffer.h"
 #include "IndexBuffer.h"
+#include "Graphics.h"
 
 Renderer::Renderer()
 {

@@ -27,6 +27,8 @@ public:
 			component->m_id = id;
 			component->m_entity = this;
 
+			component->OnCreate();
+
 			return component;
 		}
 

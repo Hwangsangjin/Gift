@@ -14,6 +14,7 @@ public:
 	World* GetWorld() const;
 	Display* GetDisplay() const;
 	Graphics* GetGraphics() const;
+	ResourceManager* GetResourceManager() const;
 
 protected:
 	virtual void OnCreate();
@@ -32,10 +33,6 @@ private:
 	std::unique_ptr<Graphics> m_graphics = nullptr;
 	std::unique_ptr<Display> m_display = nullptr;
 	std::unique_ptr<ResourceManager> m_resource_manager = nullptr;
-
-	MeshPtr m_mesh = nullptr;
-	TexturePtr m_texture = nullptr;
-	MaterialPtr m_material = nullptr;
 
 	friend Display;
 };

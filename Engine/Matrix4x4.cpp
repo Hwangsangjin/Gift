@@ -3,6 +3,18 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
+Matrix4x4::Matrix4x4()
+{
+	m_matrix[0][0] = 1.0f;
+	m_matrix[1][1] = 1.0f;
+	m_matrix[2][2] = 1.0f;
+	m_matrix[3][3] = 1.0f;
+}
+
+Matrix4x4::~Matrix4x4()
+{
+}
+
 void Matrix4x4::SetIdentity()
 {
 	::memset(m_matrix, 0, sizeof(float) * 16);

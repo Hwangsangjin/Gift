@@ -5,7 +5,8 @@ class Vector3;
 class Matrix4x4
 {
 public:
-	Matrix4x4() = default;
+	Matrix4x4();
+	~Matrix4x4();
 
 	void SetIdentity();
 	void SetTranslation(const Vector3& translation);

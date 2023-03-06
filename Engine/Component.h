@@ -8,7 +8,11 @@ public:
 
 	void Release();
 
-private:
+	Entity* GetEntity() const;
+
+//protected:
+	virtual void OnCreate();
+
 	size_t m_id = 0;
 	Entity* m_entity = nullptr;
 

@@ -151,6 +151,9 @@
     <Filter Include="Engine\Entity\Component\TransformComponent">
       <UniqueIdentifier>{c96087d8-0f24-48d4-9c2b-7994598dab17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Entity\Component\MeshComponent">
+      <UniqueIdentifier>{64a48f37-af82-442c-b58d-cfdfdc049290}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -459,9 +462,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Engine\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Engine\App\Object</Filter>
     </ClInclude>
@@ -470,6 +470,12 @@
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Engine\Entity\Component\TransformComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Engine\Entity\Component\MeshComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +604,9 @@
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Engine\Entity\Component\TransformComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>Engine\Entity\Component\MeshComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

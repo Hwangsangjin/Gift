@@ -2,7 +2,8 @@
 #include "World.h"
 #include "Entity.h"
 
-World::World()
+World::World(App* app)
+	: m_app(app)
 {
 }
 
@@ -24,6 +25,11 @@ void World::Update(float delta_time)
 			ptr->OnUpdate(delta_time);
 		}
 	}
+}
+
+App* World::GetApp() const
+{
+	return m_app;
 }
 
 void World::RemoveEntity(Entity* entity)

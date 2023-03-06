@@ -5,27 +5,17 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
- /*   if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
-        return true;*/
+    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+        return true;
 
     switch (msg)
     {
     case WM_CREATE:
     {
         // 윈도우가 생성될 때 실행되는 이벤트
-        //Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
-        //// Setup Dear ImGui context
-        //IMGUI_CHECKVERSION();
-        //ImGui::CreateContext();
-        //ImGuiIO& io = ImGui::GetIO();
-
-        //// Setup Dear ImGui style
-        //ImGui::StyleColorsDark();
-
-        //// Setup Platform/Renderer backends
-        //ImGui_ImplWin32_Init(hwnd);
-        //ImGui_ImplDX11_Init(Engine::GetInstance()->GetGraphics()->GetD3DDevice(), Engine::GetInstance()->GetGraphics()->GetImmediateContext());
+        Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+        if (window)
+            window->OnCreate();
         break;
     }
     case WM_SIZE:
@@ -56,11 +46,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
         // 윈도우가 소멸될 때 실행되는 이벤트
         Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
         window->OnDestroy();
-
-        //// ImGui Cleanup
-        //ImGui_ImplDX11_Shutdown();
-        //ImGui_ImplWin32_Shutdown();
-        //ImGui::DestroyContext();
         break;
     }
     case WM_CLOSE:

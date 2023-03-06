@@ -250,8 +250,8 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Graphics.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Material.h" />
@@ -286,6 +286,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="Graphics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
@@ -320,6 +321,7 @@ copy "*.ini" "..\..\Output\$(Configuration)\"</Command>
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="Display.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="App.cpp" />
