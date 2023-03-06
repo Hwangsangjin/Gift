@@ -12,8 +12,9 @@
 #include "Texture.h"
 #include "Material.h"
 #include "Component.h"
-#include "MeshComponent.h"
 #include "TransformComponent.h"
+#include "MeshComponent.h"
+#include "LightComponent.h"
 
 Tool::Tool()
 {
@@ -59,6 +60,17 @@ void Tool::OnCreate()
 	sky_material->AddTexture(sky_texture);
 	sky_material->SetCullMode(CullMode::Front);
 
+	// skybox
+	{
+		auto entity = GetWorld()->CreateEntity<Entity>();
+		auto mesh_component = entity->CreateComponent<MeshComponent>();
+		auto transform = entity->GetTransform();
+		mesh_component->SetMesh(sphere_mesh);
+		mesh_component->AddMaterial(sky_material);
+
+		transform->SetScale(Vector3(1000.0f, 1000.0f, 1000.0f));
+	}
+
 	// terrain
 	{
 		auto entity = GetWorld()->CreateEntity<Entity>();
@@ -80,15 +92,12 @@ void Tool::OnCreate()
 		mesh_component->AddMaterial(flagPole_material);
 	}
 
-	// skybox
+	// light
 	{
-		auto entity = GetWorld()->CreateEntity<Entity>();
-		auto mesh_component = entity->CreateComponent<MeshComponent>();
-		auto transform = entity->GetTransform();
-		mesh_component->SetMesh(sphere_mesh);
-		mesh_component->AddMaterial(sky_material);
-
-		transform->SetScale(Vector3(1000.0f, 1000.0f, 1000.0f));
+		m_entity = GetWorld()->CreateEntity<Entity>();
+		auto light_component = m_entity->CreateComponent<LightComponent>();
+		light_component->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		m_entity->GetTransform()->SetRotation(Vector3(-0.785f, 0.785f, 0.0f));
 	}
 
 	GetWorld()->CreateEntity<Object>();
@@ -99,6 +108,9 @@ void Tool::OnCreate()
 void Tool::OnUpdate(float delta_time)
 {
 	App::OnUpdate(delta_time);
+	m_rotation += 1.57f * delta_time;
+
+	m_entity->GetTransform()->SetRotation(Vector3(-0.785f, m_rotation, 0.0f));
 
 	if (GetInput()->IsKeyUp(Key::Escape))
 	{

@@ -68,6 +68,7 @@ class Component;
 class TransformComponent;
 class MeshComponent;
 class CameraComponent;
+class LightComponent;
 class Input;
 class Timer;
 class Window;

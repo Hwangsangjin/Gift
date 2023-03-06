@@ -130,6 +130,9 @@
     <Filter Include="Engine\App\Object">
       <UniqueIdentifier>{a148fd53-42c8-445c-881e-5d211f8cc622}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\App\Component\LightComponent">
+      <UniqueIdentifier>{19f5886c-4913-40ec-959d-80012ead58fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -456,6 +459,9 @@
     <ClInclude Include="CameraComponent.h">
       <Filter>Engine\App\Component\CameraComponent</Filter>
     </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>Engine\App\Component\LightComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -590,6 +596,9 @@
     <ClCompile Include="CameraComponent.cpp">
       <Filter>Engine\App\Component\CameraComponent</Filter>
     </ClCompile>
+    <ClCompile Include="LightComponent.cpp">
+      <Filter>Engine\App\Component\LightComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SkyBox.hlsl">
@@ -598,5 +607,10 @@
     <None Include="Material.hlsl">
       <Filter>Engine\App\Resource\Shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Default.hlsl">
+      <Filter>Engine\App\Resource\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
