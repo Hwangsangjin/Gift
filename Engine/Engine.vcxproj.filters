@@ -43,142 +43,118 @@
     <Filter Include="Engine\Math\Rect">
       <UniqueIdentifier>{668cce69-342f-4f9f-834d-37bb33d54cc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource">
-      <UniqueIdentifier>{edcf136c-f2b2-4315-b25c-ef55ed045887}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Texture">
-      <UniqueIdentifier>{9a34065f-f7db-46b9-8356-8d655212146c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Mesh">
-      <UniqueIdentifier>{5c94d905-bf92-4010-a1f6-f9b7ff852366}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Material">
-      <UniqueIdentifier>{65aa310e-7f7e-4353-a523-daeaf32bece4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Sprite">
-      <UniqueIdentifier>{bb556efd-271c-4c3f-af7d-877dc5b48ead}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Window">
       <UniqueIdentifier>{ee8e0171-5419-4241-9edb-6f3c6913e6ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Sound">
-      <UniqueIdentifier>{f65fae06-9d98-47dc-b01a-00c581e9d15a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Input">
-      <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Timer">
-      <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\App">
       <UniqueIdentifier>{18ca733d-895f-4ed0-b076-d40c9c00a3f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Entity">
-      <UniqueIdentifier>{8c0a9b56-5396-422b-9478-fa464d6840b9}</UniqueIdentifier>
+    <Filter Include="Engine\App\Input">
+      <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics">
+    <Filter Include="Engine\App\Graphics">
       <UniqueIdentifier>{ca7be27e-e60b-48c4-b866-ec36b3b9b6b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer">
+    <Filter Include="Engine\App\Graphics\Renderer">
       <UniqueIdentifier>{612db928-bbc8-4631-ba35-d3a080aa028f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\ConstantBuffer">
+    <Filter Include="Engine\App\Graphics\Renderer\ConstantBuffer">
       <UniqueIdentifier>{0ab9c443-3972-4cf0-ab40-596d3b3c9572}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\IndexBuffer">
+    <Filter Include="Engine\App\Graphics\Renderer\IndexBuffer">
       <UniqueIdentifier>{0efd487e-0a0f-4997-9426-7d29c0033078}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\DeviceContext">
+    <Filter Include="Engine\App\Graphics\Renderer\DeviceContext">
       <UniqueIdentifier>{6df67621-14ca-41e8-8099-588885bf27ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\PixelShader">
+    <Filter Include="Engine\App\Graphics\Renderer\PixelShader">
       <UniqueIdentifier>{52f42d94-11a0-45e4-8016-5f1042310647}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\SwapChain">
+    <Filter Include="Engine\App\Graphics\Renderer\SwapChain">
       <UniqueIdentifier>{3175d48d-8551-4fe5-9e4a-20ba153f707c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\VertexBuffer">
+    <Filter Include="Engine\App\Graphics\Renderer\VertexBuffer">
       <UniqueIdentifier>{53c8d5b3-12ce-426f-8327-294ef9c4f5cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\VertexShader">
+    <Filter Include="Engine\App\Graphics\Renderer\VertexShader">
       <UniqueIdentifier>{7e1f029c-f349-4318-8be1-8fc7482ad22b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Renderer\Texture2D">
+    <Filter Include="Engine\App\Graphics\Renderer\Texture2D">
       <UniqueIdentifier>{786a0fbf-a9ec-4e2e-9f1f-e89d95027476}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\App\World">
       <UniqueIdentifier>{0b8806de-eaa6-42e7-89fb-78d76579c280}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Entity\Component">
-      <UniqueIdentifier>{3f1f8f9e-1f97-4582-b6e9-e21d99237428}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Window\Display">
+    <Filter Include="Engine\App\Display">
       <UniqueIdentifier>{f4bcc7b9-0c02-43e8-bdec-fa8ba378143b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader">
+    <Filter Include="Engine\App\Resource">
+      <UniqueIdentifier>{edcf136c-f2b2-4315-b25c-ef55ed045887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Resource\Texture">
+      <UniqueIdentifier>{9a34065f-f7db-46b9-8356-8d655212146c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Resource\Mesh">
+      <UniqueIdentifier>{5c94d905-bf92-4010-a1f6-f9b7ff852366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Resource\Material">
+      <UniqueIdentifier>{65aa310e-7f7e-4353-a523-daeaf32bece4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Resource\Sprite">
+      <UniqueIdentifier>{bb556efd-271c-4c3f-af7d-877dc5b48ead}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Resource\Shader">
       <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader\Global">
-      <UniqueIdentifier>{c584759e-c2c4-4ac0-a53d-ce4cece3e5c1}</UniqueIdentifier>
+    <Filter Include="Engine\App\Timer">
+      <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader\Global\DirectionalLight">
-      <UniqueIdentifier>{93527474-8eae-4ee9-a673-66deba0d5326}</UniqueIdentifier>
+    <Filter Include="Engine\App\Sound">
+      <UniqueIdentifier>{f65fae06-9d98-47dc-b01a-00c581e9d15a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader\Global\SkyBox">
-      <UniqueIdentifier>{d1887272-d035-4920-9af7-5a21c5581f26}</UniqueIdentifier>
+    <Filter Include="Engine\App\Component">
+      <UniqueIdentifier>{3f1f8f9e-1f97-4582-b6e9-e21d99237428}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader\Global\PointLight">
-      <UniqueIdentifier>{c55715cf-12e1-4c7f-ad54-92020c94876d}</UniqueIdentifier>
+    <Filter Include="Engine\App\Component\TransformComponent">
+      <UniqueIdentifier>{c96087d8-0f24-48d4-9c2b-7994598dab17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader\Global\UI">
-      <UniqueIdentifier>{9f962152-02d9-4a0d-8c19-7aa1cfd11cf3}</UniqueIdentifier>
+    <Filter Include="Engine\App\Component\MeshComponent">
+      <UniqueIdentifier>{64a48f37-af82-442c-b58d-cfdfdc049290}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader\Global\DirectionalLightBump">
-      <UniqueIdentifier>{9ebe87ed-2683-41cd-a655-6cf4b58f7d5d}</UniqueIdentifier>
+    <Filter Include="Engine\App\Component\CameraComponent">
+      <UniqueIdentifier>{899d8241-dfc9-41a2-8bf3-00924d504066}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource\Shader\Global\PostProcessEffect">
-      <UniqueIdentifier>{4de5afd8-061b-4c68-b4c4-1531123bba15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Shader\VertexMeshLayout">
-      <UniqueIdentifier>{297ef8bd-8a7f-4b8c-a771-7640fec2165b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Shader\Default">
-      <UniqueIdentifier>{53860061-397c-495d-8763-cdcc8eb79f50}</UniqueIdentifier>
+    <Filter Include="Engine\App\Entity">
+      <UniqueIdentifier>{8c0a9b56-5396-422b-9478-fa464d6840b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\App\Object">
       <UniqueIdentifier>{a148fd53-42c8-445c-881e-5d211f8cc622}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Entity\Component\TransformComponent">
-      <UniqueIdentifier>{c96087d8-0f24-48d4-9c2b-7994598dab17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Entity\Component\MeshComponent">
-      <UniqueIdentifier>{64a48f37-af82-442c-b58d-cfdfdc049290}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
-      <Filter>Engine\Graphics\Renderer</Filter>
+      <Filter>Engine\App\Graphics\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>Engine\Graphics\Renderer\ConstantBuffer</Filter>
+      <Filter>Engine\App\Graphics\Renderer\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>Engine\Graphics\Renderer\IndexBuffer</Filter>
+      <Filter>Engine\App\Graphics\Renderer\IndexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>Engine\Graphics\Renderer\PixelShader</Filter>
+      <Filter>Engine\App\Graphics\Renderer\PixelShader</Filter>
     </ClInclude>
     <ClInclude Include="SwapChain.h">
-      <Filter>Engine\Graphics\Renderer\SwapChain</Filter>
+      <Filter>Engine\App\Graphics\Renderer\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="DeviceContext.h">
-      <Filter>Engine\Graphics\Renderer\DeviceContext</Filter>
+      <Filter>Engine\App\Graphics\Renderer\DeviceContext</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>Engine\Graphics\Renderer\VertexBuffer</Filter>
+      <Filter>Engine\App\Graphics\Renderer\VertexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>Engine\Graphics\Renderer\VertexShader</Filter>
+      <Filter>Engine\App\Graphics\Renderer\VertexShader</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>Engine\Math\Vector</Filter>
@@ -196,10 +172,10 @@
       <Filter>Engine\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Engine\Resource</Filter>
+      <Filter>Engine\App\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Engine\Resource</Filter>
+      <Filter>Engine\App\Resource</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Precompile</Filter>
@@ -208,10 +184,10 @@
       <Filter>Precompile</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Engine\Resource\Mesh</Filter>
+      <Filter>Engine\App\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Engine\App\Input</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Engine\Window</Filter>
@@ -424,16 +400,16 @@
       <Filter>Vendor\RapidJSON</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Engine\Timer</Filter>
+      <Filter>Engine\App\Timer</Filter>
     </ClInclude>
     <ClInclude Include="VertexMesh.h">
       <Filter>Engine\Math\VertexMesh</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Engine\Resource\Material</Filter>
+      <Filter>Engine\App\Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
-      <Filter>Engine\Resource\Sprite</Filter>
+      <Filter>Engine\App\Resource\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="MathUtils.h">
       <Filter>Engine\Math</Filter>
@@ -442,16 +418,16 @@
       <Filter>Engine\Math\Rect</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h">
-      <Filter>Engine\Sound</Filter>
+      <Filter>Engine\App\Sound</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Engine\Resource\Texture</Filter>
+      <Filter>Engine\App\Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Engine\Graphics\Renderer\Texture2D</Filter>
+      <Filter>Engine\App\Graphics\Renderer\Texture2D</Filter>
     </ClInclude>
     <ClInclude Include="Display.h">
-      <Filter>Engine\Window\Display</Filter>
+      <Filter>Engine\App\Display</Filter>
     </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Engine\App</Filter>
@@ -460,48 +436,51 @@
       <Filter>Engine\App\World</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Engine\Entity</Filter>
+      <Filter>Engine\App\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Engine\App\Object</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\App\Component</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Engine\Entity\Component\TransformComponent</Filter>
+      <Filter>Engine\App\Component\TransformComponent</Filter>
     </ClInclude>
     <ClInclude Include="MeshComponent.h">
-      <Filter>Engine\Entity\Component\MeshComponent</Filter>
+      <Filter>Engine\App\Component\MeshComponent</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Engine\Graphics</Filter>
+      <Filter>Engine\App\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Engine\App\Component\CameraComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Engine\Graphics\Renderer</Filter>
+      <Filter>Engine\App\Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>Engine\Graphics\Renderer\ConstantBuffer</Filter>
+      <Filter>Engine\App\Graphics\Renderer\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Engine\Graphics\Renderer\IndexBuffer</Filter>
+      <Filter>Engine\App\Graphics\Renderer\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>Engine\Graphics\Renderer\PixelShader</Filter>
+      <Filter>Engine\App\Graphics\Renderer\PixelShader</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
-      <Filter>Engine\Graphics\Renderer\SwapChain</Filter>
+      <Filter>Engine\App\Graphics\Renderer\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="DeviceContext.cpp">
-      <Filter>Engine\Graphics\Renderer\DeviceContext</Filter>
+      <Filter>Engine\App\Graphics\Renderer\DeviceContext</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
-      <Filter>Engine\Graphics\Renderer\VertexBuffer</Filter>
+      <Filter>Engine\App\Graphics\Renderer\VertexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>Engine\Graphics\Renderer\VertexShader</Filter>
+      <Filter>Engine\App\Graphics\Renderer\VertexShader</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
       <Filter>Engine\Math\Vector</Filter>
@@ -519,19 +498,19 @@
       <Filter>Engine\Math\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Resource.cpp">
-      <Filter>Engine\Resource</Filter>
+      <Filter>Engine\App\Resource</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Engine\Resource</Filter>
+      <Filter>Engine\App\Resource</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Precompile</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Engine\Resource\Mesh</Filter>
+      <Filter>Engine\App\Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>Engine\Input</Filter>
+      <Filter>Engine\App\Input</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Engine\Window</Filter>
@@ -558,31 +537,31 @@
       <Filter>Vendor\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Engine\Timer</Filter>
+      <Filter>Engine\App\Timer</Filter>
     </ClCompile>
     <ClCompile Include="VertexMesh.cpp">
       <Filter>Engine\Math\VertexMesh</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Engine\Resource\Material</Filter>
+      <Filter>Engine\App\Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>Engine\Resource\Sprite</Filter>
+      <Filter>Engine\App\Resource\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Rect.cpp">
       <Filter>Engine\Math\Rect</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
-      <Filter>Engine\Sound</Filter>
+      <Filter>Engine\App\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Engine\Resource\Texture</Filter>
+      <Filter>Engine\App\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Engine\Graphics\Renderer\Texture2D</Filter>
+      <Filter>Engine\App\Graphics\Renderer\Texture2D</Filter>
     </ClCompile>
     <ClCompile Include="Display.cpp">
-      <Filter>Engine\Window\Display</Filter>
+      <Filter>Engine\App\Display</Filter>
     </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>Engine\App</Filter>
@@ -591,68 +570,33 @@
       <Filter>Engine\App\World</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Engine\Entity</Filter>
+      <Filter>Engine\App\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Engine\Graphics</Filter>
+      <Filter>Engine\App\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Engine\App\Object</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\App\Component</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
-      <Filter>Engine\Entity\Component\TransformComponent</Filter>
+      <Filter>Engine\App\Component\TransformComponent</Filter>
     </ClCompile>
     <ClCompile Include="MeshComponent.cpp">
-      <Filter>Engine\Entity\Component\MeshComponent</Filter>
+      <Filter>Engine\App\Component\MeshComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Engine\App\Component\CameraComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="SkyBoxPixelShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\SkyBox</Filter>
-    </FxCompile>
-    <FxCompile Include="PointLightVertexShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\PointLight</Filter>
-    </FxCompile>
-    <FxCompile Include="PointLightPixelShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\PointLight</Filter>
-    </FxCompile>
-    <FxCompile Include="DirectionalLightVertexShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\DirectionalLight</Filter>
-    </FxCompile>
-    <FxCompile Include="DirectionalLightPixelShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\DirectionalLight</Filter>
-    </FxCompile>
-    <FxCompile Include="SkyBoxVertexShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\SkyBox</Filter>
-    </FxCompile>
-    <FxCompile Include="UIVertexShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\UI</Filter>
-    </FxCompile>
-    <FxCompile Include="UIPixelShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\UI</Filter>
-    </FxCompile>
-    <FxCompile Include="DirectionalLightBumpVertexShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\DirectionalLightBump</Filter>
-    </FxCompile>
-    <FxCompile Include="DirectionalLightBumpPixelShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\DirectionalLightBump</Filter>
-    </FxCompile>
-    <FxCompile Include="PostProcessVertexShader.hlsl">
-      <Filter>Engine\Resource\Shader\Global\PostProcessEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="DistortionEffect.hlsl">
-      <Filter>Engine\Resource\Shader\Global\PostProcessEffect</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DefaultShader.hlsl">
-      <Filter>Engine\Resource\Shader\Default</Filter>
+    <None Include="SkyBox.hlsl">
+      <Filter>Engine\App\Resource\Shader</Filter>
     </None>
-    <None Include="VertexMeshLayoutShader.hlsl">
-      <Filter>Engine\Resource\Shader\VertexMeshLayout</Filter>
+    <None Include="Material.hlsl">
+      <Filter>Engine\App\Resource\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

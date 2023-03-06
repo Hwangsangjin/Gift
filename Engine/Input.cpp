@@ -63,12 +63,17 @@ void Input::Update()
 void Input::LockCursor(bool lock)
 {
     m_cursor_locked = lock;
+
+    if (lock)
+        while (::ShowCursor(false) >= 0);
+    else
+        while (::ShowCursor(true) <= 1);
 }
 
 void Input::SetLockArea(const Rect& area)
 {
     m_lock_area = area;
-    m_lock_area_center = Vector2(area.m_left + static_cast<float>(area.m_width) / 2.0f, area.m_top + static_cast<float>(area.m_height) / 2.0f);
+    m_lock_area_center = Vector2(std::floor(area.m_left + static_cast<float>(area.m_width) / 2.0f), std::floor(area.m_top + static_cast<float>(area.m_height) / 2.0f));
 }
 
 bool Input::IsKeyUp(const Key& key)

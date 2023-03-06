@@ -8,6 +8,8 @@ public:
 
 	void Release();
 
+	Input* GetInput() const;
+	Timer* GetTimer() const;
 	World* GetWorld() const;
 	TransformComponent* GetTransform() const;
 
@@ -21,14 +23,7 @@ public:
 		{
 			auto id = typeid(T).hash_code();
 			component = new T();
-
-			auto component_ptr = std::unique_ptr<Component>(component);
-			m_components.emplace(id, std::move(component_ptr));
-			component->m_id = id;
-			component->m_entity = this;
-
-			component->OnCreate();
-
+			CreateComponent(component, id);
 			return component;
 		}
 
@@ -41,12 +36,7 @@ public:
 		static_assert(std::is_base_of<Component, T>::value, "T must derive from Component class.");
 
 		auto id = typeid(T).hash_code();
-
-		auto iter = m_components.find(id);
-		if (iter == m_components.end())
-			return nullptr;
-
-		return (T*)iter->second.get();
+		return (T*)GetComponent(id);
 	}
 
 protected:
@@ -54,6 +44,8 @@ protected:
 	virtual void OnUpdate(float delta_time);
 
 private:
+	void CreateComponent(Component* component, size_t id);
+	Component* GetComponent(size_t id);
 	void RemoveComponent(size_t id);
 
 	size_t m_id = 0;

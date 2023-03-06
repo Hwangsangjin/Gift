@@ -28,8 +28,8 @@ public:
 	const void* GetMeshLayoutByteCode() const;
 	size_t GetMeshLayoutSize() const;
 
-	void SetCullMode(bool cull_back);
-	void SetFillMode(bool fill_soild);
+	void SetCullMode(const CullMode& cull_mode);
+	void SetFillMode(const FillMode& fill_mode);
 
 private:
 	void InitializeRasterizerState();
@@ -44,6 +44,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3DBlob> m_blob = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertex_shader = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixel_shader = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_cull_none = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_cull_front = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_cull_back = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_fill_wireframe = nullptr;

@@ -45,7 +45,7 @@ void App::Run()
             }
         }
 
-        Core();
+        OnCore();
     }
 
     OnQuit();
@@ -68,6 +68,26 @@ void App::Quit()
     m_running = false;
 }
 
+Input* App::GetInput() const
+{
+    return m_input.get();
+}
+
+Timer* App::GetTimer() const
+{
+    return m_timer.get();
+}
+
+World* App::GetWorld() const
+{
+    return m_world.get();
+}
+
+Display* App::GetDisplay() const
+{
+    return m_display.get();
+}
+
 Graphics* App::GetGraphics() const
 {
     return m_graphics.get();
@@ -78,17 +98,7 @@ ResourceManager* App::GetResourceManager() const
     return m_resource_manager.get();
 }
 
-Display* App::GetDisplay() const
-{
-    return m_display.get();
-}
-
-World* App::GetWorld() const
-{
-    return m_world.get();
-}
-
-void App::Core()
+void App::OnCore()
 {
     m_input->Update();
     if (m_input->IsKeyDown(Key::Escape))
@@ -106,5 +116,5 @@ void App::Core()
 void App::Resize(const Rect& size)
 {
     m_input->SetLockArea(m_display->GetClientSize());
-    Core();
+    OnCore();
 }

@@ -14,8 +14,8 @@ public:
 	void SetRotationX(float x);
 	void SetRotationY(float y);
 	void SetRotationZ(float z);
-	void SetOrthographicProjection(float width, float height, float near_plane, float far_plane);
-	void SetPerspectiveProjection(float fov, float aspect, float z_near, float z_far);
+	void SetOrthographic(float width, float height, float near_plane, float far_plane);
+	void SetPerspective(float fov, float aspect, float z_near, float z_far);
 
 	float GetDeterminant();
 	void Inverse();

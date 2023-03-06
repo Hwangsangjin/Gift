@@ -16,7 +16,7 @@ public:
 
 	const std::vector<MaterialPtr>& GetMaterials();
 
-//protected:
+protected:
 	virtual void OnCreate() override;
 
 private:

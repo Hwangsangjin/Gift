@@ -31,8 +31,8 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 	if (!result)
 		GiftError("Mesh not created successfully");
 
-	std::vector<VertexMesh> vertex_mesh_vertices;
-	std::vector<UINT> vertex_mesh_indices;
+	std::vector<VertexMesh> vertex_mesh_list;
+	std::vector<UINT> index_list;
 
 	size_t vertex_buffer_size = 0;
 
@@ -41,8 +41,8 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 		vertex_buffer_size += shapes[s].mesh.indices.size();
 	}
 
-	vertex_mesh_vertices.reserve(vertex_buffer_size);
-	vertex_mesh_indices.reserve(vertex_buffer_size);
+	vertex_mesh_list.reserve(vertex_buffer_size);
+	index_list.reserve(vertex_buffer_size);
 
 	m_material_slots.resize(materials.size());
 
@@ -59,13 +59,14 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 
 			for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++)
 			{
-				UCHAR num_face_vertices = shapes[s].mesh.num_face_vertices[f];
-
 				if (shapes[s].mesh.material_ids[f] != m)
 				{
+					UCHAR num_face_vertices = shapes[s].mesh.num_face_vertices[f];
 					index_offset += num_face_vertices;
 					continue;
 				}
+
+				UCHAR num_face_vertices = shapes[s].mesh.num_face_vertices[f];
 
 				Vector3 vertices_face[3];
 				Vector2 texcoords_face[3];
@@ -76,14 +77,14 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 
 					tinyobj::real_t vx = attribs.vertices[index.vertex_index * 3 + 0];
 					tinyobj::real_t vy = attribs.vertices[index.vertex_index * 3 + 1];
-					tinyobj::real_t vz = attribs.vertices[index.vertex_index * 3 + 2];
+					tinyobj::real_t vz = -attribs.vertices[index.vertex_index * 3 + 2];
 
 					tinyobj::real_t tx = 0;
 					tinyobj::real_t ty = 0;
 					if (attribs.texcoords.size())
 					{
 						tx = attribs.texcoords[index.texcoord_index * 2 + 0];
-						ty = attribs.texcoords[index.texcoord_index * 2 + 1];
+						ty = 1.0f - attribs.texcoords[index.texcoord_index * 2 + 1];
 					}
 
 					vertices_face[v] = Vector3(vx, vy, vz);
@@ -105,14 +106,14 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 
 					tinyobj::real_t vx = attribs.vertices[index.vertex_index * 3 + 0];
 					tinyobj::real_t vy = attribs.vertices[index.vertex_index * 3 + 1];
-					tinyobj::real_t vz = attribs.vertices[index.vertex_index * 3 + 2];
+					tinyobj::real_t vz = -attribs.vertices[index.vertex_index * 3 + 2];
 
 					tinyobj::real_t tx = 0;
 					tinyobj::real_t ty = 0;
 					if (attribs.texcoords.size())
 					{
 						tx = attribs.texcoords[index.texcoord_index * 2 + 0];
-						ty = attribs.texcoords[index.texcoord_index * 2 + 1];
+						ty = 1.0f - attribs.texcoords[index.texcoord_index * 2 + 1];
 					}
 
 					tinyobj::real_t nx = 0;
@@ -122,7 +123,7 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 					{
 						nx = attribs.normals[index.normal_index * 3 + 0];
 						ny = attribs.normals[index.normal_index * 3 + 1];
-						nz = attribs.normals[index.normal_index * 3 + 2];
+						nz = -attribs.normals[index.normal_index * 3 + 2];
 					}
 
 					Vector3 v_tangent, v_binormal;
@@ -130,8 +131,8 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 					v_tangent = Vector3::Cross(v_binormal, Vector3(nx, ny, nz));
 
 					VertexMesh vertex_mesh(Vector3(vx, vy, vz), Vector2(tx, ty), Vector3(nx, ny, nz), v_tangent, v_binormal);
-					vertex_mesh_vertices.push_back(vertex_mesh);
-					vertex_mesh_indices.push_back((UINT)index_global_offset + v);
+					vertex_mesh_list.push_back(vertex_mesh);
+					index_list.push_back((UINT)index_global_offset + v);
 				}
 
 				index_offset += num_face_vertices;
@@ -142,10 +143,10 @@ Mesh::Mesh(const wchar_t* file_path, ResourceManager* resource_manager)
 		m_material_slots[m].index_size = index_global_offset - m_material_slots[m].start_index;
 	}
 
-	m_vertex_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateVertexBuffer(&vertex_mesh_vertices[0], sizeof(VertexMesh), static_cast<UINT>(vertex_mesh_vertices.size()));
+	m_vertex_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateVertexBuffer(&vertex_mesh_list[0], sizeof(VertexMesh), static_cast<UINT>(index_list.size()));
 	assert(m_vertex_buffer);
 
-	m_index_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateIndexBuffer(&vertex_mesh_indices[0], static_cast<UINT>(vertex_mesh_indices.size()));
+	m_index_buffer = m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateIndexBuffer(&index_list[0], static_cast<UINT>(index_list.size()));
 	assert(m_index_buffer);
 }
 

@@ -1,4 +1,4 @@
-#include "pch.h"
+  #include "pch.h"
 #include "Matrix4x4.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -62,7 +62,7 @@ void Matrix4x4::SetRotationZ(float z)
 	m_matrix[1][1] = std::cos(z);
 }
 
-void Matrix4x4::SetOrthographicProjection(float width, float height, float near_plane, float far_plane)
+void Matrix4x4::SetOrthographic(float width, float height, float near_plane, float far_plane)
 {
 	SetIdentity();
 	m_matrix[0][0] = 2.0f / width;
@@ -71,7 +71,7 @@ void Matrix4x4::SetOrthographicProjection(float width, float height, float near_
 	m_matrix[3][2] = -(near_plane / (far_plane - near_plane));
 }
 
-void Matrix4x4::SetPerspectiveProjection(float fov, float aspect, float z_near, float z_far)
+void Matrix4x4::SetPerspective(float fov, float aspect, float z_near, float z_far)
 {
 	float y_scale = 1.0f / std::tan(fov / 2.0f);
 	float x_scale = y_scale / aspect;
@@ -80,6 +80,7 @@ void Matrix4x4::SetPerspectiveProjection(float fov, float aspect, float z_near, 
 	m_matrix[2][2] = z_far / (z_far - z_near);
 	m_matrix[2][3] = 1.0f;
 	m_matrix[3][2] = (-z_near * z_far) / (z_far - z_near);
+	m_matrix[3][3] = 0.0f;
 }
 
 float Matrix4x4::GetDeterminant()

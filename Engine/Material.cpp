@@ -76,7 +76,7 @@ void Material::SetData(void* data, UINT size)
 		m_constant_buffer->Update(m_resource_manager->GetApp()->GetGraphics()->GetRenderer()->GetDeviceContext(), data);
 }
 
-Material::CullMode Material::GetCullMode()
+CullMode Material::GetCullMode() const
 {
 	return m_cull_mode;
 }
@@ -86,7 +86,7 @@ void Material::SetCullMode(CullMode cull_mode)
 	m_cull_mode = cull_mode;
 }
 
-Material::FillMode Material::GetFillMode()
+FillMode Material::GetFillMode() const
 {
 	return m_fill_mode;
 }

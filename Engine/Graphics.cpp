@@ -11,12 +11,25 @@
 #include "Material.h"
 #include "TransformComponent.h"
 #include "MeshComponent.h"
+#include "CameraComponent.h"
 #include "Entity.h"
+
+__declspec(align(16))
+struct ConstantData
+{
+	Matrix4x4 world;
+	Matrix4x4 view;
+	Matrix4x4 projection;
+};
 
 Graphics::Graphics(App* app)
 	: m_app(app)
 {
 	m_renderer = std::make_unique<Renderer>();
+}
+
+Graphics::~Graphics()
+{
 }
 
 void Graphics::Update()
@@ -33,12 +46,14 @@ void Graphics::Update()
 	constant_data.view.SetIdentity();
 	constant_data.projection.SetIdentity();
 
-	constant_data.view.SetTranslation(Vector3(0.0f, 2.0f, -10.0f));
-	constant_data.view.Inverse();
+	for (const auto& c : m_cameras)
+	{
+		c->SetScreenArea(client_size);
+		c->GetViewMatrix(constant_data.view);
+		c->GetProjectionMatrix(constant_data.projection);
+	}
 
-	constant_data.projection.SetPerspectiveProjection(1.3f, static_cast<float>(client_size.m_width) / static_cast<float>(client_size.m_height), 0.01f, 1000.0f);
-
-	for (auto& m : m_meshes)
+	for (const auto& m : m_meshes)
 	{
 		auto transform = m->GetEntity()->GetTransform();
 		transform->GetWorldMatrix(constant_data.world);
@@ -56,13 +71,15 @@ void Graphics::Update()
 
 			auto material = materials[i].get();
 
+			m_renderer->SetCullMode(material->GetCullMode());
+
 			material->SetData(&constant_data, sizeof(ConstantData));
 			device_context->SetConstantBuffer(material->GetConstantBuffer());
 
 			device_context->SetVertexShader(material->GetVertexShader());
 			device_context->SetPixelShader(material->GetPixelShader());
 
-			device_context->SetTexture(&material->GetTexture(), static_cast<UINT>(material->GetTextureSize()));
+			device_context->SetTexture(&material->m_textures[0], static_cast<UINT>(material->m_textures.size()));
 
 			auto material_slot = mesh->GetMaterialSlot(i);
 			device_context->DrawIndexedTriangleList(static_cast<UINT>(material_slot.index_size), static_cast<UINT>(material_slot.start_index), 0);
@@ -75,16 +92,21 @@ void Graphics::Update()
 void Graphics::AddComponent(Component* component)
 {
 	if (auto c = dynamic_cast<MeshComponent*>(component))
-		m_meshes.emplace(c);
+		m_meshes.insert(c);
+	else if (auto c = dynamic_cast<CameraComponent*>(component))
+		if (!m_cameras.size())
+			m_cameras.insert(c);
 }
 
 void Graphics::RemoveComponent(Component* component)
 {
 	if (auto c = dynamic_cast<MeshComponent*>(component))
 		m_meshes.erase(c);
+	else if (auto c = dynamic_cast<CameraComponent*>(component))
+		m_cameras.erase(c);
 }
 
-Renderer* Graphics::GetRenderer()
+Renderer* Graphics::GetRenderer() const
 {
 	return m_renderer.get();
 }

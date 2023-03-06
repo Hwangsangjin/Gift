@@ -163,20 +163,22 @@ size_t Renderer::GetMeshLayoutSize() const
     return m_mesh_layout_size;
 }
 
-void Renderer::SetCullMode(bool cull_back)
+void Renderer::SetCullMode(const CullMode& cull_mode)
 {
-    if (cull_back)
-        m_immediate_context->RSSetState(m_cull_back.Get());
-    else
+    if (cull_mode == CullMode::None)
+        m_immediate_context->RSSetState(m_cull_none.Get());
+    else if (cull_mode == CullMode::Front)
         m_immediate_context->RSSetState(m_cull_front.Get());
+    else if (cull_mode == CullMode::Back)
+        m_immediate_context->RSSetState(m_cull_back.Get());
 }
 
-void Renderer::SetFillMode(bool fill_soild)
+void Renderer::SetFillMode(const FillMode& fill_mode)
 {
-    if (fill_soild)
-        m_immediate_context->RSSetState(m_fill_solid.Get());
-    else
+    if (fill_mode == FillMode::Wireframe)
         m_immediate_context->RSSetState(m_fill_wireframe.Get());
+    else if (fill_mode == FillMode::Solid)
+        m_immediate_context->RSSetState(m_fill_solid.Get());
 }
 
 void Renderer::InitializeRasterizerState()
@@ -184,7 +186,10 @@ void Renderer::InitializeRasterizerState()
     D3D11_RASTERIZER_DESC desc = {};
     ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
     desc.DepthClipEnable = true;
+    desc.FrontCounterClockwise = true;
+
     desc.CullMode = D3D11_CULL_NONE;
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_none);
 
     desc.FillMode = D3D11_FILL_WIREFRAME;
     m_d3d_device->CreateRasterizerState(&desc, &m_fill_wireframe);
@@ -229,7 +234,7 @@ VS_OUTPUT vsmain(VS_INPUT input)
 
     auto code_size = strlen(mesh_layout_code);
 
-    ::D3DCompile(mesh_layout_code, code_size, "VertexMeshLayoutShader", nullptr, nullptr, "vsmain", "vs_5_0", 0, 0, &blob, &error_blob);
+    ::D3DCompile(mesh_layout_code, code_size, "VertexMeshLayout", nullptr, nullptr, "vsmain", "vs_5_0", 0, 0, &blob, &error_blob);
     assert(blob);
 
     memcpy(m_mesh_layout_byte_code, blob->GetBufferPointer(), blob->GetBufferSize());

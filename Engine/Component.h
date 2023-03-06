@@ -10,12 +10,12 @@ public:
 
 	Entity* GetEntity() const;
 
-//protected:
+protected:
 	virtual void OnCreate();
 
 	size_t m_id = 0;
 	Entity* m_entity = nullptr;
 
-	friend class Entity;
+	friend Entity;
 };
 

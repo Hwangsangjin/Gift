@@ -10,15 +10,15 @@ public:
 	Window();
 	virtual ~Window();
 
-	Rect GetClientSize() const;
-	Rect GetScreenSize() const;
-
 	virtual void OnCreate();
 	virtual void OnUpdate();
 	virtual void OnSize(const Rect& size);
 	virtual void OnFocus();
 	virtual void OnKillFocus();
 	virtual void OnDestroy();
+
+	Rect GetClientSize() const;
+	Rect GetScreenSize() const;
 
 protected:
 	void* m_hwnd = nullptr;

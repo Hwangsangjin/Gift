@@ -12,7 +12,7 @@ public:
 		return std::dynamic_pointer_cast<T>(CreateResourceFromFileConcrete(file_path));
 	}
 
-	App* GetApp();
+	App* GetApp() const;
 
 private:
 	ResourcePtr CreateResourceFromFileConcrete(const wchar_t* file_path);

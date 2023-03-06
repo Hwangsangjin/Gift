@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Entity.h"
 #include "World.h"
-#include "Component.h"
+#include "App.h"
 #include "TransformComponent.h"
+#include "CameraComponent.h"
 
 Entity::Entity()
 {
@@ -21,6 +22,25 @@ void Entity::OnUpdate(float delta_time)
 {
 }
 
+void Entity::CreateComponent(Component* component, size_t id)
+{
+	auto component_ptr = std::unique_ptr<Component>(component);
+	m_components.emplace(id, std::move(component_ptr));
+	component->m_id = id;
+	component->m_entity = this;
+
+	component->OnCreate();
+}
+
+Component* Entity::GetComponent(size_t id)
+{
+	auto iter = m_components.find(id);
+	if (iter == m_components.end())
+		return nullptr;
+	
+	return iter->second.get();
+}
+
 void Entity::RemoveComponent(size_t id)
 {
 	m_components.erase(id);
@@ -29,6 +49,16 @@ void Entity::RemoveComponent(size_t id)
 void Entity::Release()
 {
 	m_world->RemoveEntity(this);
+}
+
+Input* Entity::GetInput() const
+{
+	return m_world->GetApp()->GetInput();
+}
+
+Timer* Entity::GetTimer() const
+{
+	return m_world->GetApp()->GetTimer();
 }
 
 World* Entity::GetWorld() const
