@@ -2,6 +2,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Timer.h"
+#include "Sound.h"
 #include "World.h"
 #include "Graphics.h"
 #include "Renderer.h"
@@ -12,10 +13,11 @@ App::App()
 {
     m_input = std::make_unique<Input>();
     m_timer = std::make_unique<Timer>();
+    m_sound = std::make_unique<Sound>();
     m_graphics = std::make_unique<Graphics>(this);
     m_display = std::make_unique<Display>(this);
-    m_world = std::make_unique<World>(this);
     m_resource_manager = std::make_unique<ResourceManager>(this);
+    m_world = std::make_unique<World>(this);
 
     m_input->SetLockArea(m_display->GetClientSize());
 }
@@ -78,6 +80,11 @@ Timer* App::GetTimer() const
     return m_timer.get();
 }
 
+Sound* App::GetSound() const
+{
+    return m_sound.get();
+}
+
 World* App::GetWorld() const
 {
     return m_world.get();
@@ -111,6 +118,7 @@ void App::OnCore()
     m_world->Update(m_timer->GetDeltaTime());
 
     m_graphics->Update();
+    m_display->Update();
 }
 
 void App::Resize(const Rect& size)

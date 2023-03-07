@@ -23,7 +23,7 @@ public:
 		{
 			auto id = typeid(T).hash_code();
 			component = new T();
-			CreateComponent(component, id);
+			CreateComponentInternal(component, id);
 			return component;
 		}
 
@@ -36,7 +36,7 @@ public:
 		static_assert(std::is_base_of<Component, T>::value, "T must derive from Component class.");
 
 		auto id = typeid(T).hash_code();
-		return (T*)GetComponent(id);
+		return (T*)GetComponentInternal(id);
 	}
 
 protected:
@@ -44,8 +44,8 @@ protected:
 	virtual void OnUpdate(float delta_time);
 
 private:
-	void CreateComponent(Component* component, size_t id);
-	Component* GetComponent(size_t id);
+	void CreateComponentInternal(Component* component, size_t id);
+	Component* GetComponentInternal(size_t id);
 	void RemoveComponent(size_t id);
 
 	size_t m_id = 0;

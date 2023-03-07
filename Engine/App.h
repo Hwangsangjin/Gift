@@ -13,6 +13,7 @@ public:
 
 	Input* GetInput() const;
 	Timer* GetTimer() const;
+	Sound* GetSound() const;
 	World* GetWorld() const;
 	Display* GetDisplay() const;
 	Graphics* GetGraphics() const;
@@ -31,6 +32,7 @@ private:
 
 	std::unique_ptr<Input> m_input = nullptr;
 	std::unique_ptr<Timer> m_timer = nullptr;
+	std::unique_ptr<Sound> m_sound = nullptr;
 	std::unique_ptr<Graphics> m_graphics = nullptr;
 	std::unique_ptr<Display> m_display = nullptr;
 	std::unique_ptr<ResourceManager> m_resource_manager = nullptr;

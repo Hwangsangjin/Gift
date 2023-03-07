@@ -8,6 +8,8 @@ public:
 	Display(App* app);
 	virtual ~Display();
 
+	void Update();
+
 	const SwapChainPtr& GetSwapChain();
 
 protected:

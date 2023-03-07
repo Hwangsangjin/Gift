@@ -22,7 +22,7 @@ void Entity::OnUpdate(float delta_time)
 {
 }
 
-void Entity::CreateComponent(Component* component, size_t id)
+void Entity::CreateComponentInternal(Component* component, size_t id)
 {
 	auto component_ptr = std::unique_ptr<Component>(component);
 	m_components.emplace(id, std::move(component_ptr));
@@ -32,7 +32,7 @@ void Entity::CreateComponent(Component* component, size_t id)
 	component->OnCreate();
 }
 
-Component* Entity::GetComponent(size_t id)
+Component* Entity::GetComponentInternal(size_t id)
 {
 	auto iter = m_components.find(id);
 	if (iter == m_components.end())

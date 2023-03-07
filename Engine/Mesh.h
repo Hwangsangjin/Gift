@@ -20,7 +20,7 @@ class Mesh : public Resource
 public:
 	Mesh(const wchar_t* file_path, ResourceManager* resource_manager);
 	Mesh(VertexMesh* vertex_mesh_data, UINT vertex_size, UINT* index_data, UINT index_size, MaterialSlot* material_slot, UINT material_slot_size, ResourceManager* resource_manager);
-	virtual ~Mesh() override;
+	virtual ~Mesh();
 
 	const VertexBufferPtr& GetVertexBuffer();
 	const IndexBufferPtr& GetIndexBuffer();

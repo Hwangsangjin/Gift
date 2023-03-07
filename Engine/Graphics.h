@@ -5,6 +5,7 @@ class Graphics
 public:
 	Graphics(App* app);
 	~Graphics();
+
 	void Update();
 
 	void AddComponent(Component* component);

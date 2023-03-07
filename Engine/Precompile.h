@@ -43,7 +43,6 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
-#include "ImGui/ImFileDialog.h"
 
 #include "FMOD/fmod.hpp"
 
@@ -62,15 +61,11 @@ std::wclog << "Information: " << message << std::endl;
 
 // class
 class App;
-class World;
-class Entity;
-class Component;
-class TransformComponent;
-class MeshComponent;
-class CameraComponent;
-class LightComponent;
 class Input;
 class Timer;
+class Sound;
+class World;
+class Entity;
 class Window;
 class Display;
 class Graphics;
@@ -89,6 +84,13 @@ class Texture;
 class Texture2D;
 class Material;
 class Sprite;
+class Audio;
+class Component;
+class TransformComponent;
+class MeshComponent;
+class CameraComponent;
+class LightComponent;
+class AudioComponent;
 
 // typedef
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
@@ -104,6 +106,7 @@ typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Texture2D> Texture2DPtr;
 typedef std::shared_ptr<Material> MaterialPtr;
 typedef std::shared_ptr<Sprite> SpritePtr;
+typedef std::shared_ptr<Audio> AudioPtr;
 
 // enum
 enum class CameraType

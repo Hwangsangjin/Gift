@@ -103,14 +103,8 @@
     <Filter Include="Engine\App\Resource\Sprite">
       <UniqueIdentifier>{bb556efd-271c-4c3f-af7d-877dc5b48ead}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\App\Resource\Shader">
-      <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\App\Timer">
       <UniqueIdentifier>{633e1f38-1977-49e2-97d0-008cdcb9da80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\App\Sound">
-      <UniqueIdentifier>{f65fae06-9d98-47dc-b01a-00c581e9d15a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\App\Component">
       <UniqueIdentifier>{3f1f8f9e-1f97-4582-b6e9-e21d99237428}</UniqueIdentifier>
@@ -132,6 +126,18 @@
     </Filter>
     <Filter Include="Engine\App\Component\LightComponent">
       <UniqueIdentifier>{19f5886c-4913-40ec-959d-80012ead58fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader">
+      <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Resource\Audio">
+      <UniqueIdentifier>{f65fae06-9d98-47dc-b01a-00c581e9d15a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Sound">
+      <UniqueIdentifier>{454c0a5d-1a65-4a60-a172-f74ba6c5d760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\App\Component\AudioComponent">
+      <UniqueIdentifier>{e9c08396-18b6-48be-9287-95b47f607699}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -263,30 +269,6 @@
     </ClInclude>
     <ClInclude Include="..\Include\TinyObjLoader\tiny_obj_loader.h">
       <Filter>Vendor\TinyObjLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imstb_truetype.h">
-      <Filter>Vendor\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imconfig.h">
-      <Filter>Vendor\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imgui.h">
-      <Filter>Vendor\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imgui_impl_dx11.h">
-      <Filter>Vendor\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imgui_impl_win32.h">
-      <Filter>Vendor\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imgui_internal.h">
-      <Filter>Vendor\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imstb_rectpack.h">
-      <Filter>Vendor\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGui\imstb_textedit.h">
-      <Filter>Vendor\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\RapidJSON\rapidjson.h">
       <Filter>Vendor\RapidJSON</Filter>
@@ -420,8 +402,8 @@
     <ClInclude Include="Rect.h">
       <Filter>Engine\Math\Rect</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Engine\App\Sound</Filter>
+    <ClInclude Include="Audio.h">
+      <Filter>Engine\App\Resource\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Engine\App\Resource\Texture</Filter>
@@ -461,6 +443,36 @@
     </ClInclude>
     <ClInclude Include="LightComponent.h">
       <Filter>Engine\App\Component\LightComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imstb_truetype.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imconfig.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui_impl_dx11.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui_impl_win32.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imgui_internal.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imstb_rectpack.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ImGui\imstb_textedit.h">
+      <Filter>Vendor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioComponent.h">
+      <Filter>Engine\App\Component\AudioComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Engine\App\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -521,27 +533,6 @@
     <ClCompile Include="Window.cpp">
       <Filter>Engine\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
-      <Filter>Vendor\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\imgui_demo.cpp">
-      <Filter>Vendor\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\imgui_draw.cpp">
-      <Filter>Vendor\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\imgui_impl_dx11.cpp">
-      <Filter>Vendor\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\imgui_impl_win32.cpp">
-      <Filter>Vendor\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\imgui_tables.cpp">
-      <Filter>Vendor\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGui\imgui_widgets.cpp">
-      <Filter>Vendor\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Engine\App\Timer</Filter>
     </ClCompile>
@@ -557,8 +548,8 @@
     <ClCompile Include="Rect.cpp">
       <Filter>Engine\Math\Rect</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>Engine\App\Sound</Filter>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Engine\App\Resource\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Engine\App\Resource\Texture</Filter>
@@ -599,18 +590,37 @@
     <ClCompile Include="LightComponent.cpp">
       <Filter>Engine\App\Component\LightComponent</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui.cpp">
+      <Filter>Vendor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_draw.cpp">
+      <Filter>Vendor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_impl_dx11.cpp">
+      <Filter>Vendor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_impl_win32.cpp">
+      <Filter>Vendor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_tables.cpp">
+      <Filter>Vendor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ImGui\imgui_widgets.cpp">
+      <Filter>Vendor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>Engine\App\Component\AudioComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Engine\App\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SkyBox.hlsl">
-      <Filter>Engine\App\Resource\Shader</Filter>
+      <Filter>Engine\Shader</Filter>
     </None>
     <None Include="Material.hlsl">
-      <Filter>Engine\App\Resource\Shader</Filter>
+      <Filter>Engine\Shader</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Default.hlsl">
-      <Filter>Engine\App\Resource\Shader</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

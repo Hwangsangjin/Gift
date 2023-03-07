@@ -7,7 +7,7 @@ class Material : public Resource
 public:
 	Material(const wchar_t* file_path, ResourceManager* resource_manager);
 	Material(const MaterialPtr& material, ResourceManager* resource_manager);
-	virtual ~Material() override;
+	virtual ~Material();
 
 	VertexShaderPtr GetVertexShader();
 	PixelShaderPtr GetPixelShader();
@@ -26,7 +26,7 @@ public:
 	FillMode GetFillMode() const;
 	void SetFillMode(FillMode fill_mode);
 
-//private:
+private:
 	VertexShaderPtr m_vertex_shader = nullptr;
 	PixelShaderPtr m_pixel_shader = nullptr;
 	ConstantBufferPtr m_constant_buffer = nullptr;

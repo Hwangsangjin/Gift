@@ -100,14 +100,12 @@ void Graphics::Update()
 			device_context->SetVertexShader(material->GetVertexShader());
 			device_context->SetPixelShader(material->GetPixelShader());
 
-			device_context->SetTexture(&material->m_textures[0], static_cast<UINT>(material->m_textures.size()));
+			device_context->SetTexture(&material->GetTexture(), static_cast<UINT>(material->GetTextureSize()));
 
 			auto material_slot = mesh->GetMaterialSlot(i);
 			device_context->DrawIndexedTriangleList(static_cast<UINT>(material_slot.index_size), static_cast<UINT>(material_slot.start_index), 0);
 		}
 	}
-
-	swap_chain->Present(true);
 }
 
 void Graphics::AddComponent(Component* component)

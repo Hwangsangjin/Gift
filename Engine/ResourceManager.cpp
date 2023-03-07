@@ -4,6 +4,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Material.h"
+#include "Audio.h"
 
 ResourceManager::ResourceManager(App* app)
     : m_app(app)
@@ -45,6 +46,8 @@ ResourcePtr ResourceManager::CreateResourceFromFileConcrete(const wchar_t* file_
         resource_ptr = std::make_shared<Texture>(resource_path.c_str(), this);
     else if (!extension.compare(L".hlsl") || !extension.compare(L".fx"))
         resource_ptr = std::make_shared<Material>(resource_path.c_str(), this);
+    else if (!extension.compare(L".mp3") || !extension.compare(L".ogg"))
+        resource_ptr = std::make_shared<Audio>(resource_path.c_str(), this);
 
     if (resource_ptr)
     {

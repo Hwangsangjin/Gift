@@ -10,10 +10,45 @@ Display::Display(App* game)
 {
 	auto client_size = GetClientSize();
 	m_swap_chain = game->GetGraphics()->GetRenderer()->CreateSwapChain(static_cast<HWND>(m_hwnd), client_size.m_width, client_size.m_height);
+
+    // Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+
+	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplWin32_Init(m_hwnd);
+    ImGui_ImplDX11_Init(m_app->GetGraphics()->GetRenderer()->GetD3DDevice(), m_app->GetGraphics()->GetRenderer()->GetImmediateContext());
 }
 
 Display::~Display()
 {
+    // ImGui Cleanup
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
+}
+
+void Display::Update()
+{
+	// Assemble Together Draw Data
+	ImGui::Render();
+	// Render Draw Data
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	// Page Flipping
+	m_swap_chain->Present(true);
 }
 
 const SwapChainPtr& Display::GetSwapChain()

@@ -5,10 +5,14 @@
 #include "Graphics.h"
 #include "Renderer.h"
 
-Texture::Texture(const wchar_t* full_path, ResourceManager* resource_manager)
-	: Resource(full_path, resource_manager)
+Texture::Texture(const wchar_t* file_path, ResourceManager* resource_manager)
+	: Resource(file_path, resource_manager)
 {
-	m_texture = resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateTexture(full_path);
+	m_texture = resource_manager->GetApp()->GetGraphics()->GetRenderer()->CreateTexture(file_path);
+}
+
+Texture::~Texture()
+{
 }
 
 const Texture2DPtr& Texture::GetTexture() const
