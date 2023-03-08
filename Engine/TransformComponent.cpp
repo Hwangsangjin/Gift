@@ -42,7 +42,7 @@ void TransformComponent::SetScale(const Vector3& scale)
 	UpdateWorldMatrix();
 }
 
-void TransformComponent::GetWorldMatrix(Matrix4x4& matrix)
+void TransformComponent::GetWorldMatrix(Matrix4x4& matrix) const
 {
 	matrix.SetMatrix(m_world_matrix);
 }

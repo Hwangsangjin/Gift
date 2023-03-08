@@ -1,16 +1,17 @@
 #include "pch.h"
-#include "Input.h"
+#include "InputSystem.h"
 #include "Vector2.h"
 
-Input::Input()
+InputSystem::InputSystem(Engine* engine)
+    : m_engine(engine)
 {
 }
 
-Input::~Input()
+InputSystem::~InputSystem()
 {
 }
 
-void Input::Update()
+void InputSystem::Update()
 {
     POINT current_mouse_position = {};
     ::GetCursorPos(&current_mouse_position);
@@ -60,7 +61,7 @@ void Input::Update()
     ::memcpy(m_old_key_states, m_key_states, sizeof(short) * 256);
 }
 
-void Input::LockCursor(bool lock)
+void InputSystem::LockCursor(bool lock)
 {
     m_cursor_locked = lock;
 
@@ -70,28 +71,28 @@ void Input::LockCursor(bool lock)
         while (::ShowCursor(true) <= 1);
 }
 
-void Input::SetLockArea(const Rect& area)
+void InputSystem::SetLockArea(const Rect& area)
 {
     m_lock_area = area;
     m_lock_area_center = Vector2(std::floor(area.m_left + static_cast<float>(area.m_width) / 2.0f), std::floor(area.m_top + static_cast<float>(area.m_height) / 2.0f));
 }
 
-bool Input::IsKeyUp(const Key& key)
+bool InputSystem::IsKeyUp(const Key& key)
 {
     return (m_final_key_states[GetKeyCode(key)] == 1);
 }
 
-bool Input::IsKeyDown(const Key& key)
+bool InputSystem::IsKeyDown(const Key& key)
 {
     return (m_final_key_states[GetKeyCode(key)] == 0);
 }
 
-Vector2 Input::GetDeltaMousePosition()
+Vector2 InputSystem::GetDeltaMousePosition()
 {
     return m_delta_mouse_position;
 }
 
-short Input::GetKeyCode(const Key& key)
+short InputSystem::GetKeyCode(const Key& key)
 {
     short result = 0;
 

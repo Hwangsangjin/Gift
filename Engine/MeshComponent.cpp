@@ -2,8 +2,8 @@
 #include "MeshComponent.h"
 #include "Entity.h"
 #include "World.h"
-#include "App.h"
-#include "Graphics.h"
+#include "Engine.h"
+#include "RenderSystem.h"
 
 MeshComponent::MeshComponent()
 {
@@ -11,7 +11,7 @@ MeshComponent::MeshComponent()
 
 MeshComponent::~MeshComponent()
 {
-	m_entity->GetWorld()->GetApp()->GetGraphics()->RemoveComponent(this);
+	m_entity->GetWorld()->GetEngine()->GetRenderSystem()->RemoveComponent(this);
 }
 
 const MeshPtr& MeshComponent::GetMesh()
@@ -44,5 +44,5 @@ const std::vector<MaterialPtr>& MeshComponent::GetMaterials()
 
 void MeshComponent::OnCreate()
 {
-	m_entity->GetWorld()->GetApp()->GetGraphics()->AddComponent(this);
+	m_entity->GetWorld()->GetEngine()->GetRenderSystem()->AddComponent(this);
 }

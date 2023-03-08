@@ -11,3 +11,8 @@ Resource::Resource(const wchar_t* file_path, ResourceManager* resource_manager)
 Resource::~Resource()
 {
 }
+
+const std::wstring& Resource::GetFilePath() const
+{
+	return m_file_path;
+}

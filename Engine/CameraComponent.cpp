@@ -3,8 +3,8 @@
 #include "Entity.h"
 #include "TransformComponent.h"
 #include "World.h"
-#include "App.h"
-#include "Graphics.h"
+#include "Engine.h"
+#include "RenderSystem.h"
 
 CameraComponent::CameraComponent()
 {
@@ -12,7 +12,7 @@ CameraComponent::CameraComponent()
 
 CameraComponent::~CameraComponent()
 {
-	m_entity->GetWorld()->GetApp()->GetGraphics()->RemoveComponent(this);
+	m_entity->GetWorld()->GetEngine()->GetRenderSystem()->RemoveComponent(this);
 }
 
 float CameraComponent::GetFieldOfView()
@@ -83,7 +83,7 @@ void CameraComponent::GetProjectionMatrix(Matrix4x4& projection)
 
 void CameraComponent::OnCreate()
 {
-	m_entity->GetWorld()->GetApp()->GetGraphics()->AddComponent(this);
+	m_entity->GetWorld()->GetEngine()->GetRenderSystem()->AddComponent(this);
 }
 
 void CameraComponent::ComputeProjectionMatrix()

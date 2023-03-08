@@ -8,18 +8,15 @@ public:
 	AudioComponent();
 	virtual ~AudioComponent();
 
-	void SetAudio(const AudioPtr& audio, const std::wstring&, const bool& use_loop);
-	void PlayAudio(const wchar_t* audio_name);
-	void PauseAudio(const wchar_t* audio_name);
-	void StopAudio(const wchar_t* audio_name);
+	void SetAudio(const AudioPtr& audio);
 
 protected:
 	virtual void OnCreate();
 
 private:
-	UINT m_version = 0;
-	FMOD::System* m_system = nullptr;
-	std::map<std::wstring, FMOD::Sound*> m_audios;
-	std::map<FMOD::Sound*, FMOD::Channel*> m_channels;
+	AudioPtr m_audio = nullptr;
+	bool m_use_loop = false;
+
+	friend SoundSystem;
 };
 

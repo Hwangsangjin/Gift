@@ -1,8 +1,8 @@
 #pragma once
 
-#include "App.h"
+#include "Engine.h"
 
-class Tool : public App
+class Tool : public Engine
 {
 public:
 	Tool();
@@ -18,7 +18,17 @@ private:
 
 	Entity* m_entity = nullptr;
 
+	TexturePtr m_number_texture[10];
+
+	UINT m_apply_index = 0;
+	float m_life_time = 0.0f;
+	float m_render_time = 0.0f;
+	std::vector<UINT> m_indices;
+
+	MeshComponent* m_mesh_component = nullptr;
+	
+	SpriteComponent* m_sprite_component = nullptr;
+
 	AudioComponent* m_audio_component = nullptr;
-	AudioComponent* m_audio_component2 = nullptr;
 };
 

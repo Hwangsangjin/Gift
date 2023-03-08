@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Timer.h"
 
-Timer::Timer()
+Timer::Timer(Engine* engine)
+	: m_engine(engine)
 {
 	::QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&m_frequency));
 	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&m_prev_count));
@@ -50,4 +51,9 @@ float Timer::GetDeltaTime()
 float Timer::GetElapsedTime()
 {
 	return m_elapsed_time;
+}
+
+Engine* Timer::GetEngine() const
+{
+	return m_engine;
 }

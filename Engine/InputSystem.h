@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Rect.h"
+#include "Vector2.h"
 
-class Vector2;
-
-class Input
+class InputSystem
 {
 public:
-	Input();
-	~Input();
+	InputSystem(Engine* engine);
+	~InputSystem();
 
 	void Update();
 
@@ -34,5 +33,7 @@ private:
 
 	Vector2 m_old_mouse_position = {};
 	Vector2 m_delta_mouse_position = {};
+
+	Engine* m_engine = nullptr;
 };
 

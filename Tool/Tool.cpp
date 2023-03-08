@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Tool.h"
-#include "Input.h"
-#include "Graphics.h"
-#include "Renderer.h"
+#include "InputSystem.h"
+#include "SoundSystem.h"
+#include "RenderSystem.h"
 #include "Display.h"
 #include "SwapChain.h"
 #include "World.h"
@@ -12,12 +12,15 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Material.h"
+#include "VertexMesh.h"
 #include "Audio.h"
 #include "Component.h"
 #include "TransformComponent.h"
 #include "MeshComponent.h"
+#include "SpriteComponent.h"
 #include "LightComponent.h"
 #include "AudioComponent.h"
+#include "Timer.h"
 
 Tool::Tool()
 {
@@ -29,10 +32,9 @@ Tool::~Tool()
 
 void Tool::OnCreate()
 {
-	App::OnCreate();
+	Engine::OnCreate();
 
 	auto title_audio = GetResourceManager()->CreateResourceFromFile<Audio>(L"..\\..\\Assets\\Audios\\The Crows.mp3");
-	auto attack_audio = GetResourceManager()->CreateResourceFromFile<Audio>(L"..\\..\\Assets\\Audios\\Player Attack.ogg");
 
 	auto sphere_mesh = GetResourceManager()->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\sphere.obj");
 	auto terrain_mesh = GetResourceManager()->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\terrain.obj");
@@ -46,6 +48,17 @@ void Tool::OnCreate()
 	auto colC_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_column_c_diff.jpg");
 	auto flagPole_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_flagpole_diff.jpg");
 	auto floor_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_floor_a_diff.jpg");
+
+	m_number_texture[0] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number0.bmp");
+	m_number_texture[1] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number1.bmp");
+	m_number_texture[2] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number2.bmp");
+	m_number_texture[3] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number3.bmp");
+	m_number_texture[4] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number4.bmp");
+	m_number_texture[5] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number5.bmp");
+	m_number_texture[6] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number6.bmp");
+	m_number_texture[7] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number7.bmp");
+	m_number_texture[8] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number8.bmp");
+	m_number_texture[9] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number9.bmp");
 
 	auto brick_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
 	brick_material->AddTexture(brick_texture);
@@ -110,32 +123,52 @@ void Tool::OnCreate()
 	{
 		auto entity = GetWorld()->CreateEntity<Entity>();
 		m_audio_component = entity->CreateComponent<AudioComponent>();
-		m_audio_component->SetAudio(title_audio, L"Title", true);
-		m_audio_component->PlayAudio(L"Title");
+		m_audio_component->SetAudio(GetResourceManager()->GetResource<Audio>((L"The Crows")));
+		GetSoundSystem()->PlaySound(m_audio_component);
 	}
+
+	// sprite
 	{
 		auto entity = GetWorld()->CreateEntity<Entity>();
-		m_audio_component2 = entity->CreateComponent<AudioComponent>();
-		m_audio_component2->SetAudio(attack_audio, L"Attack", false);
+		m_sprite_component = entity->CreateComponent<SpriteComponent>();
+		m_sprite_component->SetTexture(GetResourceManager()->GetResource<Texture>((L"number0")));
 	}
 
-	GetWorld()->CreateEntity<Object>();
+	VertexMesh quad_vertices[] =
+	{
+		VertexMesh(Vector3(-1.0f, -1.0f, 0.0f), Vector2(0.0f, 1.0f), Vector3(), Vector3(), Vector3()),
+		VertexMesh(Vector3(-1.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f), Vector3(), Vector3(), Vector3()),
+		VertexMesh(Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f), Vector3(), Vector3(), Vector3()),
+		VertexMesh(Vector3(1.0f, -1.0f, 0.0f), Vector2(1.0f, 1.0f), Vector3(), Vector3(), Vector3())
+	};
 
-	GetInput()->LockCursor(m_locked);
+	UINT quad_indices[] =
+	{
+		0, 1, 2,
+		2, 3, 0
+	};
+
+	MaterialSlot quad_material_slots[] =
+	{
+		{ 0, 6, 0 }
+	};
+
+	Mesh* mesh = new Mesh(quad_vertices, 4, quad_indices, 6, quad_material_slots, 1, GetResourceManager());
+	assert(mesh);
+	MeshPtr mesh_ptr(mesh);
+	assert(mesh_ptr);
 }
 
 void Tool::OnUpdate(float delta_time)
 {
-	App::OnUpdate(delta_time);
+	Engine::OnUpdate(delta_time);
 	m_rotation += 1.57f * delta_time;
 
 	//m_entity->GetTransform()->SetRotation(Vector3(-0.785f, m_rotation, 0.0f));
 
-	if (GetInput()->IsKeyUp(Key::Escape))
-	{
-		m_locked = !m_locked;
-		GetInput()->LockCursor(m_locked);
-	}
+	GetWorld()->CreateEntity<Object>();
+
+	GetInputSystem()->LockCursor(m_locked);
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -150,17 +183,6 @@ void Tool::OnUpdate(float delta_time)
 	if (ImGui::BeginMainMenuBar())
 	{
 		ImGui::EndMainMenuBar();
-	}
-
-	if (ImGui::Button("BGM Pause"))
-	{
-		if (m_audio_component)
-			m_audio_component->PauseAudio(L"Title");
-	}
-	if (ImGui::Button("Attack"))
-	{
-		if (m_audio_component2)
-			m_audio_component2->PlayAudio(L"Attack");
 	}
 
 	// Our state

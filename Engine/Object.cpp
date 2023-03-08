@@ -3,7 +3,7 @@
 #include "World.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
-#include "Input.h"
+#include "InputSystem.h"
 #include "Timer.h"
 
 Object::Object()
@@ -21,7 +21,7 @@ void Object::OnCreate()
 	auto camera = CreateComponent<CameraComponent>();
 	camera->SetFarPlane(2000.0f);
 
-	GetTransform()->SetPosition(Vector3(0.0f, 10.0f, -10.0f));
+	GetTransform()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 }
 
 void Object::OnUpdate(float delta_time)
@@ -34,20 +34,20 @@ void Object::OnUpdate(float delta_time)
 	m_forward = 0.0f;
 	m_rightward = 0.0f;
 
-	if (GetInput()->IsKeyDown(Key::Q))
+	if (GetInputSystem()->IsKeyDown(Key::Q))
 		m_upward = -1.0f;
-	if (GetInput()->IsKeyDown(Key::E))
+	if (GetInputSystem()->IsKeyDown(Key::E))
 		m_upward = 1.0f;
-	if (GetInput()->IsKeyDown(Key::W))
+	if (GetInputSystem()->IsKeyDown(Key::W))
 		m_forward = 1.0f;
-	if (GetInput()->IsKeyDown(Key::S))
+	if (GetInputSystem()->IsKeyDown(Key::S))
 		m_forward = -1.0f;
-	if (GetInput()->IsKeyDown(Key::A))
+	if (GetInputSystem()->IsKeyDown(Key::A))
 		m_rightward = -1.0f;
-	if (GetInput()->IsKeyDown(Key::D))
+	if (GetInputSystem()->IsKeyDown(Key::D))
 		m_rightward = 1.0f;
 
-	auto delta_mouse_position = GetInput()->GetDeltaMousePosition();
+	auto delta_mouse_position = GetInputSystem()->GetDeltaMousePosition();
 	auto rotation = transform -> GetRotation();
 	rotation = rotation + Vector3(delta_mouse_position.m_y * 0.001f, delta_mouse_position.m_x * 0.001f, 0.0f);
 

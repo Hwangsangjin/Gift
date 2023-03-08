@@ -6,8 +6,8 @@
 #include "Material.h"
 #include "Audio.h"
 
-ResourceManager::ResourceManager(App* app)
-    : m_app(app)
+ResourceManager::ResourceManager(Engine* engine)
+    : m_engine(engine)
 {
 }
 
@@ -15,9 +15,9 @@ ResourceManager::~ResourceManager()
 {
 }
 
-App* ResourceManager::GetApp() const
+Engine* ResourceManager::GetEngine() const
 {
-    return m_app;
+    return m_engine;
 }
 
 ResourcePtr ResourceManager::CreateResourceFromFileConcrete(const wchar_t* file_path)
@@ -51,7 +51,8 @@ ResourcePtr ResourceManager::CreateResourceFromFileConcrete(const wchar_t* file_
 
     if (resource_ptr)
     {
-        m_resources.emplace(file_path, resource_ptr);
+        std::wstring file_name = resource_path.filename().replace_extension().wstring();
+        m_resources.emplace(std::make_pair(file_name, resource_ptr));
         return resource_ptr;
     }
 

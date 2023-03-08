@@ -3,7 +3,7 @@
 class World
 {
 public:
-	World(App* app);
+	World(Engine* engine);
 	~World();
 
 	template<typename T>
@@ -14,26 +14,22 @@ public:
 		auto id = typeid(T).hash_code();
 		auto entity = new T();
 
-		auto entity_ptr = std::unique_ptr<Entity>(entity);
-		m_entities[id].emplace(entity, std::move(entity_ptr));
-		entity->m_id = id;
-		entity->m_world = this;
-
-		entity->OnCreate();
+		CreateEntityInternal(entity, id);
 
 		return entity;
 	}
 
 	void Update(float delta_time);
 
-	App* GetApp() const;
+	Engine* GetEngine() const;
 
 private:
+	void CreateEntityInternal(Entity* entity, size_t id);
 	void RemoveEntity(Entity* entity);
 
 	std::map<size_t, std::map<Entity*, std::unique_ptr<Entity>>> m_entities;
 	std::set<Entity*> m_entities_to_destroy;
-	App* m_app = nullptr;
+	Engine* m_engine = nullptr;
 
 	friend Entity;
 };

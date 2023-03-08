@@ -6,8 +6,10 @@ public:
 	Resource(const wchar_t* file_path, ResourceManager* resource_manager);
 	virtual ~Resource();
 
+	const std::wstring& GetFilePath() const;
+
 protected:
-	const wchar_t* m_file_path = L"";
+	std::wstring m_file_path = L"";
 	ResourceManager* m_resource_manager = nullptr;
 };
 

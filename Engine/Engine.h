@@ -2,22 +2,22 @@
 
 #include "Rect.h"
 
-class App
+class Engine
 {
 public:
-	App();
-	virtual ~App();
+	Engine();
+	virtual ~Engine();
 
 	void Run();
 	void Quit();
 
-	Input* GetInput() const;
-	Timer* GetTimer() const;
-	Sound* GetSound() const;
-	World* GetWorld() const;
+	InputSystem* GetInputSystem() const;
+	SoundSystem* GetSoundSystem() const;
+	RenderSystem* GetRenderSystem() const;
 	Display* GetDisplay() const;
-	Graphics* GetGraphics() const;
 	ResourceManager* GetResourceManager() const;
+	World* GetWorld() const;
+	Timer* GetTimer() const;
 
 protected:
 	virtual void OnCreate();
@@ -30,13 +30,13 @@ private:
 
 	bool m_running = true;
 
-	std::unique_ptr<Input> m_input = nullptr;
-	std::unique_ptr<Timer> m_timer = nullptr;
-	std::unique_ptr<Sound> m_sound = nullptr;
-	std::unique_ptr<Graphics> m_graphics = nullptr;
+	std::unique_ptr<InputSystem> m_input_system = nullptr;
+	std::unique_ptr<SoundSystem> m_sound_system = nullptr;
+	std::unique_ptr<RenderSystem> m_render_system = nullptr;
 	std::unique_ptr<Display> m_display = nullptr;
 	std::unique_ptr<ResourceManager> m_resource_manager = nullptr;
 	std::unique_ptr<World> m_world = nullptr;
+	std::unique_ptr<Timer> m_timer = nullptr;
 
 	friend Display;
 };

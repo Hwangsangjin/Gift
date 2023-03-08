@@ -3,7 +3,7 @@
 class DeviceContext
 {
 public:
-	DeviceContext(ID3D11DeviceContext* device_context, Renderer* renderer);
+	DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* render_system);
 
 	void ClearRenderTarget(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha);
 	//void ClearRenderTarget(const TexturePtr& render_target, float red, float green, float blue, float alpha);
@@ -26,6 +26,6 @@ public:
 
 private:
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_device_context = nullptr;
-	Renderer* m_renderer = nullptr;
+	RenderSystem* m_render_system = nullptr;
 };
 

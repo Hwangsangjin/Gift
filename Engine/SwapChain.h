@@ -3,7 +3,7 @@
 class SwapChain
 {
 public:
-	SwapChain(HWND hwnd, UINT width, UINT height, Renderer* renderer);
+	SwapChain(HWND hwnd, UINT width, UINT height, RenderSystem* render_system);
 
 	void SetFullScreen(bool fullscreen, UINT width, UINT height);
 	void Resize(UINT width, UINT height);
@@ -19,6 +19,6 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_render_target_view = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_depth_stencil_view = nullptr;
 
-	Renderer* m_renderer = nullptr;
+	RenderSystem* m_render_system = nullptr;
 };
 

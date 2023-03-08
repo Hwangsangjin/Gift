@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "DeviceContext.h"
-#include "Renderer.h"
+#include "RenderSystem.h"
 #include "SwapChain.h"
 #include "ConstantBuffer.h"
 #include "IndexBuffer.h"
@@ -9,24 +9,23 @@
 #include "PixelShader.h"
 #include "Texture2D.h"
 
-DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, Renderer* renderer)
+DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* render_system)
 	: m_device_context(device_context)
-	, m_renderer(renderer)
+	, m_render_system(render_system)
 {
 }
 
 void DeviceContext::ClearRenderTarget(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha)
 {
 	FLOAT clear_color[] = { red, green, blue, alpha };
-	auto rtv = swap_chain->GetRenderTargetView();
-	auto dsv = swap_chain->GetDepthStencilView();
-	m_device_context->ClearRenderTargetView(rtv, clear_color);
-	m_device_context->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-	//auto render_target_view = swap_chain->GetRenderTargetView();
-	//assert(render_target_view);
-	//auto depth_stencil_view = swap_chain->GetDepthStencilView();
-	//assert(depth_stencil_view);
-	m_device_context->OMSetRenderTargets(1, &rtv, dsv);
+	auto render_target_view = swap_chain->GetRenderTargetView();
+	assert(render_target_view);
+	auto depth_stencil_view = swap_chain->GetDepthStencilView();
+	assert(depth_stencil_view);
+	m_device_context->ClearRenderTargetView(render_target_view, clear_color);
+	m_device_context->ClearDepthStencilView(depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+
+	m_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
 }
 
 //void DeviceContext::ClearRenderTarget(const TexturePtr& render_target, float red, float green, float blue, float alpha)

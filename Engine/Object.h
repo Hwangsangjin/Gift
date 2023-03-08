@@ -8,7 +8,7 @@ public:
 	Object();
 	virtual ~Object();
 
-//protected:
+protected:
 	virtual void OnCreate() override;
 	virtual void OnUpdate(float delta_time) override;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Vector4.h"
 
 class LightComponent : public Component
 {

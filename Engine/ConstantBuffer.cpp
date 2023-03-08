@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "ConstantBuffer.h"
 #include "DeviceContext.h"
-#include "Renderer.h"
+#include "RenderSystem.h"
 
-ConstantBuffer::ConstantBuffer(void* buffer, UINT buffer_size, Renderer* renderer)
-    : m_renderer(renderer)
+ConstantBuffer::ConstantBuffer(void* buffer, UINT buffer_size, RenderSystem* render_system)
+    : m_render_system(render_system)
 {
     // 버퍼 구조체
     D3D11_BUFFER_DESC buff_desc = {};
@@ -19,7 +19,7 @@ ConstantBuffer::ConstantBuffer(void* buffer, UINT buffer_size, Renderer* rendere
     init_data.pSysMem = buffer;
 
     // 버퍼 생성
-    m_renderer->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
+    m_render_system->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
 }
 
 void ConstantBuffer::Update(DeviceContextPtr device_context, void* buffer)

@@ -5,7 +5,7 @@
 class Display : public Window
 {
 public:
-	Display(App* app);
+	Display(Engine* engine);
 	virtual ~Display();
 
 	void Update();
@@ -17,6 +17,6 @@ protected:
 
 private:
 	SwapChainPtr m_swap_chain = nullptr;
-	App* m_app = nullptr;
+	Engine* m_engine = nullptr;
 };
 

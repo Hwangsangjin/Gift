@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "SwapChain.h"
-#include "Renderer.h"
+#include "RenderSystem.h"
 
-SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Renderer* renderer)
-    : m_renderer(renderer)
+SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, RenderSystem* render_system)
+    : m_render_system(render_system)
 {
     DXGI_SWAP_CHAIN_DESC desc;
     ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -20,8 +20,8 @@ SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, Renderer* renderer)
     desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
     desc.Windowed = TRUE;
 
-    auto device = m_renderer->GetD3DDevice();
-    m_renderer->GetDXGIFactory()->CreateSwapChain(device, &desc, &m_dxgi_swap_chain);
+    auto device = m_render_system->GetD3DDevice();
+    m_render_system->GetDXGIFactory()->CreateSwapChain(device, &desc, &m_dxgi_swap_chain);
     assert(m_dxgi_swap_chain);
 
     ReloadBuffers(width, height);
@@ -63,7 +63,7 @@ void SwapChain::ReloadBuffers(UINT width, UINT height)
     m_dxgi_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
     assert(buffer);
 
-    m_renderer->GetD3DDevice()->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
+    m_render_system->GetD3DDevice()->CreateRenderTargetView(buffer, nullptr, &m_render_target_view);
     buffer->Release();
     assert(m_render_target_view);
 
@@ -80,10 +80,10 @@ void SwapChain::ReloadBuffers(UINT width, UINT height)
     texture_desc.ArraySize = 1;
     texture_desc.CPUAccessFlags = 0;
 
-    m_renderer->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, &buffer);
+    m_render_system->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, &buffer);
     assert(buffer);
 
-    m_renderer->GetD3DDevice()->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
+    m_render_system->GetD3DDevice()->CreateDepthStencilView(buffer, nullptr, &m_depth_stencil_view);
     buffer->Release();
     assert(m_depth_stencil_view);
 }

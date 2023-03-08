@@ -18,7 +18,7 @@ public:
 	void SetRotation(const Vector3& rotation);
 	void SetScale(const Vector3& scale);
 
-	void GetWorldMatrix(Matrix4x4& matrix);
+	void GetWorldMatrix(Matrix4x4& matrix) const;
 
 protected:
 	void UpdateWorldMatrix();

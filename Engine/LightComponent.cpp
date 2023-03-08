@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "LightComponent.h"
 #include "Entity.h"
-#include "App.h"
+#include "Engine.h"
 #include "World.h"
-#include "Graphics.h"
+#include "RenderSystem.h"
 
 LightComponent::LightComponent()
 {
@@ -11,7 +11,7 @@ LightComponent::LightComponent()
 
 LightComponent::~LightComponent()
 {
-    m_entity->GetWorld()->GetApp()->GetGraphics()->RemoveComponent(this);
+    m_entity->GetWorld()->GetEngine()->GetRenderSystem()->RemoveComponent(this);
 }
 
 Vector4 LightComponent::GetColor() const
@@ -26,5 +26,5 @@ void LightComponent::SetColor(const Vector4& color)
 
 void LightComponent::OnCreate()
 {
-    m_entity->GetWorld()->GetApp()->GetGraphics()->AddComponent(this);
+    m_entity->GetWorld()->GetEngine()->GetRenderSystem()->AddComponent(this);
 }

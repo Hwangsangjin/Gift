@@ -3,7 +3,7 @@
 class ConstantBuffer
 {
 public:
-	ConstantBuffer(void* buffer, UINT buffer_size, Renderer* renderer);
+	ConstantBuffer(void* buffer, UINT buffer_size, RenderSystem* renderer);
 
 	void Update(DeviceContextPtr device_context, void* buffer);
 
@@ -11,6 +11,6 @@ public:
 
 private:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_buffer = nullptr;
-	Renderer* m_renderer = nullptr;
+	RenderSystem* m_render_system = nullptr;
 };
 

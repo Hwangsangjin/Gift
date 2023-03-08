@@ -1,15 +1,14 @@
 #include "pch.h"
 #include "Display.h"
-#include "App.h"
-#include "Graphics.h"
-#include "Renderer.h"
+#include "Engine.h"
+#include "RenderSystem.h"
 #include "SwapChain.h"
 
-Display::Display(App* game)
-	: m_app(game)
+Display::Display(Engine* engine)
+	: m_engine(engine)
 {
 	auto client_size = GetClientSize();
-	m_swap_chain = game->GetGraphics()->GetRenderer()->CreateSwapChain(static_cast<HWND>(m_hwnd), client_size.m_width, client_size.m_height);
+	m_swap_chain = engine->GetRenderSystem()->CreateSwapChain(static_cast<HWND>(m_hwnd), client_size.m_width, client_size.m_height);
 
     // Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -29,7 +28,7 @@ Display::Display(App* game)
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(m_hwnd);
-    ImGui_ImplDX11_Init(m_app->GetGraphics()->GetRenderer()->GetD3DDevice(), m_app->GetGraphics()->GetRenderer()->GetImmediateContext());
+    ImGui_ImplDX11_Init(m_engine->GetRenderSystem()->GetD3DDevice(), m_engine->GetRenderSystem()->GetImmediateContext());
 }
 
 Display::~Display()
@@ -59,5 +58,5 @@ const SwapChainPtr& Display::GetSwapChain()
 void Display::OnSize(const Rect& size)
 {
 	m_swap_chain->Resize(size.m_width, size.m_height);
-	m_app->Resize(size);
+	m_engine->Resize(size);
 }

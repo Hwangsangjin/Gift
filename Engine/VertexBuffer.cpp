@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "VertexBuffer.h"
-#include "Renderer.h"
+#include "RenderSystem.h"
 
-VertexBuffer::VertexBuffer(void* vertex_list, UINT vertex_size, UINT vertex_count, Renderer* renderer)
-    : m_renderer(renderer)
+VertexBuffer::VertexBuffer(void* vertex_list, UINT vertex_size, UINT vertex_count, RenderSystem* render_system)
+    : m_render_system(render_system)
 {
     // 버퍼 구조체
     D3D11_BUFFER_DESC buff_desc = {};
@@ -21,22 +21,22 @@ VertexBuffer::VertexBuffer(void* vertex_list, UINT vertex_size, UINT vertex_coun
     m_vertex_count = vertex_count;
 
     // 버퍼 생성
-    m_renderer->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
+    m_render_system->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
     assert(m_buffer);
 
     // 입력 레이아웃 구조체
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4, D3D11_INPUT_PER_VERTEX_DATA, 0}
+        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
     UINT layout_size = ARRAYSIZE(layout);
 
     // 입력 레이아웃 생성
-    m_renderer->GetD3DDevice()->CreateInputLayout(layout, layout_size, m_renderer->GetMeshLayoutByteCode(), m_renderer->GetMeshLayoutSize(), &m_input_layout);
+    m_render_system->GetD3DDevice()->CreateInputLayout(layout, layout_size, m_render_system->GetMeshLayoutByteCode(), m_render_system->GetMeshLayoutSize(), &m_input_layout);
     assert(m_input_layout);
 }
 

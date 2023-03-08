@@ -1,11 +1,36 @@
 #pragma once
 
+#include "Vector4.h"
+#include "Matrix4x4.h"
 #include "Texture2D.h"
 
-class Renderer
+__declspec(align(16))
+struct LightData
+{
+	Vector4 color;
+	Vector4 direction;
+};
+
+__declspec(align(16))
+struct ConstantData
+{
+	Matrix4x4 world;
+	Matrix4x4 view;
+	Matrix4x4 projection;
+	Vector4 camera_position;
+	LightData light;
+};
+
+class RenderSystem
 {
 public:
-	Renderer();
+	RenderSystem(Engine* engine);
+	~RenderSystem();
+
+	void Update();
+
+	void AddComponent(Component* component);
+	void RemoveComponent(Component* component);
 
 	SwapChainPtr CreateSwapChain(HWND hwnd, UINT width, UINT height);
 	ConstantBufferPtr CreateConstantBuffer(void* buffer, UINT buffer_size);
@@ -53,6 +78,11 @@ private:
 	UCHAR m_mesh_layout_byte_code[1024] = {};
 	size_t m_mesh_layout_size = 0;
 
-	App* m_app = nullptr;
+	Engine* m_engine = nullptr;
+
+	std::set<MeshComponent*> m_meshes;
+	std::set<SpriteComponent*> m_sprites;
+	std::set<CameraComponent*> m_cameras;
+	std::set<LightComponent*> m_lights;
 };
 

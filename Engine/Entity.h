@@ -8,9 +8,9 @@ public:
 
 	void Release();
 
-	Input* GetInput() const;
 	Timer* GetTimer() const;
 	World* GetWorld() const;
+	InputSystem* GetInputSystem() const;
 	TransformComponent* GetTransform() const;
 
 	template<typename T>

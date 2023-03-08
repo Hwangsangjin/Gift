@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "Texture2D.h"
-#include "Renderer.h"
+#include "RenderSystem.h"
 
-Texture2D::Texture2D(const wchar_t* file_path, Renderer* renderer)
-	: m_renderer(renderer)
+Texture2D::Texture2D(const wchar_t* file_path, RenderSystem* render_system)
+	: m_render_system(render_system)
 {	
 	// 텍스처 생성
 	DirectX::ScratchImage image_data;
 	DirectX::LoadFromWICFile(file_path, DirectX::WIC_FLAGS_IGNORE_SRGB, nullptr, image_data);
-	DirectX::CreateTexture(m_renderer->GetD3DDevice(), image_data.GetImages(), image_data.GetImageCount(), image_data.GetMetadata(), &m_texture);
+	DirectX::CreateTexture(m_render_system->GetD3DDevice(), image_data.GetImages(), image_data.GetImageCount(), image_data.GetMetadata(), &m_texture);
 	assert(m_texture);
 
 	// 셰이더 리소스 뷰 구조체
@@ -19,7 +19,7 @@ Texture2D::Texture2D(const wchar_t* file_path, Renderer* renderer)
 	desc.Texture2D.MostDetailedMip = 0;
 
 	// 셰이더 리소스 뷰 생성
-	m_renderer->GetD3DDevice()->CreateShaderResourceView(m_texture.Get(), &desc, &m_shader_resource_view);
+	m_render_system->GetD3DDevice()->CreateShaderResourceView(m_texture.Get(), &desc, &m_shader_resource_view);
 	assert(m_shader_resource_view);
 
 	// 샘플러 구조체
@@ -32,12 +32,12 @@ Texture2D::Texture2D(const wchar_t* file_path, Renderer* renderer)
 	sampler_desc.MaxLOD = static_cast<FLOAT>(image_data.GetMetadata().mipLevels);
 
 	// 샘플러 스테이트 생성
-	m_renderer->GetD3DDevice()->CreateSamplerState(&sampler_desc, &m_sampler_state);
+	m_render_system->GetD3DDevice()->CreateSamplerState(&sampler_desc, &m_sampler_state);
 	assert(m_sampler_state);
 }
 
-Texture2D::Texture2D(const Rect& size, Texture2D::Type type, Renderer* renderer)
-	: m_renderer(renderer)
+Texture2D::Texture2D(const Rect& size, Texture2D::Type type, RenderSystem* render_system)
+	: m_render_system(render_system)
 {
 	// 텍스처 타입에 따라서 바인딩
 	D3D11_TEXTURE2D_DESC texture_desc = {};
@@ -68,20 +68,20 @@ Texture2D::Texture2D(const Rect& size, Texture2D::Type type, Renderer* renderer)
 	texture_desc.ArraySize = 1;
 	texture_desc.CPUAccessFlags = 0;
 
-	m_renderer->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, (ID3D11Texture2D**)m_texture.GetAddressOf());
+	m_render_system->GetD3DDevice()->CreateTexture2D(&texture_desc, nullptr, (ID3D11Texture2D**)m_texture.GetAddressOf());
 	assert(m_texture);
 
 	if (type == Texture2D::Type::RenderTarget)
 	{
-		m_renderer->GetD3DDevice()->CreateShaderResourceView(m_texture.Get(), nullptr, &m_shader_resource_view);
+		m_render_system->GetD3DDevice()->CreateShaderResourceView(m_texture.Get(), nullptr, &m_shader_resource_view);
 		assert(m_shader_resource_view);
 
-		m_renderer->GetD3DDevice()->CreateRenderTargetView(m_texture.Get(), nullptr, &m_render_target_view);
+		m_render_system->GetD3DDevice()->CreateRenderTargetView(m_texture.Get(), nullptr, &m_render_target_view);
 		assert(m_render_target_view);
 	}
 	else if (type == Texture2D::Type::DepthStencil)
 	{
-		m_renderer->GetD3DDevice()->CreateDepthStencilView(m_texture.Get(), nullptr, &m_depth_stencil_view);
+		m_render_system->GetD3DDevice()->CreateDepthStencilView(m_texture.Get(), nullptr, &m_depth_stencil_view);
 		assert(m_depth_stencil_view);
 	}
 	

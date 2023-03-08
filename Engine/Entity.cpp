@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Entity.h"
 #include "World.h"
-#include "App.h"
+#include "Engine.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
 
@@ -51,14 +51,14 @@ void Entity::Release()
 	m_world->RemoveEntity(this);
 }
 
-Input* Entity::GetInput() const
+InputSystem* Entity::GetInputSystem() const
 {
-	return m_world->GetApp()->GetInput();
+	return m_world->GetEngine()->GetInputSystem();
 }
 
 Timer* Entity::GetTimer() const
 {
-	return m_world->GetApp()->GetTimer();
+	return m_world->GetEngine()->GetTimer();
 }
 
 World* Entity::GetWorld() const

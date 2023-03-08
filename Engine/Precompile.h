@@ -33,11 +33,6 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
-#include "Matrix4x4.h"
-#include "Vector4.h"
-#include "Vector3.h"
-#include "Vector2.h"
-
 #include "DirectXTex/DirectXTex.h"
 
 #include "ImGui/imgui.h"
@@ -60,16 +55,15 @@ std::wclog << "Warning: " << message << std::endl;
 std::wclog << "Information: " << message << std::endl;
 
 // class
-class App;
-class Input;
+class Engine;
 class Timer;
-class Sound;
 class World;
 class Entity;
+class InputSystem;
+class SoundSystem;
+class RenderSystem;
 class Window;
 class Display;
-class Graphics;
-class Renderer;
 class SwapChain;
 class DeviceContext;
 class VertexBuffer;
@@ -83,11 +77,11 @@ class Mesh;
 class Texture;
 class Texture2D;
 class Material;
-class Sprite;
 class Audio;
 class Component;
 class TransformComponent;
 class MeshComponent;
+class SpriteComponent;
 class CameraComponent;
 class LightComponent;
 class AudioComponent;
@@ -105,7 +99,6 @@ typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Texture2D> Texture2DPtr;
 typedef std::shared_ptr<Material> MaterialPtr;
-typedef std::shared_ptr<Sprite> SpritePtr;
 typedef std::shared_ptr<Audio> AudioPtr;
 
 // enum
