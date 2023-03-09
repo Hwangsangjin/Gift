@@ -8,14 +8,19 @@ public:
 	SpriteComponent();
 	virtual ~SpriteComponent();
 
-	void SetTexture(const TexturePtr& texture);
+	const MeshPtr& GetMesh();
+	void SetMesh(const MeshPtr& mesh);
+
+	void AddMaterial(const MaterialPtr& material);
+	void RemoveMaterial(UINT index);
+
+	const std::vector<MaterialPtr>& GetMaterials();
 
 protected:
 	virtual void OnCreate() override;
 
 private:
-	TexturePtr m_texture = nullptr;
-
-	friend RenderSystem;
+	MeshPtr m_mesh;
+	std::vector<MaterialPtr> m_materials;
 };
 

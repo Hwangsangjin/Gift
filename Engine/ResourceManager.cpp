@@ -42,7 +42,7 @@ ResourcePtr ResourceManager::CreateResourceFromFileConcrete(const wchar_t* file_
 
     if (!extension.compare(L".obj"))
         resource_ptr = std::make_shared<Mesh>(resource_path.c_str(), this);
-    else if (!extension.compare(L".jpg") || !extension.compare(L".png") || !extension.compare(L".bmp"))
+    else if (!extension.compare(L".jpg") || !extension.compare(L".png") || !extension.compare(L".bmp") || !extension.compare(L".dds"))
         resource_ptr = std::make_shared<Texture>(resource_path.c_str(), this);
     else if (!extension.compare(L".hlsl") || !extension.compare(L".fx"))
         resource_ptr = std::make_shared<Material>(resource_path.c_str(), this);

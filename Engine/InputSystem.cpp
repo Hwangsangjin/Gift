@@ -77,6 +77,11 @@ void InputSystem::SetLockArea(const Rect& area)
     m_lock_area_center = Vector2(std::floor(area.m_left + static_cast<float>(area.m_width) / 2.0f), std::floor(area.m_top + static_cast<float>(area.m_height) / 2.0f));
 }
 
+bool InputSystem::IsLockCursor()
+{
+    return m_cursor_locked;
+}
+
 bool InputSystem::IsKeyUp(const Key& key)
 {
     return (m_final_key_states[GetKeyCode(key)] == 1);

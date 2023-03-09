@@ -49,6 +49,7 @@ public:
 	ID3D11DeviceContext* GetImmediateContext() const;
 	IDXGIFactory* GetDXGIFactory() const;
 	DeviceContextPtr GetDeviceContext() const;
+	ID3D11BlendState* GetBlendState() const;
 
 	const void* GetMeshLayoutByteCode() const;
 	size_t GetMeshLayoutSize() const;
@@ -58,6 +59,7 @@ public:
 
 private:
 	void InitializeRasterizerState();
+	void InitializeBlendState();
 	void CompilePrivateShader();
 
 	DeviceContextPtr m_device_context = nullptr;
@@ -74,15 +76,16 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_cull_back = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_fill_wireframe = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_fill_solid = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11BlendState> m_alpha_blend = nullptr;
 
 	UCHAR m_mesh_layout_byte_code[1024] = {};
 	size_t m_mesh_layout_size = 0;
 
 	Engine* m_engine = nullptr;
 
-	std::set<MeshComponent*> m_meshes;
-	std::set<SpriteComponent*> m_sprites;
 	std::set<CameraComponent*> m_cameras;
 	std::set<LightComponent*> m_lights;
+	std::set<MeshComponent*> m_meshes;
+	std::set<SpriteComponent*> m_sprites;
 };
 

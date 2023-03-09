@@ -15,9 +15,32 @@ SpriteComponent::~SpriteComponent()
 	m_entity->GetWorld()->GetEngine()->GetRenderSystem()->RemoveComponent(this);
 }
 
-void SpriteComponent::SetTexture(const TexturePtr& texture)
+const MeshPtr& SpriteComponent::GetMesh()
 {
-	m_texture = texture;
+	return m_mesh;
+}
+
+void SpriteComponent::SetMesh(const MeshPtr& mesh)
+{
+	m_mesh = mesh;
+}
+
+void SpriteComponent::AddMaterial(const MaterialPtr& material)
+{
+	m_materials.push_back(material);
+}
+
+void SpriteComponent::RemoveMaterial(UINT index)
+{
+	if (index >= m_materials.size())
+		return;
+
+	m_materials.erase(m_materials.begin() + index);
+}
+
+const std::vector<MaterialPtr>& SpriteComponent::GetMaterials()
+{
+	return m_materials;
 }
 
 void SpriteComponent::OnCreate()

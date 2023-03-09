@@ -60,6 +60,7 @@ RenderSystem::RenderSystem(Engine* engine)
     m_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgi_factory);
 
     InitializeRasterizerState();
+    InitializeBlendState();
     CompilePrivateShader();
 }
 
@@ -77,8 +78,6 @@ void RenderSystem::Update()
     m_device_context->SetViewport(client_size.m_width, client_size.m_height);
 
     ConstantData constant_data = {};
-    constant_data.view.SetIdentity();
-    constant_data.projection.SetIdentity();
 
     for (const auto& c : m_cameras)
     {
@@ -96,37 +95,6 @@ void RenderSystem::Update()
         t->GetWorldMatrix(w);
         constant_data.light.direction = w.GetZDirection();
         constant_data.light.color = l->GetColor();
-    }
-
-    for (auto& s : m_sprites)
-    {
-        VertexMesh quad_vertices[] =
-        {
-            VertexMesh(Vector3(-1.0f, -1.0f, 0.0f), Vector2(0.0f, 1.0f), Vector3(), Vector3(), Vector3()),
-            VertexMesh(Vector3(-1.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f), Vector3(), Vector3(), Vector3()),
-            VertexMesh(Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f), Vector3(), Vector3(), Vector3()),
-            VertexMesh(Vector3(1.0f, -1.0f, 0.0f), Vector2(1.0f, 1.0f), Vector3(), Vector3(), Vector3())
-        };
-
-        UINT quad_indices[] =
-        {
-            0, 1, 2,
-            2, 3, 0
-        };
-
-        MaterialSlot quad_material_slots[] =
-        {
-            { 0, 6, 0 }
-        };
-
-        Mesh* mesh = new Mesh(quad_vertices, 4, quad_indices, 6, quad_material_slots, 1, m_engine->GetResourceManager());
-        assert(mesh);
-        MeshPtr mesh_ptr(mesh);
-        assert(mesh_ptr);
-
-        auto a = s->m_texture;
-        auto material = m_engine->GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-        material->AddTexture(a);
     }
 
     for (const auto& m : m_meshes)
@@ -148,6 +116,41 @@ void RenderSystem::Update()
             auto material = materials[i].get();
 
             SetCullMode(material->GetCullMode());
+            SetFillMode(material->GetFillMode());
+
+            material->SetData(&constant_data, sizeof(ConstantData));
+            m_device_context->SetConstantBuffer(material->GetConstantBuffer());
+
+            m_device_context->SetVertexShader(material->GetVertexShader());
+            m_device_context->SetPixelShader(material->GetPixelShader());
+
+            m_device_context->SetTexture(&material->GetTexture(), static_cast<UINT>(material->GetTextureSize()));
+
+            auto material_slot = mesh->GetMaterialSlot(i);
+            m_device_context->DrawIndexedTriangleList(static_cast<UINT>(material_slot.index_size), static_cast<UINT>(material_slot.start_index), 0);
+        }
+    }
+
+    for (auto& s : m_sprites)
+    {
+        auto transform = s->GetEntity()->GetTransform();
+        transform->GetWorldMatrix(constant_data.world);
+
+        auto mesh = s->GetMesh().get();
+        const auto materials = s->GetMaterials();
+
+        m_device_context->SetVertexBuffer(mesh->GetVertexBuffer());
+        m_device_context->SetIndexBuffer(mesh->GetIndexBuffer());
+
+        for (auto i = 0; i < mesh->GetMaterialSlotSize(); i++)
+        {
+            if (i >= materials.size())
+                break;
+
+            auto material = materials[i].get();
+
+            SetCullMode(material->GetCullMode());
+            SetFillMode(material->GetFillMode());
 
             material->SetData(&constant_data, sizeof(ConstantData));
             m_device_context->SetConstantBuffer(material->GetConstantBuffer());
@@ -298,6 +301,11 @@ DeviceContextPtr RenderSystem::GetDeviceContext() const
     return m_device_context;
 }
 
+ID3D11BlendState* RenderSystem::GetBlendState() const
+{
+    return m_alpha_blend.Get();
+}
+
 const void* RenderSystem::GetMeshLayoutByteCode() const
 {
     return m_mesh_layout_byte_code;
@@ -333,19 +341,35 @@ void RenderSystem::InitializeRasterizerState()
     desc.DepthClipEnable = true;
 
     desc.CullMode = D3D11_CULL_NONE;
-    m_d3d_device->CreateRasterizerState(&desc, &m_cull_none);
+    m_d3d_device->CreateRasterizerState(&desc, m_cull_none.GetAddressOf());
 
     desc.FillMode = D3D11_FILL_WIREFRAME;
-    m_d3d_device->CreateRasterizerState(&desc, &m_fill_wireframe);
+    m_d3d_device->CreateRasterizerState(&desc, m_fill_wireframe.GetAddressOf());
 
     desc.FillMode = D3D11_FILL_SOLID;
-    m_d3d_device->CreateRasterizerState(&desc, &m_fill_solid);
+    m_d3d_device->CreateRasterizerState(&desc, m_fill_solid.GetAddressOf());
 
     desc.CullMode = D3D11_CULL_BACK;
-    m_d3d_device->CreateRasterizerState(&desc, &m_cull_back);
+    m_d3d_device->CreateRasterizerState(&desc, m_cull_back.GetAddressOf());
 
     desc.CullMode = D3D11_CULL_FRONT;
-    m_d3d_device->CreateRasterizerState(&desc, &m_cull_front);
+    m_d3d_device->CreateRasterizerState(&desc, m_cull_front.GetAddressOf());
+}
+
+void RenderSystem::InitializeBlendState()
+{
+    D3D11_BLEND_DESC desc = {};
+    ZeroMemory(&desc, sizeof(D3D11_BLEND_DESC));
+    desc.RenderTarget[0].BlendEnable = true;
+    desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+    desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+    desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    m_d3d_device->CreateBlendState(&desc, m_alpha_blend.GetAddressOf());
 }
 
 void RenderSystem::CompilePrivateShader()

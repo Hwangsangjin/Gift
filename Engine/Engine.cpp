@@ -107,11 +107,7 @@ Timer* Engine::GetTimer() const
 void Engine::OnCore()
 {
     m_input_system->Update();
-    if (m_input_system->IsKeyDown(Key::Escape))
-    {
-        m_input_system->LockCursor(false);
-    }
-    
+
     m_timer->Update();
     OnUpdate(m_timer->GetDeltaTime());
     m_world->Update(m_timer->GetDeltaTime());

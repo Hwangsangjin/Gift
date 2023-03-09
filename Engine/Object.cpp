@@ -21,7 +21,7 @@ void Object::OnCreate()
 	auto camera = CreateComponent<CameraComponent>();
 	camera->SetFarPlane(2000.0f);
 
-	GetTransform()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	GetTransform()->SetPosition(Vector3(0.0f, 2.0f, -4.0f));
 }
 
 void Object::OnUpdate(float delta_time)
@@ -48,8 +48,10 @@ void Object::OnUpdate(float delta_time)
 		m_rightward = 1.0f;
 
 	auto delta_mouse_position = GetInputSystem()->GetDeltaMousePosition();
-	auto rotation = transform -> GetRotation();
-	rotation = rotation + Vector3(delta_mouse_position.m_y * 0.001f, delta_mouse_position.m_x * 0.001f, 0.0f);
+	auto rotation = transform->GetRotation();
+
+	if (GetInputSystem()->IsLockCursor())
+		rotation = rotation + Vector3(delta_mouse_position.m_y * 0.001f, delta_mouse_position.m_x * 0.001f, 0.0f);
 
 	Matrix4x4 world;
 	transform->GetWorldMatrix(world);

@@ -37,44 +37,34 @@ void Tool::OnCreate()
 	auto title_audio = GetResourceManager()->CreateResourceFromFile<Audio>(L"..\\..\\Assets\\Audios\\The Crows.mp3");
 
 	auto sphere_mesh = GetResourceManager()->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\sphere.obj");
-	auto terrain_mesh = GetResourceManager()->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\terrain.obj");
-	auto sponza_mesh = GetResourceManager()->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\sponza_basic.obj");
+	auto plane_mesh = GetResourceManager()->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\plane.obj");
 
 	auto sky_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\stars_map.jpg");
-	auto brick_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_bricks_a_diff.jpg");
-	auto arch_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_arch_diff.jpg");
-	auto colA_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_column_a_diff.jpg");
-	auto colB_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_column_b_diff.jpg");
-	auto colC_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_column_c_diff.jpg");
-	auto flagPole_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_flagpole_diff.jpg");
-	auto floor_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Sponza\\sponza_floor_a_diff.jpg");
+	auto black_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\black.png");
+	auto plane_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\plane.png");
 
-	m_number_texture[0] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number0.bmp");
-	m_number_texture[1] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number1.bmp");
-	m_number_texture[2] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number2.bmp");
-	m_number_texture[3] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number3.bmp");
-	m_number_texture[4] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number4.bmp");
-	m_number_texture[5] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number5.bmp");
-	m_number_texture[6] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number6.bmp");
-	m_number_texture[7] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number7.bmp");
-	m_number_texture[8] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number8.bmp");
-	m_number_texture[9] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\number9.bmp");
+	m_shine_texture[0] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine0.bmp");
+	m_shine_texture[1] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine1.bmp");
+	m_shine_texture[2] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine2.bmp");
+	m_shine_texture[3] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine3.bmp");
+	m_shine_texture[4] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine4.bmp");
+	m_shine_texture[5] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine5.bmp");
+	m_shine_texture[6] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine6.bmp");
+	m_shine_texture[7] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine7.bmp");
+	m_shine_texture[8] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine8.bmp");
+	m_shine_texture[9] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine9.bmp");
 
-	auto brick_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	brick_material->AddTexture(brick_texture);
-	auto arch_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	arch_material->AddTexture(arch_texture);
-	auto colA_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	colA_material->AddTexture(colA_texture);
-	auto colB_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	colB_material->AddTexture(colB_texture);
-	auto colC_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	colC_material->AddTexture(colC_texture);
-	auto flagPole_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	flagPole_material->AddTexture(flagPole_texture);
+	m_shine_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
+	m_shine_material->AddTexture(m_shine_texture[0]);
+	for (UINT i = 0; i < 10; i++)
+		m_indices.push_back(i);
 
-	auto floor_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	floor_material->AddTexture(floor_texture);
+	m_plane_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
+	m_plane_material->AddTexture(black_texture);
+
+	m_sphere_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
+	m_sphere_material->AddTexture(plane_texture);
+
 	auto sky_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\SkyBox.hlsl");
 	sky_material->AddTexture(sky_texture);
 	sky_material->SetCullMode(CullMode::Front);
@@ -90,34 +80,30 @@ void Tool::OnCreate()
 		transform->SetScale(Vector3(1000.0f, 1000.0f, 1000.0f));
 	}
 
-	//// terrain
-	//{
-	//	auto entity = GetWorld()->CreateEntity<Entity>();
-	//	auto mesh_component = entity->CreateComponent<MeshComponent>();
-	//	mesh_component->SetMesh(terrain_mesh);
-	//	mesh_component->AddMaterial(floor_material);
-	//}
+	// sphere
+	{
+		auto entity = GetWorld()->CreateEntity<Entity>();
+		entity->GetTransform()->SetPosition(Vector3(-2.0f, 2.0f, 0.0f));
+		auto mesh_component = entity->CreateComponent<MeshComponent>();
+		mesh_component->SetMesh(sphere_mesh);
+		mesh_component->AddMaterial(m_sphere_material);
+	}
 
-	//// sponza
-	//{
-	//	auto entity = GetWorld()->CreateEntity<Entity>();
-	//	auto mesh_component = entity->CreateComponent<MeshComponent>();
-	//	mesh_component->SetMesh(sponza_mesh);
-	//	mesh_component->AddMaterial(arch_material);
-	//	mesh_component->AddMaterial(brick_material);
-	//	mesh_component->AddMaterial(colA_material);
-	//	mesh_component->AddMaterial(colB_material);
-	//	mesh_component->AddMaterial(colC_material);
-	//	mesh_component->AddMaterial(flagPole_material);
-	//}
+	// plane
+	{
+		auto entity = GetWorld()->CreateEntity<Entity>();
+		auto mesh_component = entity->CreateComponent<MeshComponent>();
+		mesh_component->SetMesh(plane_mesh);
+		mesh_component->AddMaterial(m_plane_material);
+	}
 
-	//// light
-	//{
-	//	m_entity = GetWorld()->CreateEntity<Entity>();
-	//	auto light_component = m_entity->CreateComponent<LightComponent>();
-	//	light_component->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	//	m_entity->GetTransform()->SetRotation(Vector3(-0.785f, 0.785f, 0.0f));
-	//}
+	// light
+	{
+		m_entity = GetWorld()->CreateEntity<Entity>();
+		auto light_component = m_entity->CreateComponent<LightComponent>();
+		light_component->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		//m_entity->GetTransform()->SetRotation(Vector3(-0.785f, 0.785f, 0.0f));
+	}
 
 	// audio
 	{
@@ -126,49 +112,19 @@ void Tool::OnCreate()
 		m_audio_component->SetAudio(GetResourceManager()->GetResource<Audio>((L"The Crows")));
 		GetSoundSystem()->PlaySound(m_audio_component);
 	}
-
-	// sprite
-	{
-		auto entity = GetWorld()->CreateEntity<Entity>();
-		m_sprite_component = entity->CreateComponent<SpriteComponent>();
-		m_sprite_component->SetTexture(GetResourceManager()->GetResource<Texture>((L"number0")));
-	}
-
-	VertexMesh quad_vertices[] =
-	{
-		VertexMesh(Vector3(-1.0f, -1.0f, 0.0f), Vector2(0.0f, 1.0f), Vector3(), Vector3(), Vector3()),
-		VertexMesh(Vector3(-1.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f), Vector3(), Vector3(), Vector3()),
-		VertexMesh(Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f), Vector3(), Vector3(), Vector3()),
-		VertexMesh(Vector3(1.0f, -1.0f, 0.0f), Vector2(1.0f, 1.0f), Vector3(), Vector3(), Vector3())
-	};
-
-	UINT quad_indices[] =
-	{
-		0, 1, 2,
-		2, 3, 0
-	};
-
-	MaterialSlot quad_material_slots[] =
-	{
-		{ 0, 6, 0 }
-	};
-
-	Mesh* mesh = new Mesh(quad_vertices, 4, quad_indices, 6, quad_material_slots, 1, GetResourceManager());
-	assert(mesh);
-	MeshPtr mesh_ptr(mesh);
-	assert(mesh_ptr);
 }
 
 void Tool::OnUpdate(float delta_time)
 {
 	Engine::OnUpdate(delta_time);
-	m_rotation += 1.57f * delta_time;
-
-	//m_entity->GetTransform()->SetRotation(Vector3(-0.785f, m_rotation, 0.0f));
 
 	GetWorld()->CreateEntity<Object>();
 
-	GetInputSystem()->LockCursor(m_locked);
+	if (GetInputSystem()->IsKeyUp(Key::Escape))
+	{
+		m_locked = !m_locked;
+		GetInputSystem()->LockCursor(m_locked);
+	}
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -183,6 +139,80 @@ void Tool::OnUpdate(float delta_time)
 	if (ImGui::BeginMainMenuBar())
 	{
 		ImGui::EndMainMenuBar();
+	}
+
+	if (ImGui::Button("BGM"))
+	{
+		GetSoundSystem()->PauseSound(m_audio_component);
+	}
+
+	if (ImGui::Button("Animation"))
+	{
+		VertexMesh quad_vertices[] =
+		{
+			VertexMesh(Vector3(-1.0f, -1.0f, 0.0f), Vector2(0.0f, 1.0f), Vector3(), Vector3(), Vector3()),
+			VertexMesh(Vector3(-1.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f), Vector3(), Vector3(), Vector3()),
+			VertexMesh(Vector3(1.0f, 1.0f, 0.0f), Vector2(1.0f, 0.0f), Vector3(), Vector3(), Vector3()),
+			VertexMesh(Vector3(1.0f, -1.0f, 0.0f), Vector2(1.0f, 1.0f), Vector3(), Vector3(), Vector3())
+		};
+
+		UINT quad_indices[] =
+		{
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		MaterialSlot quad_material_slots[] =
+		{
+			{ 0, 6, 0 }
+		};
+
+		Mesh* mesh = new Mesh(quad_vertices, 4, quad_indices, 6, quad_material_slots, 1, GetResourceManager());
+		assert(mesh);
+		MeshPtr mesh_ptr(mesh);
+		assert(mesh_ptr);
+
+		{
+			m_shine = GetWorld()->CreateEntity<Entity>();
+			m_shine->GetTransform()->SetPosition(Vector3(2.0f, 2.0f, 0.0f));
+			m_sprite_component = m_shine->CreateComponent<SpriteComponent>();
+			m_sprite_component->SetMesh(mesh_ptr);
+			m_sprite_component->AddMaterial(m_shine_material);
+		}
+	}
+
+	if (m_shine)
+	{
+		m_render_time = 1.0f / m_indices.size();
+
+		m_life_time += delta_time;
+		if (m_life_time >= m_render_time)
+		{
+			if (++m_apply_index >= m_indices.size())
+				m_apply_index = 0;
+
+			m_life_time = 0.0f;
+		}
+
+		if (m_indices.size())
+		{
+			m_shine_material->RemoveTexture(0);
+			m_shine_material->AddTexture(m_shine_texture[m_apply_index]);
+		}
+	}
+
+	if (ImGui::Button("Wireframe"))
+	{
+		if (FillMode::Solid == m_shine_material->GetFillMode())
+		{
+			m_shine_material->SetFillMode(FillMode::Wireframe);
+			m_sphere_material->SetFillMode(FillMode::Wireframe);
+		}
+		else
+		{
+			m_shine_material->SetFillMode(FillMode::Solid);
+			m_sphere_material->SetFillMode(FillMode::Solid);
+		}
 	}
 
 	// Our state

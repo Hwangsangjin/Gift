@@ -14,6 +14,7 @@ public:
 	void LockCursor(bool lock);
 	void SetLockArea(const Rect& area);
 
+	bool IsLockCursor();
 	bool IsKeyUp(const Key& key);
 	bool IsKeyDown(const Key& key);
 
