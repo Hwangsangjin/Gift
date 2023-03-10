@@ -20,6 +20,32 @@
 #include "SpriteComponent.h"
 #include "CameraComponent.h"
 #include "LightComponent.h"
+#include "TerrainComponent.h"
+
+__declspec(align(16))
+struct LightData
+{
+    Vector4 color;
+    Vector4 direction;
+};
+
+__declspec(align(16))
+struct TerrainData
+{
+    Vector4 size;
+    float height_map_size = 0.0f;
+};
+
+__declspec(align(16))
+struct ConstantData
+{
+    Matrix4x4 world;
+    Matrix4x4 view;
+    Matrix4x4 projection;
+    Vector4 camera_position;
+    LightData light;
+    TerrainData terrain;
+};
 
 RenderSystem::RenderSystem(Engine* engine)
     : m_engine(engine)
@@ -97,6 +123,35 @@ void RenderSystem::Update()
         constant_data.light.color = l->GetColor();
     }
 
+    for (const auto& t : m_terrains)
+    {
+        auto transform = t->GetEntity()->GetTransform();
+        transform->GetWorldMatrix(constant_data.world);
+
+        constant_data.terrain.size = t->GetSize();
+        constant_data.terrain.height_map_size = t->GetHeightMap()->GetTexture()->GetSize().m_width;
+
+        m_device_context->SetVertexBuffer(t->GetVertexBuffer());
+        m_device_context->SetIndexBuffer(t->GetIndexBuffer());
+
+        t->SetConstantData(&constant_data, sizeof(ConstantData));
+        m_device_context->SetConstantBuffer(t->GetConstantBuffer());
+
+        m_device_context->SetVertexShader(t->GetVertexShader());
+        m_device_context->SetPixelShader(t->GetPixelShader());
+
+        SetCullMode(CullMode::Back);
+        SetFillMode(FillMode::Solid);
+
+        Texture2DPtr terrain_textures[3];
+        terrain_textures[0] = t->GetHeightMap()->GetTexture();
+        terrain_textures[1] = t->GetGroundMap()->GetTexture();
+        terrain_textures[2] = t->GetCliffMap()->GetTexture();
+
+        m_device_context->SetTexture(terrain_textures, 3);
+        m_device_context->DrawIndexedTriangleList(static_cast<float>(t->GetIndexBuffer()->GetIndexCount()), 0, 0);
+    }
+
     for (const auto& m : m_meshes)
     {
         auto transform = m->GetEntity()->GetTransform();
@@ -118,7 +173,7 @@ void RenderSystem::Update()
             SetCullMode(material->GetCullMode());
             SetFillMode(material->GetFillMode());
 
-            material->SetData(&constant_data, sizeof(ConstantData));
+            material->SetConstantData(&constant_data, sizeof(ConstantData));
             m_device_context->SetConstantBuffer(material->GetConstantBuffer());
 
             m_device_context->SetVertexShader(material->GetVertexShader());
@@ -152,7 +207,7 @@ void RenderSystem::Update()
             SetCullMode(material->GetCullMode());
             SetFillMode(material->GetFillMode());
 
-            material->SetData(&constant_data, sizeof(ConstantData));
+            material->SetConstantData(&constant_data, sizeof(ConstantData));
             m_device_context->SetConstantBuffer(material->GetConstantBuffer());
 
             m_device_context->SetVertexShader(material->GetVertexShader());
@@ -172,7 +227,7 @@ void RenderSystem::AddComponent(Component* component)
     {
         m_meshes.emplace(c);
     }
-    if (auto c = dynamic_cast<SpriteComponent*>(component))
+    else if (auto c = dynamic_cast<SpriteComponent*>(component))
     {
         m_sprites.emplace(c);
     }
@@ -186,16 +241,25 @@ void RenderSystem::AddComponent(Component* component)
         if (!m_lights.size())
             m_lights.emplace(c);
     }
+    else if (auto c = dynamic_cast<TerrainComponent*>(component))
+    {
+        if (!m_terrains.size())
+            m_terrains.emplace(c);
+    }
 }
 
 void RenderSystem::RemoveComponent(Component* component)
 {
     if (auto c = dynamic_cast<MeshComponent*>(component))
         m_meshes.erase(c);
+    else if (auto c = dynamic_cast<SpriteComponent*>(component))
+        m_sprites.erase(c);
     else if (auto c = dynamic_cast<CameraComponent*>(component))
         m_cameras.erase(c);
     else if (auto c = dynamic_cast<LightComponent*>(component))
         m_lights.erase(c);
+    else if (auto c = dynamic_cast<TerrainComponent*>(component))
+        m_terrains.erase(c);
 }
 
 SwapChainPtr RenderSystem::CreateSwapChain(HWND hwnd, UINT width, UINT height)

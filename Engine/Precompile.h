@@ -84,6 +84,7 @@ class MeshComponent;
 class SpriteComponent;
 class CameraComponent;
 class LightComponent;
+class TerrainComponent;
 class AudioComponent;
 
 // typedef

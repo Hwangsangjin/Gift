@@ -22,7 +22,7 @@ ConstantBuffer::ConstantBuffer(void* buffer, UINT buffer_size, RenderSystem* ren
     m_render_system->GetD3DDevice()->CreateBuffer(&buff_desc, &init_data, &m_buffer);
 }
 
-void ConstantBuffer::Update(DeviceContextPtr device_context, void* buffer)
+void ConstantBuffer::Update(const DeviceContextPtr& device_context, void* buffer)
 {
     device_context->GetDeviceContext()->UpdateSubresource(m_buffer.Get(), NULL, nullptr, buffer, NULL, NULL);
 }

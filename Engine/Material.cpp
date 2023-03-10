@@ -67,12 +67,12 @@ void Material::RemoveTexture(UINT index)
 	m_textures.erase(m_textures.begin() + index);
 }
 
-void Material::SetData(void* data, UINT size)
+void Material::SetConstantData(void* constant_data, UINT constant_size)
 {
 	if (!m_constant_buffer)
-		m_constant_buffer = m_resource_manager->GetEngine()->GetRenderSystem()->CreateConstantBuffer(data, size);
+		m_constant_buffer = m_resource_manager->GetEngine()->GetRenderSystem()->CreateConstantBuffer(constant_data, constant_size);
 	else
-		m_constant_buffer->Update(m_resource_manager->GetEngine()->GetRenderSystem()->GetDeviceContext(), data);
+		m_constant_buffer->Update(m_resource_manager->GetEngine()->GetRenderSystem()->GetDeviceContext(), constant_data);
 }
 
 CullMode Material::GetCullMode() const

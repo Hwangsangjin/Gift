@@ -34,6 +34,9 @@ Texture2D::Texture2D(const wchar_t* file_path, RenderSystem* render_system)
 	// 샘플러 스테이트 생성
 	m_render_system->GetD3DDevice()->CreateSamplerState(&sampler_desc, &m_sampler_state);
 	assert(m_sampler_state);
+
+	// 텍스처 크기 저장
+	m_size = Rect(0.0f, 0.0f, static_cast<float>(image_data.GetImages()->width), static_cast<float>(image_data.GetImages()->height));
 }
 
 Texture2D::Texture2D(const Rect& size, Texture2D::Type type, RenderSystem* render_system)

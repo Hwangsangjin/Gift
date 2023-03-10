@@ -27,9 +27,7 @@ private:
 	std::vector<UINT> m_indices;
 
 	MeshComponent* m_mesh_component = nullptr;
-	
 	SpriteComponent* m_sprite_component = nullptr;
-
 	AudioComponent* m_audio_component = nullptr;
 
 	MaterialPtr m_plane_material = nullptr;

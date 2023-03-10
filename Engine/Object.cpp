@@ -19,7 +19,7 @@ void Object::OnCreate()
 	Entity::OnCreate();
 
 	auto camera = CreateComponent<CameraComponent>();
-	camera->SetFarPlane(2000.0f);
+	camera->SetFarPlane(7000.0f);
 
 	GetTransform()->SetPosition(Vector3(0.0f, 2.0f, -4.0f));
 }
@@ -57,9 +57,9 @@ void Object::OnUpdate(float delta_time)
 	transform->GetWorldMatrix(world);
 
 	auto position = transform->GetPosition();
-	position = position + world.GetYDirection() * m_upward * 8.0f * delta_time;
-	position = position + world.GetZDirection() * m_forward * 8.0f * delta_time;
-	position = position + world.GetXDirection() * m_rightward * 8.0f * delta_time;
+	position = position + world.GetYDirection() * m_upward * 25.0f * delta_time;
+	position = position + world.GetZDirection() * m_forward * 25.0f * delta_time;
+	position = position + world.GetXDirection() * m_rightward * 25.0f * delta_time;
 
 	transform->SetPosition(position);
 	transform->SetRotation(rotation);

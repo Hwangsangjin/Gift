@@ -46,9 +46,6 @@
     <Filter Include="Engine\Window">
       <UniqueIdentifier>{ee8e0171-5419-4241-9edb-6f3c6913e6ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Shader">
-      <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Component">
       <UniqueIdentifier>{3f1f8f9e-1f97-4582-b6e9-e21d99237428}</UniqueIdentifier>
     </Filter>
@@ -135,6 +132,12 @@
     </Filter>
     <Filter Include="Engine\System\InputSystem">
       <UniqueIdentifier>{d00bff5e-494f-4d83-9caf-bf9b7b02f99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\TerrainComponent">
+      <UniqueIdentifier>{436ba406-b58a-45dc-82a8-1b7d913ca811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader">
+      <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -468,6 +471,9 @@
     <ClInclude Include="Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="TerrainComponent.h">
+      <Filter>Engine\Component\TerrainComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RenderSystem.cpp">
@@ -605,12 +611,18 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="TerrainComponent.cpp">
+      <Filter>Engine\Component\TerrainComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SkyBox.hlsl">
       <Filter>Engine\Shader</Filter>
     </None>
     <None Include="Material.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </None>
+    <None Include="Terrain.hlsl">
       <Filter>Engine\Shader</Filter>
     </None>
   </ItemGroup>

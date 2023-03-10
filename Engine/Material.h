@@ -19,7 +19,7 @@ public:
 	void AddTexture(const TexturePtr& texture);
 	void RemoveTexture(UINT index);
 
-	void SetData(void* data, UINT size);
+	void SetConstantData(void* constant_data, UINT constant_size);
 
 	CullMode GetCullMode() const;
 	void SetCullMode(CullMode cull_mode);

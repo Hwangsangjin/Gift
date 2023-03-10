@@ -5,7 +5,7 @@ class ConstantBuffer
 public:
 	ConstantBuffer(void* buffer, UINT buffer_size, RenderSystem* renderer);
 
-	void Update(DeviceContextPtr device_context, void* buffer);
+	void Update(const DeviceContextPtr& device_context, void* buffer);
 
 	ID3D11Buffer* GetBuffer() const;
 

@@ -18,6 +18,7 @@
 #include "TransformComponent.h"
 #include "MeshComponent.h"
 #include "SpriteComponent.h"
+#include "TerrainComponent.h"
 #include "LightComponent.h"
 #include "AudioComponent.h"
 #include "Timer.h"
@@ -40,6 +41,10 @@ void Tool::OnCreate()
 	auto plane_mesh = GetResourceManager()->CreateResourceFromFile<Mesh>(L"..\\..\\Assets\\Meshes\\plane.obj");
 
 	auto sky_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\stars_map.jpg");
+	auto height_map_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\height_map.png");
+	auto grass_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\grass.jpg");
+	auto ground_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\ground.jpg");
+
 	auto black_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\black.png");
 	auto plane_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\plane.png");
 
@@ -73,20 +78,35 @@ void Tool::OnCreate()
 	{
 		auto entity = GetWorld()->CreateEntity<Entity>();
 		auto mesh_component = entity->CreateComponent<MeshComponent>();
-		auto transform = entity->GetTransform();
 		mesh_component->SetMesh(sphere_mesh);
 		mesh_component->AddMaterial(sky_material);
 
-		transform->SetScale(Vector3(1000.0f, 1000.0f, 1000.0f));
+		auto transform = entity->GetTransform();
+		transform->SetScale(Vector3(5000.0f, 5000.0f, 5000.0f));
+	}
+
+	// terrain
+	{
+		auto entity = GetWorld()->CreateEntity<Entity>();
+		auto terrain_component = entity->CreateComponent<TerrainComponent>();
+		terrain_component->SetHeightMap(height_map_texture);
+		terrain_component->SetGroundMap(grass_texture);
+		terrain_component->SetCliffMap(ground_texture);
+
+		auto transform = entity->GetTransform();
+		transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+		transform->SetPosition(Vector3(10.0f, 0.0f, 0.0f));
 	}
 
 	// sphere
 	{
 		auto entity = GetWorld()->CreateEntity<Entity>();
-		entity->GetTransform()->SetPosition(Vector3(-2.0f, 2.0f, 0.0f));
 		auto mesh_component = entity->CreateComponent<MeshComponent>();
 		mesh_component->SetMesh(sphere_mesh);
 		mesh_component->AddMaterial(m_sphere_material);
+
+		auto transform = entity->GetTransform();
+		entity->GetTransform()->SetPosition(Vector3(-2.0f, 2.0f, 0.0f));
 	}
 
 	// plane

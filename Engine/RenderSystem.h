@@ -4,23 +4,6 @@
 #include "Matrix4x4.h"
 #include "Texture2D.h"
 
-__declspec(align(16))
-struct LightData
-{
-	Vector4 color;
-	Vector4 direction;
-};
-
-__declspec(align(16))
-struct ConstantData
-{
-	Matrix4x4 world;
-	Matrix4x4 view;
-	Matrix4x4 projection;
-	Vector4 camera_position;
-	LightData light;
-};
-
 class RenderSystem
 {
 public:
@@ -83,9 +66,10 @@ private:
 
 	Engine* m_engine = nullptr;
 
-	std::set<CameraComponent*> m_cameras;
-	std::set<LightComponent*> m_lights;
 	std::set<MeshComponent*> m_meshes;
 	std::set<SpriteComponent*> m_sprites;
+	std::set<CameraComponent*> m_cameras;
+	std::set<LightComponent*> m_lights;
+	std::set<TerrainComponent*> m_terrains;
 };
 
