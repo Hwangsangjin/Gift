@@ -1,4 +1,4 @@
- #pragma once
+#pragma once
 
 // lib
 #pragma comment(lib, "d3d11")
@@ -15,6 +15,7 @@
 #include <iostream>
 #include <comdef.h>
 #include <chrono>
+#include <sstream>
 #include <fstream>
 #include <filesystem>
 #include <tchar.h>
@@ -85,6 +86,7 @@ class SpriteComponent;
 class CameraComponent;
 class LightComponent;
 class TerrainComponent;
+class WaterComponent;
 class AudioComponent;
 
 // typedef

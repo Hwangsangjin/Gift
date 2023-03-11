@@ -19,6 +19,7 @@
 #include "MeshComponent.h"
 #include "SpriteComponent.h"
 #include "TerrainComponent.h"
+#include "WaterComponent.h"
 #include "LightComponent.h"
 #include "AudioComponent.h"
 #include "Timer.h"
@@ -42,32 +43,26 @@ void Tool::OnCreate()
 
 	auto sky_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\stars_map.jpg");
 	auto height_map_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\height_map.png");
+	auto wave_height_map_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\waveHeightMap.png");
 	auto grass_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\grass.jpg");
 	auto ground_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\ground.jpg");
 
 	auto black_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\black.png");
 	auto plane_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\plane.png");
 
-	m_shine_texture[0] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine0.bmp");
-	m_shine_texture[1] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine1.bmp");
-	m_shine_texture[2] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine2.bmp");
-	m_shine_texture[3] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine3.bmp");
-	m_shine_texture[4] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine4.bmp");
-	m_shine_texture[5] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine5.bmp");
-	m_shine_texture[6] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine6.bmp");
-	m_shine_texture[7] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine7.bmp");
-	m_shine_texture[8] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine8.bmp");
-	m_shine_texture[9] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\shine9.bmp");
+	m_ui_texture[0] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Bomb.png");
+	m_ui_texture[1] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Fireball.png");
+	m_ui_texture[2] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Hook.png");
 
-	m_shine_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
-	m_shine_material->AddTexture(m_shine_texture[0]);
-	for (UINT i = 0; i < 10; i++)
+	m_ui_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Default.hlsl");
+	m_ui_material->AddTexture(m_ui_texture[0]);
+	for (UINT i = 0; i < 3; i++)
 		m_indices.push_back(i);
 
-	m_plane_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
+	m_plane_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Default.hlsl");
 	m_plane_material->AddTexture(black_texture);
 
-	m_sphere_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Material.hlsl");
+	m_sphere_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Default.hlsl");
 	m_sphere_material->AddTexture(plane_texture);
 
 	auto sky_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\SkyBox.hlsl");
@@ -98,6 +93,16 @@ void Tool::OnCreate()
 		transform->SetPosition(Vector3(10.0f, 0.0f, 0.0f));
 	}
 
+	// sea
+	{
+		auto entity = GetWorld()->CreateEntity<Entity>();
+		auto water_component = entity->CreateComponent<WaterComponent>();
+		water_component->SetWaveHeightMap(wave_height_map_texture);
+
+		auto transform = entity->GetTransform();
+		transform->SetPosition(Vector3(-768.0f, 15.0f, -768.0f));
+	}
+
 	// sphere
 	{
 		auto entity = GetWorld()->CreateEntity<Entity>();
@@ -115,6 +120,7 @@ void Tool::OnCreate()
 		auto mesh_component = entity->CreateComponent<MeshComponent>();
 		mesh_component->SetMesh(plane_mesh);
 		mesh_component->AddMaterial(m_plane_material);
+
 	}
 
 	// light
@@ -122,7 +128,7 @@ void Tool::OnCreate()
 		m_entity = GetWorld()->CreateEntity<Entity>();
 		auto light_component = m_entity->CreateComponent<LightComponent>();
 		light_component->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-		//m_entity->GetTransform()->SetRotation(Vector3(-0.785f, 0.785f, 0.0f));
+		m_entity->GetTransform()->SetRotation(Vector3(-0.785f, 0.785f, 0.0f));
 	}
 
 	// audio
@@ -132,19 +138,21 @@ void Tool::OnCreate()
 		m_audio_component->SetAudio(GetResourceManager()->GetResource<Audio>((L"The Crows")));
 		GetSoundSystem()->PlaySound(m_audio_component);
 	}
+
+	GetWorld()->CreateEntity<Object>();
 }
 
 void Tool::OnUpdate(float delta_time)
 {
 	Engine::OnUpdate(delta_time);
 
-	GetWorld()->CreateEntity<Object>();
-
 	if (GetInputSystem()->IsKeyUp(Key::Escape))
 	{
 		m_locked = !m_locked;
 		GetInputSystem()->LockCursor(m_locked);
 	}
+
+	m_entity->GetTransform()->SetRotation(Vector3(0.785f, -3.14f, 0.0f));
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -193,15 +201,15 @@ void Tool::OnUpdate(float delta_time)
 		assert(mesh_ptr);
 
 		{
-			m_shine = GetWorld()->CreateEntity<Entity>();
-			m_shine->GetTransform()->SetPosition(Vector3(2.0f, 2.0f, 0.0f));
-			m_sprite_component = m_shine->CreateComponent<SpriteComponent>();
+			m_ui = GetWorld()->CreateEntity<Entity>();
+			m_ui->GetTransform()->SetPosition(Vector3(2.0f, 2.0f, 0.0f));
+			m_sprite_component = m_ui->CreateComponent<SpriteComponent>();
 			m_sprite_component->SetMesh(mesh_ptr);
-			m_sprite_component->AddMaterial(m_shine_material);
+			m_sprite_component->AddMaterial(m_ui_material);
 		}
 	}
 
-	if (m_shine)
+	if (m_ui)
 	{
 		m_render_time = 1.0f / m_indices.size();
 
@@ -216,21 +224,21 @@ void Tool::OnUpdate(float delta_time)
 
 		if (m_indices.size())
 		{
-			m_shine_material->RemoveTexture(0);
-			m_shine_material->AddTexture(m_shine_texture[m_apply_index]);
+			m_ui_material->RemoveTexture(0);
+			m_ui_material->AddTexture(m_ui_texture[m_apply_index]);
 		}
 	}
 
 	if (ImGui::Button("Wireframe"))
 	{
-		if (FillMode::Solid == m_shine_material->GetFillMode())
+		if (FillMode::Solid == m_ui_material->GetFillMode())
 		{
-			m_shine_material->SetFillMode(FillMode::Wireframe);
+			m_ui_material->SetFillMode(FillMode::Wireframe);
 			m_sphere_material->SetFillMode(FillMode::Wireframe);
 		}
 		else
 		{
-			m_shine_material->SetFillMode(FillMode::Solid);
+			m_ui_material->SetFillMode(FillMode::Solid);
 			m_sphere_material->SetFillMode(FillMode::Solid);
 		}
 	}

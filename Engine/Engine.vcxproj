@@ -264,6 +264,7 @@ copy "*.hlsl" "..\..\Assets\Shaders\"</Command>
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="ShaderInclude.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="SpriteComponent.h" />
@@ -284,6 +285,7 @@ copy "*.hlsl" "..\..\Assets\Shaders\"</Command>
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="WaterComponent.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
@@ -332,6 +334,7 @@ copy "*.hlsl" "..\..\Assets\Shaders\"</Command>
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="ShaderInclude.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
@@ -363,6 +366,7 @@ copy "*.hlsl" "..\..\Assets\Shaders\"</Command>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="WaterComponent.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -374,7 +378,7 @@ copy "*.hlsl" "..\..\Assets\Shaders\"</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <FileType>Document</FileType>
     </None>
-    <None Include="Material.hlsl">
+    <None Include="Default.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -383,6 +387,24 @@ copy "*.hlsl" "..\..\Assets\Shaders\"</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="Terrain.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Water.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

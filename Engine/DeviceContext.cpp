@@ -26,7 +26,6 @@ void DeviceContext::ClearRenderTarget(const SwapChainPtr& swap_chain, float red,
 	m_device_context->ClearDepthStencilView(depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 
 	m_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
-	m_device_context->OMSetBlendState(m_render_system->GetBlendState(), NULL, 0xFFFFFFFF);
 }
 
 //void DeviceContext::ClearRenderTarget(const TexturePtr& render_target, float red, float green, float blue, float alpha)

@@ -4,7 +4,7 @@
 
 Texture2D::Texture2D(const wchar_t* file_path, RenderSystem* render_system)
 	: m_render_system(render_system)
-{	
+{
 	// 咆胶贸 积己
 	DirectX::ScratchImage image_data;
 	DirectX::LoadFromWICFile(file_path, DirectX::WIC_FLAGS_IGNORE_SRGB, nullptr, image_data);
@@ -36,7 +36,7 @@ Texture2D::Texture2D(const wchar_t* file_path, RenderSystem* render_system)
 	assert(m_sampler_state);
 
 	// 咆胶贸 农扁 历厘
-	m_size = Rect(0.0f, 0.0f, static_cast<float>(image_data.GetImages()->width), static_cast<float>(image_data.GetImages()->height));
+	m_size = Rect(0, 0, static_cast<UINT>(image_data.GetImages()->width), static_cast<UINT>(image_data.GetImages()->height));
 }
 
 Texture2D::Texture2D(const Rect& size, Texture2D::Type type, RenderSystem* render_system)
@@ -87,7 +87,7 @@ Texture2D::Texture2D(const Rect& size, Texture2D::Type type, RenderSystem* rende
 		m_render_system->GetD3DDevice()->CreateDepthStencilView(m_texture.Get(), nullptr, &m_depth_stencil_view);
 		assert(m_depth_stencil_view);
 	}
-	
+
 	m_size = size;
 	m_type = type;
 }

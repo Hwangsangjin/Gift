@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "RenderSystem.h"
 #include "Engine.h"
+#include "Timer.h"
 #include "Display.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -21,6 +22,15 @@
 #include "CameraComponent.h"
 #include "LightComponent.h"
 #include "TerrainComponent.h"
+#include "WaterComponent.h"
+
+__declspec(align(16))
+struct CameraData
+{
+    Matrix4x4 view;
+    Matrix4x4 projection;
+    Vector4 position;
+};
 
 __declspec(align(16))
 struct LightData
@@ -37,14 +47,21 @@ struct TerrainData
 };
 
 __declspec(align(16))
+struct WaterData
+{
+    Vector4 size;
+    float height_map_size = 0.0f;
+};
+
+__declspec(align(16))
 struct ConstantData
 {
     Matrix4x4 world;
-    Matrix4x4 view;
-    Matrix4x4 projection;
-    Vector4 camera_position;
+    float time;
+    CameraData camera;
     LightData light;
     TerrainData terrain;
+    WaterData water;
 };
 
 RenderSystem::RenderSystem(Engine* engine)
@@ -104,14 +121,15 @@ void RenderSystem::Update()
     m_device_context->SetViewport(client_size.m_width, client_size.m_height);
 
     ConstantData constant_data = {};
+    constant_data.time = m_engine->GetTimer()->GetElapsedTime();
 
     for (const auto& c : m_cameras)
     {
         auto t = c->GetEntity()->GetTransform();
-        constant_data.camera_position = t->GetPosition();
+        constant_data.camera.position = t->GetPosition();
         c->SetScreenArea(client_size);
-        c->GetViewMatrix(constant_data.view);
-        c->GetProjectionMatrix(constant_data.projection);
+        c->GetViewMatrix(constant_data.camera.view);
+        c->GetProjectionMatrix(constant_data.camera.projection);
     }
 
     for (const auto& l : m_lights)
@@ -121,35 +139,6 @@ void RenderSystem::Update()
         t->GetWorldMatrix(w);
         constant_data.light.direction = w.GetZDirection();
         constant_data.light.color = l->GetColor();
-    }
-
-    for (const auto& t : m_terrains)
-    {
-        auto transform = t->GetEntity()->GetTransform();
-        transform->GetWorldMatrix(constant_data.world);
-
-        constant_data.terrain.size = t->GetSize();
-        constant_data.terrain.height_map_size = t->GetHeightMap()->GetTexture()->GetSize().m_width;
-
-        m_device_context->SetVertexBuffer(t->GetVertexBuffer());
-        m_device_context->SetIndexBuffer(t->GetIndexBuffer());
-
-        t->SetConstantData(&constant_data, sizeof(ConstantData));
-        m_device_context->SetConstantBuffer(t->GetConstantBuffer());
-
-        m_device_context->SetVertexShader(t->GetVertexShader());
-        m_device_context->SetPixelShader(t->GetPixelShader());
-
-        SetCullMode(CullMode::Back);
-        SetFillMode(FillMode::Solid);
-
-        Texture2DPtr terrain_textures[3];
-        terrain_textures[0] = t->GetHeightMap()->GetTexture();
-        terrain_textures[1] = t->GetGroundMap()->GetTexture();
-        terrain_textures[2] = t->GetCliffMap()->GetTexture();
-
-        m_device_context->SetTexture(terrain_textures, 3);
-        m_device_context->DrawIndexedTriangleList(static_cast<float>(t->GetIndexBuffer()->GetIndexCount()), 0, 0);
     }
 
     for (const auto& m : m_meshes)
@@ -219,6 +208,62 @@ void RenderSystem::Update()
             m_device_context->DrawIndexedTriangleList(static_cast<UINT>(material_slot.index_size), static_cast<UINT>(material_slot.start_index), 0);
         }
     }
+
+    for (const auto& t : m_terrains)
+    {
+        auto transform = t->GetEntity()->GetTransform();
+        transform->GetWorldMatrix(constant_data.world);
+
+        constant_data.terrain.size = t->GetSize();
+        constant_data.terrain.height_map_size = static_cast<float>(t->GetHeightMap()->GetTexture()->GetSize().m_width);
+
+        m_device_context->SetVertexBuffer(t->GetVertexBuffer());
+        m_device_context->SetIndexBuffer(t->GetIndexBuffer());
+
+        t->SetConstantData(&constant_data, sizeof(ConstantData));
+        m_device_context->SetConstantBuffer(t->GetConstantBuffer());
+
+        m_device_context->SetVertexShader(t->GetVertexShader());
+        m_device_context->SetPixelShader(t->GetPixelShader());
+
+        SetCullMode(CullMode::Back);
+        SetFillMode(FillMode::Solid);
+
+        Texture2DPtr terrain_textures[3];
+        terrain_textures[0] = t->GetHeightMap()->GetTexture();
+        terrain_textures[1] = t->GetGroundMap()->GetTexture();
+        terrain_textures[2] = t->GetCliffMap()->GetTexture();
+
+        m_device_context->SetTexture(terrain_textures, 3);
+        m_device_context->DrawIndexedTriangleList(static_cast<UINT>(t->GetIndexBuffer()->GetIndexCount()), 0, 0);
+    }
+
+    for (const auto& w : m_waters)
+    {
+        auto transform = w->GetEntity()->GetTransform();
+        transform->GetWorldMatrix(constant_data.world);
+
+        constant_data.water.size = w->GetSize();
+        constant_data.water.height_map_size = static_cast<float>(w->GetWaveHeightMap()->GetTexture()->GetSize().m_width);
+
+        m_device_context->SetVertexBuffer(w->GetVertexBuffer());
+        m_device_context->SetIndexBuffer(w->GetIndexBuffer());
+
+        w->SetConstantData(&constant_data, sizeof(ConstantData));
+        m_device_context->SetConstantBuffer(w->GetConstantBuffer());
+
+        m_device_context->SetVertexShader(w->GetVertexShader());
+        m_device_context->SetPixelShader(w->GetPixelShader());
+
+        SetCullMode(CullMode::Back);
+        SetFillMode(FillMode::Solid);
+
+        Texture2DPtr water_textures[1];
+        water_textures[0] = w->GetWaveHeightMap()->GetTexture();
+
+        m_device_context->SetTexture(water_textures, 1);
+        m_device_context->DrawIndexedTriangleList(static_cast<UINT>(w->GetIndexBuffer()->GetIndexCount()), 0, 0);
+    }
 }
 
 void RenderSystem::AddComponent(Component* component)
@@ -246,6 +291,11 @@ void RenderSystem::AddComponent(Component* component)
         if (!m_terrains.size())
             m_terrains.emplace(c);
     }
+    else if (auto c = dynamic_cast<WaterComponent*>(component))
+    {
+        if (!m_waters.size())
+            m_waters.emplace(c);
+    }
 }
 
 void RenderSystem::RemoveComponent(Component* component)
@@ -260,6 +310,8 @@ void RenderSystem::RemoveComponent(Component* component)
         m_lights.erase(c);
     else if (auto c = dynamic_cast<TerrainComponent*>(component))
         m_terrains.erase(c);
+    else if (auto c = dynamic_cast<WaterComponent*>(component))
+        m_waters.erase(c);
 }
 
 SwapChainPtr RenderSystem::CreateSwapChain(HWND hwnd, UINT width, UINT height)
@@ -365,7 +417,7 @@ DeviceContextPtr RenderSystem::GetDeviceContext() const
     return m_device_context;
 }
 
-ID3D11BlendState* RenderSystem::GetBlendState() const
+ID3D11BlendState* RenderSystem::GetAlphaBlendState() const
 {
     return m_alpha_blend.Get();
 }
@@ -424,16 +476,19 @@ void RenderSystem::InitializeBlendState()
 {
     D3D11_BLEND_DESC desc = {};
     ZeroMemory(&desc, sizeof(D3D11_BLEND_DESC));
+    desc.AlphaToCoverageEnable = false;
+    desc.IndependentBlendEnable = false;
     desc.RenderTarget[0].BlendEnable = true;
-    desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
     desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
     desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-    desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
     desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
     desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+    desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
     desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
     m_d3d_device->CreateBlendState(&desc, m_alpha_blend.GetAddressOf());
+    m_immediate_context->OMSetBlendState(m_alpha_blend.Get(), NULL, 0xFFFFFFFF);
 }
 
 void RenderSystem::CompilePrivateShader()

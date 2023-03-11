@@ -1,87 +1,68 @@
 #include "pch.h"
-#include "TerrainComponent.h"
+#include "WaterComponent.h"
 #include "Entity.h"
 #include "World.h"
 #include "Engine.h"
 #include "RenderSystem.h"
 #include "VertexMesh.h"
 #include "ConstantBuffer.h"
+#include "Vector3.h"
 
-TerrainComponent::TerrainComponent()
+WaterComponent::WaterComponent()
 {
 }
 
-TerrainComponent::~TerrainComponent()
+WaterComponent::~WaterComponent()
 {
     m_entity->GetWorld()->GetEngine()->GetRenderSystem()->RemoveComponent(this);
 }
 
-const TexturePtr& TerrainComponent::GetHeightMap() const
+const TexturePtr& WaterComponent::GetWaveHeightMap() const
 {
-    return m_height_map;
+    return m_wave_height_map;
 }
 
-void TerrainComponent::SetHeightMap(const TexturePtr& height_map)
+void WaterComponent::SetWaveHeightMap(const TexturePtr& wave_height_map)
 {
-    m_height_map = height_map;
+    m_wave_height_map = wave_height_map;
 }
 
-const TexturePtr& TerrainComponent::GetGroundMap() const
-{
-    return m_ground_map;
-}
-
-void TerrainComponent::SetGroundMap(const TexturePtr& ground_map)
-{
-    m_ground_map = ground_map;
-}
-
-const TexturePtr& TerrainComponent::GetCliffMap() const
-{
-    return m_cliff_map;
-}
-
-void TerrainComponent::SetCliffMap(const TexturePtr& cliff_map)
-{
-    m_cliff_map = cliff_map;
-}
-
-Vector3 TerrainComponent::GetSize() const
-{
-    return m_size;
-}
-
-void TerrainComponent::SetSize(const Vector3& size)
+void WaterComponent::SetSize(const Vector3& size)
 {
     m_size = size;
 }
 
-const VertexBufferPtr& TerrainComponent::GetVertexBuffer() const
+Vector3 WaterComponent::GetSize() const
+{
+    return m_size;
+}
+
+const VertexBufferPtr& WaterComponent::GetVertexBuffer() const
 {
     return m_vertex_buffer;
 }
 
-const IndexBufferPtr& TerrainComponent::GetIndexBuffer() const
+const IndexBufferPtr& WaterComponent::GetIndexBuffer() const
 {
     return m_index_buffer;
 }
 
-const ConstantBufferPtr& TerrainComponent::GetConstantBuffer() const
+const ConstantBufferPtr& WaterComponent::GetConstantBuffer() const
 {
     return m_constant_buffer;
 }
 
-const VertexShaderPtr& TerrainComponent::GetVertexShader() const
+const VertexShaderPtr& WaterComponent::GetVertexShader() const
 {
     return m_vertex_shader;
 }
 
-const PixelShaderPtr& TerrainComponent::GetPixelShader() const
+const PixelShaderPtr& WaterComponent::GetPixelShader() const
 {
     return m_pixel_shader;
 }
 
-void TerrainComponent::SetConstantData(void* constant_data, UINT constant_size)
+void WaterComponent::SetConstantData(void* constant_data, UINT constant_size)
 {
     if (!m_constant_buffer)
         m_constant_buffer = m_entity->GetWorld()->GetEngine()->GetRenderSystem()->CreateConstantBuffer(constant_data, constant_size);
@@ -89,16 +70,16 @@ void TerrainComponent::SetConstantData(void* constant_data, UINT constant_size)
         m_constant_buffer->Update(m_entity->GetWorld()->GetEngine()->GetRenderSystem()->GetDeviceContext(), constant_data);
 }
 
-void TerrainComponent::OnCreate()
+void WaterComponent::OnCreate()
 {
     m_entity->GetWorld()->GetEngine()->GetRenderSystem()->AddComponent(this);
     GenerateMesh();
 }
 
-void TerrainComponent::GenerateMesh()
+void WaterComponent::GenerateMesh()
 {
-    const UINT w = 512;
-    const UINT h = 512;
+    const UINT w = 1024;
+    const UINT h = 1024;
 
     const UINT ww = w - 1;
     const UINT hh = h - 1;
@@ -137,6 +118,6 @@ void TerrainComponent::GenerateMesh()
     m_vertex_buffer = m_entity->GetWorld()->GetEngine()->GetRenderSystem()->CreateVertexBuffer(vertex_mesh_list, sizeof(VertexMesh), w * h);
     m_index_buffer = m_entity->GetWorld()->GetEngine()->GetRenderSystem()->CreateIndexBuffer(index_list, ww * hh * 6);
 
-    m_vertex_shader = m_entity->GetWorld()->GetEngine()->GetRenderSystem()->CreateVertexShader(L"..\\..\\Assets\\Shaders\\Terrain.hlsl");
-    m_pixel_shader = m_entity->GetWorld()->GetEngine()->GetRenderSystem()->CreatePixelShader(L"..\\..\\Assets\\Shaders\\Terrain.hlsl");
+    m_vertex_shader = m_entity->GetWorld()->GetEngine()->GetRenderSystem()->CreateVertexShader(L"..\\..\\Assets\\Shaders\\Water.hlsl");
+    m_pixel_shader = m_entity->GetWorld()->GetEngine()->GetRenderSystem()->CreatePixelShader(L"..\\..\\Assets\\Shaders\\Water.hlsl");
 }

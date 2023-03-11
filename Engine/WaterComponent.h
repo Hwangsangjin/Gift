@@ -3,20 +3,14 @@
 #include "Component.h"
 #include "Vector3.h"
 
-class TerrainComponent : public Component
+class WaterComponent : public Component
 {
 public:
-	TerrainComponent();
-	virtual ~TerrainComponent();
+	WaterComponent();
+	virtual ~WaterComponent();
 
-	const TexturePtr& GetHeightMap() const;
-	void SetHeightMap(const TexturePtr& height_map);
-
-	const TexturePtr& GetGroundMap() const;
-	void SetGroundMap(const TexturePtr& ground_map);
-
-	const TexturePtr& GetCliffMap() const;
-	void SetCliffMap(const TexturePtr& cliff_map);
+	const TexturePtr& GetWaveHeightMap() const;
+	void SetWaveHeightMap(const TexturePtr& wave_height_map);
 
 	void SetSize(const Vector3& size);
 	Vector3 GetSize() const;
@@ -35,11 +29,9 @@ protected:
 private:
 	void GenerateMesh();
 
-	Vector3 m_size = { 512.0f, 100.0f, 512.0f };
+	Vector3 m_size = { 2048.0f, 8.0f, 2048.0f };
 
-	TexturePtr m_height_map = nullptr;
-	TexturePtr m_ground_map = nullptr;
-	TexturePtr m_cliff_map = nullptr;
+	TexturePtr m_wave_height_map = nullptr;
 
 	VertexBufferPtr m_vertex_buffer = nullptr;
 	IndexBufferPtr m_index_buffer = nullptr;

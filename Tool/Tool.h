@@ -17,9 +17,9 @@ private:
 	float m_rotation = 0.0f;
 
 	Entity* m_entity = nullptr;
-	Entity* m_shine = nullptr;
+	Entity* m_ui = nullptr;
 
-	TexturePtr m_shine_texture[10];
+	TexturePtr m_ui_texture[3];
 
 	UINT m_apply_index = 0;
 	float m_life_time = 0.0f;
@@ -31,7 +31,7 @@ private:
 	AudioComponent* m_audio_component = nullptr;
 
 	MaterialPtr m_plane_material = nullptr;
-	MaterialPtr m_shine_material = nullptr;
 	MaterialPtr m_sphere_material = nullptr;
+	MaterialPtr m_ui_material = nullptr;
 };
 

@@ -32,7 +32,7 @@ public:
 	ID3D11DeviceContext* GetImmediateContext() const;
 	IDXGIFactory* GetDXGIFactory() const;
 	DeviceContextPtr GetDeviceContext() const;
-	ID3D11BlendState* GetBlendState() const;
+	ID3D11BlendState* GetAlphaBlendState() const;
 
 	const void* GetMeshLayoutByteCode() const;
 	size_t GetMeshLayoutSize() const;
@@ -71,5 +71,6 @@ private:
 	std::set<CameraComponent*> m_cameras;
 	std::set<LightComponent*> m_lights;
 	std::set<TerrainComponent*> m_terrains;
+	std::set<WaterComponent*> m_waters;
 };
 

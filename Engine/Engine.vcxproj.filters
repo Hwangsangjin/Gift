@@ -139,6 +139,12 @@
     <Filter Include="Engine\Shader">
       <UniqueIdentifier>{103396ba-db9b-45fc-9eee-5d48363bb8e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\System\RenderSystem\ShaderInclude">
+      <UniqueIdentifier>{0bc8e2e4-7e33-48a8-848d-a4d6c07b5c05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\WaterComponent">
+      <UniqueIdentifier>{47487109-0c39-418d-b747-05c4e0e8cfb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderSystem.h">
@@ -474,6 +480,12 @@
     <ClInclude Include="TerrainComponent.h">
       <Filter>Engine\Component\TerrainComponent</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderInclude.h">
+      <Filter>Engine\System\RenderSystem\ShaderInclude</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterComponent.h">
+      <Filter>Engine\Component\WaterComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RenderSystem.cpp">
@@ -614,15 +626,27 @@
     <ClCompile Include="TerrainComponent.cpp">
       <Filter>Engine\Component\TerrainComponent</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderInclude.cpp">
+      <Filter>Engine\System\RenderSystem\ShaderInclude</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterComponent.cpp">
+      <Filter>Engine\Component\WaterComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SkyBox.hlsl">
       <Filter>Engine\Shader</Filter>
     </None>
-    <None Include="Material.hlsl">
+    <None Include="Default.hlsl">
       <Filter>Engine\Shader</Filter>
     </None>
     <None Include="Terrain.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </None>
+    <None Include="Water.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </None>
+    <None Include="Common.hlsl">
       <Filter>Engine\Shader</Filter>
     </None>
   </ItemGroup>
