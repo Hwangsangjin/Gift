@@ -47,6 +47,24 @@ void TransformComponent::GetWorldMatrix(Matrix4x4& matrix) const
 	matrix.SetMatrix(m_world_matrix);
 }
 
+void TransformComponent::SetBillboardMatrix(const Matrix4x4& matrix)
+{
+	m_world_matrix.m_matrix[0][0] = matrix.m_matrix[0][0];
+	m_world_matrix.m_matrix[0][1] = matrix.m_matrix[0][1];
+	m_world_matrix.m_matrix[0][2] = matrix.m_matrix[0][2];
+	m_world_matrix.m_matrix[0][3] = matrix.m_matrix[0][3];
+
+	m_world_matrix.m_matrix[1][0] = matrix.m_matrix[1][0];
+	m_world_matrix.m_matrix[1][1] = matrix.m_matrix[1][1];
+	m_world_matrix.m_matrix[1][2] = matrix.m_matrix[1][2];
+	m_world_matrix.m_matrix[1][3] = matrix.m_matrix[1][3];
+
+	m_world_matrix.m_matrix[2][0] = matrix.m_matrix[2][0];
+	m_world_matrix.m_matrix[2][1] = matrix.m_matrix[2][1];
+	m_world_matrix.m_matrix[2][2] = matrix.m_matrix[2][2];
+	m_world_matrix.m_matrix[2][3] = matrix.m_matrix[2][3];
+}
+
 void TransformComponent::UpdateWorldMatrix()
 {
 	m_world_matrix.SetIdentity();

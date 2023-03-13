@@ -19,6 +19,7 @@ public:
 	void SetScale(const Vector3& scale);
 
 	void GetWorldMatrix(Matrix4x4& matrix) const;
+	void SetBillboardMatrix(const Matrix4x4& matrix);
 
 protected:
 	void UpdateWorldMatrix();

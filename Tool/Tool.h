@@ -17,9 +17,10 @@ private:
 	float m_rotation = 0.0f;
 
 	Entity* m_entity = nullptr;
-	Entity* m_ui = nullptr;
+	Entity* m_sprite = nullptr;
+	Entity* m_object = nullptr;
 
-	TexturePtr m_ui_texture[3];
+	TexturePtr m_skill_texture[3];
 
 	UINT m_apply_index = 0;
 	float m_life_time = 0.0f;
@@ -32,6 +33,6 @@ private:
 
 	MaterialPtr m_plane_material = nullptr;
 	MaterialPtr m_sphere_material = nullptr;
-	MaterialPtr m_ui_material = nullptr;
+	MaterialPtr m_skill_material = nullptr;
 };
 

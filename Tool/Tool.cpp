@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Tool.h"
+#include "Timer.h"
 #include "InputSystem.h"
 #include "SoundSystem.h"
 #include "RenderSystem.h"
@@ -22,7 +23,6 @@
 #include "WaterComponent.h"
 #include "LightComponent.h"
 #include "AudioComponent.h"
-#include "Timer.h"
 
 Tool::Tool()
 {
@@ -50,12 +50,12 @@ void Tool::OnCreate()
 	auto black_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\black.png");
 	auto plane_texture = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\plane.png");
 
-	m_ui_texture[0] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Bomb.png");
-	m_ui_texture[1] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Fireball.png");
-	m_ui_texture[2] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Hook.png");
+	m_skill_texture[0] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Bomb.png");
+	m_skill_texture[1] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Fireball.png");
+	m_skill_texture[2] = GetResourceManager()->CreateResourceFromFile<Texture>(L"..\\..\\Assets\\Textures\\Icon_Hook.png");
 
-	m_ui_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Default.hlsl");
-	m_ui_material->AddTexture(m_ui_texture[0]);
+	m_skill_material = GetResourceManager()->CreateResourceFromFile<Material>(L"..\\..\\Assets\\Shaders\\Default.hlsl");
+	m_skill_material->AddTexture(m_skill_texture[0]);
 	for (UINT i = 0; i < 3; i++)
 		m_indices.push_back(i);
 
@@ -82,7 +82,7 @@ void Tool::OnCreate()
 
 	// terrain
 	{
-		auto entity = GetWorld()->CreateEntity<Entity>();
+		/*auto entity = GetWorld()->CreateEntity<Entity>();
 		auto terrain_component = entity->CreateComponent<TerrainComponent>();
 		terrain_component->SetHeightMap(height_map_texture);
 		terrain_component->SetGroundMap(grass_texture);
@@ -90,17 +90,17 @@ void Tool::OnCreate()
 
 		auto transform = entity->GetTransform();
 		transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-		transform->SetPosition(Vector3(10.0f, 0.0f, 0.0f));
+		transform->SetPosition(Vector3(10.0f, 0.0f, 0.0f));*/
 	}
 
 	// sea
 	{
-		auto entity = GetWorld()->CreateEntity<Entity>();
+		/*auto entity = GetWorld()->CreateEntity<Entity>();
 		auto water_component = entity->CreateComponent<WaterComponent>();
 		water_component->SetWaveHeightMap(wave_height_map_texture);
 
 		auto transform = entity->GetTransform();
-		transform->SetPosition(Vector3(-768.0f, 15.0f, -768.0f));
+		transform->SetPosition(Vector3(-768.0f, 15.0f, -768.0f));*/
 	}
 
 	// sphere
@@ -139,7 +139,7 @@ void Tool::OnCreate()
 		GetSoundSystem()->PlaySound(m_audio_component);
 	}
 
-	GetWorld()->CreateEntity<Object>();
+	m_object = GetWorld()->CreateEntity<Object>();
 }
 
 void Tool::OnUpdate(float delta_time)
@@ -201,16 +201,24 @@ void Tool::OnUpdate(float delta_time)
 		assert(mesh_ptr);
 
 		{
-			m_ui = GetWorld()->CreateEntity<Entity>();
-			m_ui->GetTransform()->SetPosition(Vector3(2.0f, 2.0f, 0.0f));
-			m_sprite_component = m_ui->CreateComponent<SpriteComponent>();
+			m_sprite = GetWorld()->CreateEntity<Entity>();
+			m_sprite->GetTransform()->SetPosition(Vector3(2.0f, 2.0f, 0.0f));
+			m_sprite_component = m_sprite->CreateComponent<SpriteComponent>();
 			m_sprite_component->SetMesh(mesh_ptr);
-			m_sprite_component->AddMaterial(m_ui_material);
+			m_sprite_component->AddMaterial(m_skill_material);
 		}
 	}
 
-	if (m_ui)
+	if (m_sprite)
 	{
+		Matrix4x4 matrix;
+		matrix.SetIdentity();
+		m_object->GetTransform()->GetWorldMatrix(matrix);
+		matrix.m_matrix[3][0] = 0.0f;
+		matrix.m_matrix[3][1] = 0.0f;
+		matrix.m_matrix[3][2] = 0.0f;
+		m_sprite->GetTransform()->SetBillboardMatrix(matrix);
+
 		m_render_time = 1.0f / m_indices.size();
 
 		m_life_time += delta_time;
@@ -224,21 +232,21 @@ void Tool::OnUpdate(float delta_time)
 
 		if (m_indices.size())
 		{
-			m_ui_material->RemoveTexture(0);
-			m_ui_material->AddTexture(m_ui_texture[m_apply_index]);
+			m_skill_material->RemoveTexture(0);
+			m_skill_material->AddTexture(m_skill_texture[m_apply_index]);
 		}
 	}
 
 	if (ImGui::Button("Wireframe"))
 	{
-		if (FillMode::Solid == m_ui_material->GetFillMode())
+		if (FillMode::Solid == m_skill_material->GetFillMode())
 		{
-			m_ui_material->SetFillMode(FillMode::Wireframe);
+			m_skill_material->SetFillMode(FillMode::Wireframe);
 			m_sphere_material->SetFillMode(FillMode::Wireframe);
 		}
 		else
 		{
-			m_ui_material->SetFillMode(FillMode::Solid);
+			m_skill_material->SetFillMode(FillMode::Solid);
 			m_sphere_material->SetFillMode(FillMode::Solid);
 		}
 	}
